@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.net.*" %>
+<%@ page import = "java.util.*" %>
 <%
 
 	//로그인 인증 분기 : 세션변수 -> loginEmp
@@ -17,7 +18,7 @@
 	String empId = request.getParameter("empId");
 	String empPw = request.getParameter("empPw");
 	
-	String sql = "select emp_id empId from emp where active = 'ON' and emp_id =? and emp_pw = password(?)";
+	String sql = "select emp_id empId,emp_name empName,grade from emp where active = 'ON' and emp_id =? and emp_pw = password(?)";
 	PreparedStatement stmt = null; 	
 	ResultSet rs = null;
 	stmt=conn.prepareStatement(sql);
@@ -26,8 +27,22 @@
 	rs = stmt.executeQuery();
 	
 	if(rs.next()){  // 로그인성공 (select문 결과값이 있을때)
-		System.out.println("로그인성공");			
-		session.setAttribute("loginEmp", rs.getString("empId"));	
+		System.out.println("로그인성공");		
+		// 하나의 세션변수에 여러개의 값을 저장하기 위해
+		HashMap<String, Object> loginEmp = new HashMap<String, Object>();
+		loginEmp.put("empId", rs.getString("empId"));
+		loginEmp.put("empName", rs.getString("empName"));
+		loginEmp.put("grade", rs.getInt("grade"));
+		
+		session.setAttribute("loginEmp", loginEmp);
+		
+		HashMap<String, Object> loginmember = (HashMap<String, Object>)(session.getAttribute("loginEmp"));
+		System.out.println((String)(loginmember.get("empId"))); // 로그인 된 empId
+		System.out.println((String)(loginmember.get("empName"))); // 로그인 된 empName
+		System.out.println((Integer)(loginmember.get("grade"))); // 로그인 된 grade
+		
+		
+		
 		response.sendRedirect("/shop/emp/empList.jsp");
 				
 	}else {		// 로그인실패

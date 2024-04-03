@@ -72,25 +72,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<meta charset="UTF-8">
+<meta charset="UTF-8">
 	<title></title>
 	<style>
 	table, th, td {
 	  border: 1px solid;
 	}
+		
+	.disabled{
+/* 		pointer-events: none;  */
+/* 		cursor: default; */
+/* 		color:gray; */
+	}
 	</style>
 </head>
 <body>
+	<!-- empMenu.jsp include : 주체(서버) vs redirect(주체:클라이언트) -->
+	<div>
+	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
+	</div>
 	<h1> 사원 목록 </h1>	
 	<a href="/shop/emp/empLogout.jsp">로그아웃</a>
 	<table border="1">
 		<tr>
-			<th>empId</th>
-			<th>empName</th>
-			<th>empJob</th>
-			<th>hireDate</th>
-			<th>active</th>
+			<th>회원ID</th>
+			<th>이름</th>
+			<th>직업</th>
+			<th>고용날짜</th>
+			<th>활성화상태</th>
 		</tr>
 	
 		<%
@@ -101,9 +110,17 @@
 				<td><%=(String)(m.get("empName"))%></td>
 				<td><%=(String)(m.get("empJob"))%></td>
 				<td><%=(String)(m.get("hireDate"))%></td>
-				<td><a href="modifyEmpActive.jsp?empId=<%=(String)(m.get("empId"))%>&active=<%=(String)(m.get("active"))%>">
+				<td>
+				<%
+				HashMap<String, Object> sm = (HashMap<String, Object>)(session.getAttribute("loginEmp"));
+				if((Integer)(sm.get("grade")) > 0) {
+				%>	<a href="modifyEmpActive.jsp?empId=<%=(String)(m.get("empId"))%>&active=<%=(String)(m.get("active"))%>"
+					class="disabled">
 					<%=(String)(m.get("active"))%>
-					</a>
+					</a>					
+				<%
+				}
+				%>	
 				</td>
 			</tr>		
 		<%		
@@ -144,6 +161,7 @@
 		}
 	%>
 	</ul>
+	
 	
 	
 </body>

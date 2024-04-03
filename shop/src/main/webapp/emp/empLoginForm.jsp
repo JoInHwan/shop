@@ -15,8 +15,8 @@
 </head>
 <body>
 	<form action="/shop/emp/empLoginAction.jsp"> 	
-		<input type="text" name="empId" placeholder="아이디">	<br> 
-		<input type="text" name="empPw" placeholder="비밀번호"> <br>				
+		<input type="text" name="empId" placeholder="아이디" value="admin">	<br> 
+		<input type="text" name="empPw" placeholder="비밀번호" value="1234"> <br>				
 		<button type="submit">로그인</button>			
 	</form>	
 	
