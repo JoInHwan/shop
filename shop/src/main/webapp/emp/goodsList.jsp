@@ -82,33 +82,7 @@
 			b.put("goodsImg",rs0.getString("goodsImg"));
 			whole.add(b);
 		}	// 이상 전체 랜덤 선택  쿼리문
-/* ------------------------------------------------- */	
-	String searchWord = "";
-	if(request.getParameter("searchWord")!=null){
-		searchWord = request.getParameter("searchWord");
-	}
-	System.out.println(searchWord+"<-");
-	String sql2="select count(*) wcnt from goods where goods_title like ?";
-	PreparedStatement stmt2 = null;
-	ResultSet rs2 = null;
-	stmt2 = conn.prepareStatement(sql2);
-	stmt2.setString(1,"%"+ searchWord +"%");
-	rs2 = stmt2.executeQuery();
-	int totalRow = 0;
-	if(rs2.next()){
-		totalRow = rs2.getInt("wcnt");
-	}
-	int lastPage = totalRow / rowPerPage;
-	if(totalRow % rowPerPage != 0) {
-		lastPage = lastPage + 1;
-	}	
-	System.out.println(rs2.getInt("wcnt")+"<-wcnt");
-	System.out.println(lastPage+"<-lastPage");
-		
-		
-		
-		
-		
+/* ------------------------------------------------- */		
 %>
 <!-- View Layer -->
 <!DOCTYPE html>
@@ -177,7 +151,7 @@
 		<div class="col"></div>
 		<div class="col-11">
 		
-			
+		<!--  카테고리가 있을때 출력  -->	
 		<%for(HashMap<String, Object>g : list){%>	
 		
 		<div class="item">
@@ -203,9 +177,9 @@
 			</table>	
 		</div>
 		<%}%>	
-		<!-- ------------------------------------ -->
+		<!-- ---- 카테고리가 없을때 전체 랜덤출력    -->
 		<%	
-		if(category==null || category.equals("null")){  // 첫 조건은 처음 출력할때, 두번째조건은 a태그안 categoty가 null 일때
+		if(category==null || category.equals("null")){  // 첫 조건은 처음 출력할때, 두번째조건은 페이징할때 a태그로 categoty가 null로 넘겨질때
 			for(HashMap<String, Object>g : whole ){
 		%>	
 			<div class="item">
@@ -224,53 +198,41 @@
 		%>				
 		<div style="width:80px">&nbsp;</div>
 		<nav aria-label="Page navigation example">
-				<ul class="pagination justify-content-center">
-	
-					<%
-						if(currentPage / 6 == 0 ) {
-					%>
-							<li class="page-item disabled">
-								<a class ="page-link" href="/shop/emp/goodsList.jsp?category=<%=category%>&currentPage=5"> &lt; </a>
-							</li>	
-						
-					<%
-							for(int i=1;i<=5;i++){				
-					%>
-							<li class="page-item">
-								<a class ="page-link" href="/shop/emp/goodsList.jsp?category=<%=category%>&currentPage=<%=i%>"><%=i%> </a>
-							</li>
-						
-					<%		
-							}
-					%>
-						<li class="page-item">
-							<a class ="page-link" href="/shop/emp/goodsList.jsp?category=<%=category%>&currentPage=6">&gt;</a>
-						</li>
-																					
-					<%		
-						} else if (currentPage / 6 == 1){				
-							for(int i=1;i<=5;i++){				
-					%>
-							<li class="page-item">
-								<a class ="page-link" href="/shop/emp/goodsList.jsp?category=<%=category%>&currentPage=<%=i+5%>"><%=i+5%> </a>
-							</li>
-						
-					<%						
-							}
-					%>									
-							
-					<%		
-						}
-					
-					%>
-				</ul>
-		</nav>	
-		
+			<ul class="pagination justify-content-center">	
+			<%
+				int c = (currentPage-1) /5 ; // currentPage 가 (1,2,3,4,5)일땐 1 , (6,7,8,9,10)일땐 2 . . . 
+			
+				if(c==0){  // (1~5페이지일땐 이전 으로 넘길수 없음)
+			%>
+					<li class="page-item">
+						<a class ="page-link" href="#"> &lt; </a>
+					</li>					
+			<%							
+				} else if(c > 0 ) {
+			%>
+					<li class="page-item">
+						<a class ="page-link" href="/shop/emp/goodsList.jsp?category=<%=category%>&currentPage=<%=c*5%>"> &lt; </a>
+					</li>			
+			<%
+				}  
+				// 현재 페이지에 따라 (1,2,3,4,5)or (6,7,8,9,10) 로 페이지를 넘길 수 있도록 출력
+				for(int i=1;i<=5;i++){				
+			%>
+					<li class="page-item">
+						<a class ="page-link" href="/shop/emp/goodsList.jsp?category=<%=category%>&currentPage=<%=c*5+i%>"><%=c*5+i%> </a>
+					</li>							
+			<%		
+				}  
+			%>    <!-- 라스트 페이지일때 disabled 기능 미완성 -->
+					<li class="page-item">
+						<a class ="page-link" href="/shop/emp/goodsList.jsp?category=<%=category%>&currentPage=<%=(c+1)*5+1%>">&gt;</a>
+					</li>
+			</ul>
+		</nav>			
 	</div>	
-	<div class="col"></div>
+	<div class="col"></div> 
 	</div>
-	</div>
-	
+	</div>	
 	<div class="col-1" style="background-color:#"></div>		
 </div>	
 </body>
