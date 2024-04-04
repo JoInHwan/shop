@@ -19,8 +19,8 @@
 	</style>
 	<title>홈 화면</title>
 </head>
-<body class="container " >
-	<nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;" >
+<body>
+	<nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;" >  <!-- navbar-expand-lg -->
   <div class="container-fluid">  
    <a class="navbar-brand" href="#">Home</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@
           <a class="nav-link" href="/shop/emp/empOne.jsp"> <%=(String)(loginMember.get("empName"))%>님 반갑습니다</a>
         </li>                 
         <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true" style="font-size:12px;">&nbsp;&nbsp; 임시 바 입니다</a>
+          <a class="nav-link disabled" aria-disabled="true" style="font-size:12px;">&nbsp;&nbsp; @@임시 바 입니다@@</a>
         </li>
         
         
