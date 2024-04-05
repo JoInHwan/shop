@@ -33,10 +33,10 @@
           <a class="nav-link active" aria-current="page" href="/shop/emp/empList.jsp">사원관리</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/shop/emp/categoryList.jsp">카테고리관리</a>
+          <a class="nav-link active" aria-current="page" href="/shop/emp/category/categoryList.jsp">카테고리관리</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/shop/emp/goodsList.jsp">상품관리</a>
+          <a class="nav-link active" aria-current="page" href="/shop/emp/goods/goodsList.jsp">상품관리</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/shop/emp/empOne.jsp"> <%=(String)(loginMember.get("empName"))%>님 반갑습니다</a>

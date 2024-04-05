@@ -1,7 +1,8 @@
 @charset "UTF-8";
 
 	a{ 
-		text-decoration: none;		
+		text-decoration: none;	
+		display:block;	
 	}
 	
 	table, th, td {

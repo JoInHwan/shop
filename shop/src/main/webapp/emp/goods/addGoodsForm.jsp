@@ -42,6 +42,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 	<meta charset="UTF-8">
 	<title></title>
 </head>
@@ -51,7 +52,7 @@
 	</div>
 	<h1>상품등록</h1>
 	
-	<form action="/shop/emp/addGoodsAction.jsp">
+	<form action="/shop/emp/goods/addGoodsAction.jsp" enctype="multipart/form-data" method="post">
 		카테고리 : 
 		<select name="category">
 			<option value="">선택</option>
@@ -65,6 +66,9 @@
 		</select>	
 		상품이름:
 		<input type="text" name="goodsTitle"> <br>
+		
+		상품사진:
+		<input type="file" name="goodsImg"> <br>
 	
 		상품가격:
 		<input type="text" name="goodsPrice"> 
