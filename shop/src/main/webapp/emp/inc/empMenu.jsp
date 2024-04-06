@@ -49,7 +49,7 @@
         
         
       </ul>
-      <form class="d-flex" role="search" method="get" action="#" >
+      <form class="d-flex" role="search" method="get" action="/shop/emp/goods/goodsList.jsp">
         <input class="form-control me-2" name="searchWord" type="search" placeholder="상품검색" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>

@@ -20,11 +20,11 @@
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}	
 	// 페이징	
-	int rowPerPage = 12; // 전체 아이템 수
-	int startRow = ((currentPage-1)*rowPerPage);
+	int itemPerPage = 12; // 전체 아이템 수
+	int startItem = (currentPage-1)*itemPerPage;
 		
 	String category = request.getParameter("category");
-	System.out.println(category+"<-category");	
+	System.out.println("카테고리 : " +category);	
 %>
 
 <%
@@ -42,8 +42,19 @@
 		m.put("cnt",rs1.getInt("cnt"));
 		categoryList.add(m);
 	}
+		// 이상 전체 카테고리 및 개수
 	
-	System.out.println(categoryList);	// 이상 전체 카테고리 및 개수
+	int totalItem = 0;	
+	// 카테고리 이름과 그 개수를 하나씩 가져와서 선택한 카테고리와 같을 때 cnt 값을 totalItem에 저장
+	if(category!=null && !category.equals("null") ){ // 카테고리 값이 선택되었을때 (null이 아닐때)에만 동작
+//  '전체'보기하거나 처음페이지에 들어왔을때 && 하단 페이징nav 로 category값이 a태그로 넘겨질때  	
+		for(HashMap <String, Object>m : categoryList){    
+			if(category.equals((String)(m.get("category")))){
+				totalItem = (Integer)(m.get("cnt"));				
+			}			
+		}
+	}
+	
 /* ------------------------------------------------- */		
 	PreparedStatement stmt = null;
 	ResultSet rs = null;	
@@ -51,8 +62,8 @@
 	String sql="select goods_title goodsTitle,filename,goods_price goodsPrice,goods_amount goodsAmount from goods where category = ? order by goods_price asc limit ?,?";
 	stmt = conn.prepareStatement(sql);
 	stmt.setString(1,category);
-	stmt.setInt(2,startRow);
-	stmt.setInt(3,rowPerPage);
+	stmt.setInt(2,startItem);
+	stmt.setInt(3,itemPerPage);
 	rs = stmt.executeQuery();
 	ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 	while(rs.next()){
@@ -64,52 +75,56 @@
 		list.add(g);
 	}	// 이상 특정 카테고리 상품 출력 쿼리문 	
 /* ------------------------------------------------- */
-	
-	PreparedStatement stmt0 = null;
-		ResultSet rs0 = null;	
-	
-	String sql0 = 
- 	"select goods_title goodsTitle,filename,goods_price goodsPrice,goods_amount goodsAmount from goods ORDER BY RAND() limit ?,?";
-//  "select goods_title goodsTitle,goods_price goodsPrice,goods_amount goodsAmount,goods_img goodsImg from goods ORDER BY RAND() limit ?,?";
-		
-	stmt0 = conn.prepareStatement(sql0);
-	stmt0.setInt(1,startRow);
-	stmt0.setInt(2,rowPerPage);
-	rs0 = stmt0.executeQuery();
-	ArrayList<HashMap<String, Object>> whole = new ArrayList<HashMap<String, Object>>();
-	while(rs0.next()){
-		HashMap<String, Object> b = new HashMap<String, Object>();
-		b.put("goodsTitle",rs0.getString("goodsTitle"));
-		b.put("filename",rs0.getString("filename"));
-		b.put("goodsPrice",rs0.getString("goodsPrice"));
-		b.put("goodsAmount",rs0.getString("goodsAmount"));
-// 		b.put("goodsImg",rs0.getString("goodsImg"));
-		whole.add(b);
-	}	// 이상 전체 랜덤 선택  쿼리문
-/* ------------------------------------------------- */	
 	String searchWord = "";
 	if(request.getParameter("searchWord")!=null){
 		searchWord = request.getParameter("searchWord");
 	}
-	System.out.println(searchWord+"<-");
-	String sql2="select count(*) wcnt from goods where goods_title like ?";
-	PreparedStatement stmt2 = null;
-	ResultSet rs2 = null;
-	stmt2 = conn.prepareStatement(sql2);
-	stmt2.setString(1,"%"+ searchWord +"%");
-	rs2 = stmt2.executeQuery();
-	int totalRow = 0;
-	if(rs2.next()){
-		totalRow = rs2.getInt("wcnt");
+	System.out.println("검색한것 : " + searchWord);	
+	PreparedStatement stmt0 = null;
+	ResultSet rs0 = null;	
+	
+	String sql0 = 
+	"select (SELECT COUNT(*) FROM goods WHERE goods_title LIKE ?)as wcnt, "+
+	"goods_title goodsTitle,filename,goods_price goodsPrice,goods_amount goodsAmount from goods "
+	+"WHERE  goods_title LIKE ? limit ?,?";  
+	// 상뭄명에 '?'가 포함된 항목 수 를 cnt라 하고, 상품명에 '?'가 포함된 항목들의 각 요소들을 추출
+	
+	stmt0 = conn.prepareStatement(sql0);
+	stmt0.setString(1,"%"+ searchWord +"%");
+	stmt0.setString(2,"%"+ searchWord +"%");
+	stmt0.setInt(3,startItem);
+	stmt0.setInt(4,itemPerPage);
+	rs0 = stmt0.executeQuery();
+	ArrayList<HashMap<String, Object>> whole = new ArrayList<HashMap<String, Object>>();
+	
+	while(rs0.next()){
+	HashMap<String, Object> b = new HashMap<String, Object>();
+	b.put("wcnt",rs0.getString("wcnt"));
+	b.put("goodsTitle",rs0.getString("goodsTitle"));
+	b.put("filename",rs0.getString("filename"));
+	b.put("goodsPrice",rs0.getString("goodsPrice"));
+	b.put("goodsAmount",rs0.getString("goodsAmount"));
+	whole.add(b);
+	}	// 이상 전체 항목 및 검색문 쿼리문
+
+/* ------------------------------------------------- */
+	String searchCount = null; // 검색결과 수 변수 초기화
+	
+	for (HashMap<String, Object> b : whole) {    
+		searchCount = (String) b.get("wcnt");
+	    break;							// 검색한 결과 항목마다 같은 wcnt(searchCount)값을 가지므로 한번만 실핼하고 종료		
 	}
-	int lastPage = totalRow / rowPerPage;
-	if(totalRow % rowPerPage != 0) {
+	System.out.println("검색 항목 수 : " + searchCount + "개");		 
+	if(category==null || category.equals("null")){  // 첫 조건은 처음 출력할때, 두번째조건은 페이징할때 a태그로 categoty가 null로 넘겨질때
+	totalItem = Integer.parseInt(searchCount);
+	}
+	
+	int lastPage = totalItem/ itemPerPage;;
+ 	if(totalItem % itemPerPage != 0) {
 		lastPage = lastPage + 1;
-	}	
-	System.out.println(rs2.getInt("wcnt")+"<-wcnt");
-	System.out.println(lastPage+"<-lastPage");
-
-
+ 	}	
+	System.out.println("마지막 페이지 : "+lastPage );
+	
 %>
 <!-- View Layer -->
 <!DOCTYPE html>
@@ -137,7 +152,7 @@
 			box-sizing: border-box;
 			text-align: left;	
 			border: none;
-			margin-bottom: 100px;
+			margin-bottom: 60px;
 					
 		}
 	.itemImg{  /* 이미지 th */
@@ -163,7 +178,7 @@
     color: inherit; /* 링크 색상을 상속받음 */
     background-color: #E0E0E0;  
     padding-left: 10%; 
-    height:40px;
+    height:45px;
 	font-family: "Georgia", Serif;
 	font-weight: bold;	
 	}
@@ -172,12 +187,14 @@
 	padding-left: 10%; 	
 	}
 	
-
+	.test{
+	color:blue;
+	}
 	</style>
 </head>
 <body>
 <div class="row">
-	<div class="col-1"></div>
+ 	<div class="col-1"></div> 
 	<div class="col-1" style="background-color:#E0E0E0; border:1px solid">
 		<br>
 		<div>
@@ -189,7 +206,7 @@
 		
 			<a href="/shop/emp/goods/goodsList.jsp">전체</a><br>
 			<%
-				for(HashMap m : categoryList){
+				for(HashMap <String, Object>m : categoryList){
 			%>	<a href="/shop/emp/goods/goodsList.jsp?category=<%=(String)(m.get("category"))%>">
 				<%=(String)(m.get("category"))%>(<%=(Integer)(m.get("cnt")) %>) <br>
 				</a>
@@ -205,11 +222,14 @@
 		<!-- 주체가 서버이기 때문에 include할때는 절대주소가 /shop으로 시작하는게 아니라 /emp부터 시작 -->
 		<div>
 			<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
-		</div> <br>
+		</div> 
 	
 		<div class="row">
 		<div class="col"></div>
-		<div class="col-11">
+		<div class="col-11"><br>
+		<div> 		
+		 <%=totalItem%>개의 검색결과가 있습니다		 
+		</div><br>
 		
 		<!--  카테고리가 있을때 출력  -->	
 		<%for(HashMap<String, Object>g : list){%>	
@@ -223,7 +243,7 @@
 			</table>	
 		</div>
 		<%}%>	
-		<!-- ---- 카테고리가 없을때 전체 랜덤출력  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
+		<!-- ---- 카테고리 선택없이 전체출력&&검색어가 포함된 상품 출력 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
 		<%	
 		if(category==null || category.equals("null")){  // 첫 조건은 처음 출력할때, 두번째조건은 페이징할때 a태그로 categoty가 null로 넘겨질때
 			for(HashMap<String, Object>b : whole ){
@@ -232,9 +252,7 @@
 			<table>
 <!-- 이미지 -->	<tr><th class="goodsBorder itemImg"><img src="/shop/upload/<%=(String)(b.get("filename"))%>" style="width:180px;"></img></th></tr> 
 <!-- 상풍명 -->	<tr><td class="goodsBorder itemTitle">
-				<a href="/shop/emp/goods/goodsOne.jsp?goodsTitle=<%=(String)(b.get("goodsTitle"))%>">
-				<%=(String)(b.get("goodsTitle"))%>
-				</a>
+				<a href="/shop/emp/goods/goodsOne.jsp?goodsTitle=<%=(String)(b.get("goodsTitle"))%>"><%=(String)(b.get("goodsTitle"))%>	</a>
 				</td></tr>
 <!-- 가격 -->		<tr><td class="price itemEx"><a><%=(String)(b.get("goodsPrice"))%>원</a></td></tr>
 <!-- 재고 -->		<tr><td class="goodsBorder itemEx"><a><%=(String)(b.get("goodsAmount"))%>개</a></td></tr>
@@ -243,51 +261,67 @@
 			</div>
 		<%	}
 		}
-		%>				
-		
-		
+		%>		
 		<!-- 페이징 nav -->
 		<div style="width:80px">&nbsp;</div>
 		<nav aria-label="Page navigation example">
 			<ul class="pagination justify-content-center">	
-			<%
-				int c = (currentPage-1) /5 ; // currentPage 가 (1,2,3,4,5)일땐 1 , (6,7,8,9,10)일땐 2 . . . 
+			<%			
 			
-				if(c==0){  // (1~5페이지일땐 이전 으로 넘길수 없음)
+			int pagingGroup = 5;  //기본 페이징 그룹은 5개씩
+			int c = (currentPage-1) /5 ; // 현재페이지의 페이징그룹 번호: currentPage 가 (1,2,3,4,5)일땐 0 , (6,7,8,9,10)일땐 1 . . . 
+			
+			if(c == (lastPage-1)/5){ // 현재페이징 그룹이 마지막 페이징그룹일땐
+				pagingGroup = lastPage % 5;    // 페이징그룹의 수가 5로나눈 나머지값으로 설정   
+				if(pagingGroup==0){   		   // 단, 페이지번호가 5의배수일땐 다시 5개로 설정 
+					pagingGroup = 5;
+				}
+			}		
 			%>
-					<li class="page-item disabled">
-						<a class ="page-link" href="#"> &lt;&lt; </a>
-					</li>	
-					<li class="page-item disabled">
-						<a class ="page-link" href="#"> &lt; </a>
-					</li>					
-			<%							
-				} else if(c > 0 && c<=(lastPage-1)/5 ) {
-			%>
-					<li class="page-item">
-						<a class ="page-link" href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&currentPage=1"> &lt;&lt; </a>
-					</li>
-					<li class="page-item">
-						<a class ="page-link" href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&currentPage=<%=c*5%>"> &lt; </a>
-					</li>			
 			<%
-				}  
-				
-				
+			String priviousTab = null;
+			String nextTab = null;
+			if(c==0){				 // 	0번째페이징그룹일때에는 이전으로 넘길수 없음
+				priviousTab = "disabled";
+			}									
+			
+			if(c == (lastPage-1)/5){ // 마지막 페이징그룹일때에는 다음으로 넘길수 없음
+				nextTab = "disabled";
+			}	
+			%>
+			<li class="page-item <%=priviousTab%>">
+				<a class ="page-link" style="color:black;"
+				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&currentPage=1"> &lt;&lt; </a>
+			</li>
+			<li class="page-item <%=priviousTab%>">
+				<a class ="page-link" style="color:black;"
+				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&currentPage=<%=c*5%>"> &lt; </a>
+			</li>	
+			<%			
 				
 				// 현재 페이지에 따라 (1,2,3,4,5)or (6,7,8,9,10) 로 페이지를 넘길 수 있도록 출력
-				for(int i=1;i<=5;i++){				
-			%>
+				for(int i=1;i<=pagingGroup;i++){
+					String currentPageItem=null;  // 페이징그룹에서 현재페이지만 파란글씨에 테루리가 보이게 하는 알고리즘
+					if(currentPage%pagingGroup==i || (currentPage % pagingGroup == 0 && i == pagingGroup) ){ 
+						// 현재페이지를 페이징 그룹으로 나눈 나머지가 i 일때와 딱 나눠떨어질때 
+						currentPageItem= "font-weight: bold; color:blue; border:solid 1px ; margin:1px ";
+					}				
+			%>					
 					<li class="page-item">
-						<a class ="page-link" href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&currentPage=<%=c*5+i%>"><%=c*5+i%> </a>
+						<a class ="page-link test" style="color:black; <%=currentPageItem%>" 
+			href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&currentPage=<%=c*5+i%>"><%=c*5+i%> </a>
 					</li>							
 			<%		
 				}  
-			%>   
-						 	
-					<li class="page-item">
-						<a class ="page-link" href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&currentPage=<%=(c+1)*5+1%>">&gt;</a>
-					</li>
+			%>  
+			<li class="page-item <%=nextTab%>">
+				<a class ="page-link" style="color:black;"
+				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&currentPage=<%=(c+1)*5+1%>">&gt;</a>
+			</li>
+			<li class="page-item <%=nextTab%>">
+				<a class ="page-link" style="color:black;"
+				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&currentPage=<%=lastPage%>">&gt;&gt;</a>
+			</li>						
 			</ul>
 		</nav>			
 	</div>	
