@@ -42,19 +42,13 @@
           <a class="nav-link" href="/shop/emp/empOne.jsp"> <%=(String)(loginMember.get("empName"))%>님 반갑습니다</a>
         </li>                 
         <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true" style="font-size:12px;">&nbsp;&nbsp; @@임시 바 입니다@@</a>
+          <a class="nav-link disabled" aria-disabled="true" style="font-size:12px;">&nbsp;&nbsp; 임시바</a>
         </li>
-        
-        
-        
-        
-      </ul>
-      <form class="d-flex" role="search" method="get" action="/shop/emp/goods/goodsList.jsp">
-        <input class="form-control me-2" name="searchWord" type="search" placeholder="상품검색" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+       </ul>
+      
     </div>
   </div>
+  
   
 </nav>	
 </body>

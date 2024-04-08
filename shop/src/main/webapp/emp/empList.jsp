@@ -128,6 +128,13 @@
 		%>			
 	</table>
 	
+	<div>
+	<a href="/diary/updateDiaryForm.jsp>" class="btn btn-outline-info">추가</a>
+	<a href="/diary/updateDiaryForm.jsp>" class="btn btn-outline-info">수정</a>
+	<a href="/diary/deleteDiaryAction.jsp>" class="btn btn-outline-info">삭제</a>
+	
+	</div>
+	
 	<ul>
 	<%
 		if(currentPage > 1) {

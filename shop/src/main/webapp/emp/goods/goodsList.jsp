@@ -19,10 +19,41 @@
 	if(request.getParameter("currentPage")!=null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}	
-	// 페이징	
-	int itemPerPage = 12; // 전체 아이템 수
-	int startItem = (currentPage-1)*itemPerPage;
+	// 페이징		
+	int itemPerPage = 12; // 페이지 별 아이템 수 기본값 12개
+	
+	String perPage = request.getParameter("perPage");
+	
+	System.out.println(perPage+ "<-perPage");
+	if(perPage == null || perPage.equals("null")) {
+		itemPerPage = 12;
+	    System.out.println("itemPerPage가 널일때 12로 초기화");
+	} else {
+		itemPerPage = Integer.parseInt(perPage);
+	}	
 		
+	int startItem = (currentPage-1)*itemPerPage;
+	
+	/*검색기능*/
+	String searchWord = "";
+	if(request.getParameter("searchWord")!=null){
+		searchWord = request.getParameter("searchWord");
+	}
+	System.out.println("검색한것 : " + searchWord);	
+	
+	/*정렬기능*/	
+	String order = request.getParameter("order");
+	String array = request.getParameter("order");  // 페이징그룹의 a태그 안에 넣을 용도
+	System.out.println("ORDER : "+order );
+	if( order == null || order.equals("null") ){ // || order.equals("")
+		order = "";
+		System.out.println("빈 값으로 처리" );
+	} else {
+		order = ","+ order;
+		System.out.println("쉼표 추가됨");
+	}
+	
+	
 	String category = request.getParameter("category");
 	System.out.println("카테고리 : " +category);	
 %>
@@ -54,46 +85,33 @@
 			}			
 		}
 	}
-	
-/* ------------------------------------------------- */		
-	PreparedStatement stmt = null;
-	ResultSet rs = null;	
 
-	String sql="select goods_title goodsTitle,filename,goods_price goodsPrice,goods_amount goodsAmount from goods where category = ? order by goods_price asc limit ?,?";
-	stmt = conn.prepareStatement(sql);
-	stmt.setString(1,category);
-	stmt.setInt(2,startItem);
-	stmt.setInt(3,itemPerPage);
-	rs = stmt.executeQuery();
-	ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-	while(rs.next()){
-		HashMap<String, Object> g = new HashMap<String, Object>();
-		g.put("goodsTitle",rs.getString("goodsTitle"));
-		g.put("filename",rs.getString("filename"));
-		g.put("goodsPrice",rs.getString("goodsPrice"));
-		g.put("goodsAmount",rs.getString("goodsAmount"));
-		list.add(g);
-	}	// 이상 특정 카테고리 상품 출력 쿼리문 	
 /* ------------------------------------------------- */
-	String searchWord = "";
-	if(request.getParameter("searchWord")!=null){
-		searchWord = request.getParameter("searchWord");
-	}
-	System.out.println("검색한것 : " + searchWord);	
 	PreparedStatement stmt0 = null;
 	ResultSet rs0 = null;	
 	
 	String sql0 = 
-	"select (SELECT COUNT(*) FROM goods WHERE goods_title LIKE ?)as wcnt, "+
-	"goods_title goodsTitle,filename,goods_price goodsPrice,goods_amount goodsAmount from goods "
-	+"WHERE  goods_title LIKE ? limit ?,?";  
-	// 상뭄명에 '?'가 포함된 항목 수 를 cnt라 하고, 상품명에 '?'가 포함된 항목들의 각 요소들을 추출
+	"select (SELECT COUNT(*) FROM goods WHERE goods_title LIKE ?)as wcnt,"+
+	"goods_title goodsTitle,filename,goods_price goodsPrice,goods_amount goodsAmount from goods WHERE 1=1"; 
+	if(category!=null&&!category.equals("null")){
+		sql0+= "and category = '"+category+"'" ;
+	}
+	sql0+=" and goods_title LIKE ? order by wcnt";
+	
+	if( array==null||array.equals("null") ){
+		sql0+= ",RAND()";
+	}
+	sql0+=order+" limit ?,?";
+	
+	
+	// 상뭄명에 '?'가 포함된 항목 수 를 wcnt라 하고, 상품명에 '?'가 포함된 항목들의 각 요소들을 추출
 	
 	stmt0 = conn.prepareStatement(sql0);
 	stmt0.setString(1,"%"+ searchWord +"%");
-	stmt0.setString(2,"%"+ searchWord +"%");
+	stmt0.setString(2,"%"+ searchWord +"%");	
 	stmt0.setInt(3,startItem);
 	stmt0.setInt(4,itemPerPage);
+	System.out.println(stmt0 );	
 	rs0 = stmt0.executeQuery();
 	ArrayList<HashMap<String, Object>> whole = new ArrayList<HashMap<String, Object>>();
 	
@@ -115,15 +133,21 @@
 	    break;							// 검색한 결과 항목마다 같은 wcnt(searchCount)값을 가지므로 한번만 실핼하고 종료		
 	}
 	System.out.println("검색 항목 수 : " + searchCount + "개");		 
-	if(category==null || category.equals("null")){  // 첫 조건은 처음 출력할때, 두번째조건은 페이징할때 a태그로 categoty가 null로 넘겨질때
-	totalItem = Integer.parseInt(searchCount);
+	
+	
+	rs0.beforeFirst();	// 커서올리고
+	if(rs0.next()){ // searchWord 검색결과가 있을경우에만
+		if(category==null || category.equals("null")){  // 첫 조건은 처음 출력할때, 두번째조건은 페이징할때 a태그로 categoty가 null로 넘겨질때
+		totalItem = Integer.parseInt(searchCount);
+		}	
 	}
 	
 	int lastPage = totalItem/ itemPerPage;;
  	if(totalItem % itemPerPage != 0) {
 		lastPage = lastPage + 1;
  	}	
-	System.out.println("마지막 페이지 : "+lastPage );
+ 	
+	System.out.println("마지막 페이지 : "+lastPage );	
 	
 %>
 <!-- View Layer -->
@@ -144,16 +168,24 @@
  			box-sizing: border-box; 
 			float:left;
 			border:none; 			
-	
+            transition: background-color 0.3s ease;
 	}
+	   .item:hover {
+            background-color: #ccc;
+        }
+         .item-wrapper {
+        display: block; /* div를 블록 레벨 요소로 변경 */
+        text-decoration: none; /* 링크에 밑줄 제거 */
+        color: inherit; /* 링크 색상 상속 */
+    }
 	.item>table{	/*상품 div>table*/
 			width: 100%;
  			height: 91px; 			
 			box-sizing: border-box;
 			text-align: left;	
 			border: none;
-			margin-bottom: 60px;
-					
+			margin-bottom: 50px;
+			margin-top: 20px;		
 		}
 	.itemImg{  /* 이미지 th */
 		text-align: center;	
@@ -190,20 +222,22 @@
 	.test{
 	color:blue;
 	}
+	
+	input[type=text] {
+ 	border-style: none;;
+		}
 	</style>
 </head>
 <body>
 <div class="row">
- 	<div class="col-1"></div> 
-	<div class="col-1" style="background-color:#E0E0E0; border:1px solid">
-		<br>
-		<div>
-			<a href="/shop/emp/goods/addGoodsForm.jsp">상품등록</a>	
-		</div><hr>
-		<h5>카테고리</h5>
-		<!-- 	서브메뉴  카테고리별 상품리스트	 -->
-		<div>
-		
+ <div class="col-1"></div> 
+  <div class="col-1" style="background-color:#E0E0E0; border:1px solid"><br>
+  	<div>
+	<a href="/shop/emp/goods/addGoodsForm.jsp">상품등록</a>	
+	</div><hr>
+	<h5>카테고리</h5>
+	<!-- 	서브메뉴  카테고리별 상품리스트	 -->
+		<div>		
 			<a href="/shop/emp/goods/goodsList.jsp">전체</a><br>
 			<%
 				for(HashMap <String, Object>m : categoryList){
@@ -214,7 +248,7 @@
 				}
 			%>
 		</div>	
-	</div>	
+  </div>	
 	<div class="col-9">
 	<br><div style="font-size: 30px; font-weight: bold; text-align: center;	">Welcome </div><br>
 		<!-- 메인메뉴 -->
@@ -227,40 +261,102 @@
 		<div class="row">
 		<div class="col"></div>
 		<div class="col-11"><br>
-		<div> 		
-		 <%=totalItem%>개의 검색결과가 있습니다		 
-		</div><br>
-		
-		<!--  카테고리가 있을때 출력  -->	
-		<%for(HashMap<String, Object>g : list){%>	
-		
-		<div class="item">			
-			<table>
-			<tr><th><img src="/shop/upload/<%=(String)(g.get("filename"))%>" style="width:180px;"></img></th></tr>
-			<tr><td><%=(String)(g.get("goodsTitle"))%></td></tr>
-			<tr><td><%=(String)(g.get("goodsPrice"))%>원 </td></tr>
-			<tr><td><%=(String)(g.get("goodsAmount"))%>개</td></tr>
-			</table>	
+
+	<div
+		style="display: flex; justify-content: space-between; align-items: center; width: 100%">
+		<div>
+			<h5>
+			<%
+				if (searchWord != "") {
+			%>	 <b>'<%=searchWord%>'</b> 에 대한 검색결과 : <%=totalItem%>개
+			<% } else {
+			%> 	 총 <%=totalItem%>개의 상품이 있습니다.
+			<% } %>
+			</h5>
 		</div>
-		<%}%>	
+		<form style="display: flex; align-items: center;">
+			<input class="form-control me-2" style="width: 300px"
+				name="searchWord" type="search" placeholder="상품검색"> <input
+				type="hidden" name="category" value="<%=category%>"> <input
+				type="hidden" name="perPage" value="<%=perPage%>"> <input
+				type="hidden" name="order" value="<%=array%>">
+			<button class="btn btn-outline-success" type="submit">Search</button>
+		</form>
+	</div>
+	<hr>
+	<div style="display: flex; justify-content: flex-end;">
+		<form id="orderForm" action="/shop/emp/goods/goodsList.jsp"
+			method="GET">
+			<input type="hidden" name="category" value="<%=category%>">
+			<input type="hidden" name="searchWord" value="<%=searchWord%>">
+			<input type="hidden" name="perPage" value="<%=perPage%>">
+			<select name="order" onchange="submitOrderForm(this.value)">
+				<option>정렬기준</option>
+				<option value="goods_title">이름순</option>
+				<option value="goods_price">낮은가격순</option>
+				<option value="goods_price desc">높은가격순</option>
+				<option value="update_date desc">최신순</option>
+				<option value="goods_amount">인기순</option>
+			</select>
+		</form>
+		&nbsp;&nbsp;
+		<form id="perPageForm" action="/shop/emp/goods/goodsList.jsp"
+			method="GET">
+			<input type="hidden" name="category" value="<%=category%>">
+			<input type="hidden" name="searchWord" value="<%=searchWord%>">
+			<input type="hidden" name="order" value="<%=array%>"> <select
+				name="perPage" onchange="submitPerPageForm(this.value)">
+				<%
+				if (perPage != null) {
+				%>
+				<option value="<%=perPage%>"><%=perPage%>개씩
+				</option>
+				<%
+				}
+				%>
+				<option value="12">12개씩</option>
+				<option value="4">4개씩</option>
+				<option value="8">8개씩</option>
+				<option value="16">16개씩</option>
+				<option value="20">20개씩</option>
+			</select>
+		</form>
+		&nbsp;
+	</div>
+					<br>
+	<script>
+		function submitOrderForm(value) {
+			document.getElementById("orderForm").action = "/shop/emp/goods/goodsList.jsp?order="
+					+ value;
+			document.getElementById("orderForm").submit();
+		}
+
+		function submitPerPageForm(value) {
+			document.getElementById("perPageForm").action = "/shop/emp/goods/goodsList.jsp?perPage="
+					+ value;
+			document.getElementById("perPageForm").submit();
+		}
+	</script>	
 		<!-- ---- 카테고리 선택없이 전체출력&&검색어가 포함된 상품 출력 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
 		<%	
-		if(category==null || category.equals("null")){  // 첫 조건은 처음 출력할때, 두번째조건은 페이징할때 a태그로 categoty가 null로 넘겨질때
+//  		if(category==null || category.equals("null")){  
+			// 첫 조건은 처음 출력할때, 두번째조건은 페이징할때 a태그로 categoty가 null로 넘겨질때
 			for(HashMap<String, Object>b : whole ){
 		%>	
+		
+		 <a class="item-wrapper" href="/shop/emp/goods/goodsOne.jsp?goodsTitle=<%=(String)(b.get("goodsTitle"))%>">	
 			<div class="item">				
 			<table>
 <!-- 이미지 -->	<tr><th class="goodsBorder itemImg"><img src="/shop/upload/<%=(String)(b.get("filename"))%>" style="width:180px;"></img></th></tr> 
-<!-- 상풍명 -->	<tr><td class="goodsBorder itemTitle">
-				<a href="/shop/emp/goods/goodsOne.jsp?goodsTitle=<%=(String)(b.get("goodsTitle"))%>"><%=(String)(b.get("goodsTitle"))%>	</a>
-				</td></tr>
-<!-- 가격 -->		<tr><td class="price itemEx"><a><%=(String)(b.get("goodsPrice"))%>원</a></td></tr>
-<!-- 재고 -->		<tr><td class="goodsBorder itemEx"><a><%=(String)(b.get("goodsAmount"))%>개</a></td></tr>
+<!-- 상풍명 -->	<tr><td class="goodsBorder itemTitle"><%=(String)(b.get("goodsTitle"))%></td></tr>
+<!-- 가격 -->		<tr><td class="price itemEx"><%=(String)(b.get("goodsPrice"))%>원</td></tr>
+<!-- 재고 -->		<tr><td class="goodsBorder itemEx"><%=(String)(b.get("goodsAmount"))%>개</td></tr>
 				
 			</table>	
 			</div>
+			</a>
 		<%	}
-		}
+		//}
 		%>		
 		<!-- 페이징 nav -->
 		<div style="width:80px">&nbsp;</div>
@@ -288,14 +384,16 @@
 			if(c == (lastPage-1)/5){ // 마지막 페이징그룹일때에는 다음으로 넘길수 없음
 				nextTab = "disabled";
 			}	
+			
 			%>
+			
 			<li class="page-item <%=priviousTab%>">
 				<a class ="page-link" style="color:black;"
-				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&currentPage=1"> &lt;&lt; </a>
+				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=1"> &lt;&lt; </a>
 			</li>
 			<li class="page-item <%=priviousTab%>">
 				<a class ="page-link" style="color:black;"
-				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&currentPage=<%=c*5%>"> &lt; </a>
+				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=c*5%>"> &lt; </a>
 			</li>	
 			<%			
 				
@@ -309,18 +407,18 @@
 			%>					
 					<li class="page-item">
 						<a class ="page-link test" style="color:black; <%=currentPageItem%>" 
-			href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&currentPage=<%=c*5+i%>"><%=c*5+i%> </a>
+			href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=c*5+i%>"><%=c*5+i%> </a>
 					</li>							
 			<%		
 				}  
 			%>  
 			<li class="page-item <%=nextTab%>">
 				<a class ="page-link" style="color:black;"
-				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&currentPage=<%=(c+1)*5+1%>">&gt;</a>
+				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=(c+1)*5+1%>">&gt;</a>
 			</li>
 			<li class="page-item <%=nextTab%>">
 				<a class ="page-link" style="color:black;"
-				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&currentPage=<%=lastPage%>">&gt;&gt;</a>
+				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=lastPage%>">&gt;&gt;</a>
 			</li>						
 			</ul>
 		</nav>			
@@ -328,7 +426,8 @@
 	<div class="col"></div> 
 	</div>
 	</div>	
-	<div class="col-1" style="background-color:#"></div>		
+	<div class="col-1" style="background-color:#"></div>
+	<%System.out.println("----------------------------------------"); %>		
 </div>	
 </body>
 </html>
