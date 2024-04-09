@@ -4,10 +4,10 @@
 <%@ page import = "java.net.*" %>
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp
-	if(session.getAttribute("loginEmp")==null){ //로그인이 이미 되어있다면
-		response.sendRedirect("/shop/emp/empLoginForm.jsp");
-		return;
-	}
+// 	if(session.getAttribute("loginEmp")==null){ //로그인이 이미 되어있다면
+// 		response.sendRedirect("/shop/emp/empLoginForm.jsp");
+// 		return;
+// 	}
 %>
 
 	<%//DB연결
@@ -42,7 +42,7 @@
 	<meta charset="UTF-8">
 	<title>상품 자세히</title>
 </head> 
-<body>
+<body class="container">
 <h2>GoodsOne</h2>
 
 

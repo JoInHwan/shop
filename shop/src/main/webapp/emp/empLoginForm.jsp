@@ -11,12 +11,13 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>직원로그인</title>
 </head>
-<body>
-	<form action="/shop/emp/empLoginAction.jsp"> 	
-		<input type="text" name="empId" placeholder="아이디" value="admin">	<br> 
-		<input type="text" name="empPw" placeholder="비밀번호" value="1234"> <br>				
+<h2>직원로그인</h2>
+<body class="container">
+	<form action="/shop/emp/empLoginAction.jsp" method="post"> 	
+		<input type="text" name="empId" placeholder="admin">	<br> 
+		<input type="text" name="empPw" placeholder="1234" > <br>				
 		<button type="submit">로그인</button>			
 	</form>	
 	

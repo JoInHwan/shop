@@ -4,11 +4,21 @@
 <%@ page import = "java.net.*" %>
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp
-	if(session.getAttribute("loginEmp")==null){ //로그인이 이미 되어있다면
-		response.sendRedirect("/shop/emp/empLoginForm.jsp");
-		return;
+// 	if(session.getAttribute("loginEmp")==null){ // 로그인이 안되어 있다면
+// 		response.sendRedirect("/shop/emp/empLoginForm.jsp");
+// 		System.out.println("로그인해야됌");	
+// 		return;
+// 	}
+%>
+<%
+	
+	HashMap<String,Object> loginMember	= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));
+	
+	if(session.getAttribute("loginCustomer")==null && session.getAttribute("loginEmp")!=null){
+	loginMember	= (HashMap<String,Object>)(session.getAttribute("loginEmp"));
 	}
 %>
+
 <%
 	//DB연결
 	Class.forName("org.mariadb.jdbc.Driver");
@@ -92,7 +102,7 @@
 	
 	String sql0 = 
 	"select (SELECT COUNT(*) FROM goods WHERE goods_title LIKE ?)as wcnt,"+
-	"goods_title goodsTitle,filename,goods_price goodsPrice,goods_amount goodsAmount from goods WHERE 1=1"; 
+	"goods_title goodsTitle,filename,goods_price goodsPrice,goods_amount goodsAmount from goods WHERE 1=1 "; 
 	if(category!=null&&!category.equals("null")){
 		sql0+= "and category = '"+category+"'" ;
 	}
@@ -155,7 +165,7 @@
 <html>
 <head>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/shop/emp/SHOP.css" rel="stylesheet">
+	<link href="/shop/SHOP.css" rel="stylesheet">
 	<meta charset="UTF-8">
 	
 	<title>goodsList</title>
@@ -232,8 +242,27 @@
 <div class="row">
  <div class="col-1"></div> 
   <div class="col-1" style="background-color:#E0E0E0; border:1px solid"><br>
-  	<div>
-	<a href="/shop/emp/goods/addGoodsForm.jsp">상품등록</a>	
+  	<div>  	
+  	
+  	<%
+  		if(session.getAttribute("loginCustomer")==null && session.getAttribute("loginEmp")==null){  // customer,emp 모두 로그인x
+  	%> 
+  		<a href="/shop/loginForm.jsp">로그인하기</a> 
+  		
+  	<%
+  		}else if(session.getAttribute("loginCustomer")!=null && session.getAttribute("loginEmp")==null){  //손님로그인이 있다면
+  	%>	
+  		<%=(String)(loginMember.get("name"))%>님 <br>
+  		<a href="/shop/logout.jsp"><span>로그아웃</span>  	</a>		
+  	<%
+  		}else if(session.getAttribute("loginCustomer")==null && session.getAttribute("loginEmp")!=null){  // 사원로그인이 있다면
+  	%>  <span style="background-color: red">직원</span><br>
+  	  	<%=(String)(loginMember.get("empName"))%>님 <br>  
+ 	  	<a href="/shop/logout.jsp"><span>로그아웃</span>  	</a>		 
+  	<%
+  		}
+  	%>  
+	
 	</div><hr>
 	<h5>카테고리</h5>
 	<!-- 	서브메뉴  카테고리별 상품리스트	 -->
@@ -254,10 +283,13 @@
 		<!-- 메인메뉴 -->
 		<!-- empMenu.jsp include : 주체(서버) vs redirect(주체:클라이언트) -->
 		<!-- 주체가 서버이기 때문에 include할때는 절대주소가 /shop으로 시작하는게 아니라 /emp부터 시작 -->
+		<!-- 사원로그인을 했을경우에만 -->
+		<%if(session.getAttribute("loginEmp")!=null){ %> 		
 		<div>
 			<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 		</div> 
-	
+		<%} %>
+		
 		<div class="row">
 		<div class="col"></div>
 		<div class="col-11"><br>

@@ -41,6 +41,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="/shop/SHOP.css" rel="stylesheet">
 <meta charset="UTF-8">
 	<title></title>
 	<style>
@@ -51,13 +52,14 @@
 	
 	</style>
 </head>
-<body>
-	<!-- empMenu.jsp include : 주체(서버) vs redirect(주체:클라이언트) -->
+<body class="container bg">
+<div class="content">
 	<div>
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
+	<div class="in">
 	<h1> 카테고리 목록 </h1>	
-	<a href="/shop/emp/empLogout.jsp">로그아웃</a>
+	<a href="/shop/logout.jsp">로그아웃</a>
 	<table border="1">
 		<tr>
 			<th>카테고리이름</th>
@@ -90,5 +92,7 @@
 	<div>
 	<a href="/diary/updateCategoryForm.jsp>" class="btn btn-outline-warning">추가</a>	
 	</div>
+	</div>
+</div>
 </body>
 </html>

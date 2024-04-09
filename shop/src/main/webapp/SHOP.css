@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+	.bg{
+	 	background-size: 100%;
+		background-color: #E0E0E0;
+	}
+	.in{
+	 padding-left: 20px;
+	}
+	a{ 
+		text-decoration: none;	
+		display:block;	
+	}
+	.content{
+	background-color: white; 
+	margin-top: 50px;
+	}

@@ -42,14 +42,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+<link href="/shop/SHOP.css" rel="stylesheet">
 	<meta charset="UTF-8">
 	<title></title>
 </head>
-<body>
+<body class="container bg">
+<div class="content">
+	
 	<div>
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
+	<div class="in">
 	<h1>상품등록</h1>
 	
 	<form action="/shop/emp/goods/addGoodsAction.jsp" enctype="multipart/form-data" method="post">
@@ -80,8 +83,8 @@
 		<textarea rows="5" cols="50" name="content"></textarea> <br>
 		<button type="submit">제품등록</button>
 	</form>
-	
-	
+	</div>
+</div>	
 </body>
 </html>
 

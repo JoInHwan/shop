@@ -2,5 +2,6 @@
 <%
 	// session.removeAttribute("loginMember");	
 	session.invalidate(); // 세션 공간 초기화(포맷)	
-	response.sendRedirect("/shop/emp/empLoginForm.jsp");
+	response.sendRedirect("/shop/loginForm.jsp");
+	
 %>
