@@ -78,8 +78,14 @@
 	<style>
 	table, th, td {
 	  border: 1px solid;
+	  text-align: center;
 	}
 	
+	.a{ 
+		text-decoration: none;	
+		display:block;	
+		
+	}
 	</style>
 </head>
 <body class="container bg">
@@ -112,8 +118,8 @@
 				<%
 				HashMap<String, Object> sm = (HashMap<String, Object>)(session.getAttribute("loginEmp"));
 				if((Integer)(sm.get("grade")) >= 10) {
-				%>	<a href="/shop/actoin/modifyEmpActive.jsp?empId=<%=(String)(m.get("empId"))%>&active=<%=(String)(m.get("active"))%>"
-					class="disabled">
+				%>	<a href="/shop/action/modifyEmpActive.jsp?empId=<%=(String)(m.get("empId"))%>&active=<%=(String)(m.get("active"))%>"
+					class="disabled a">
 					<%=(String)(m.get("active"))%>
 					</a>					
 				<%

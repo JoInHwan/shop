@@ -19,6 +19,12 @@
      label.btn { 
          border-color: #C0C0C0; 
      } 
+	#male:hover + label.btn {
+        border-color: blue; /* 남자 버튼 마우스 올릴시 파란색 테두리 */                
+    }
+    #female:hover + label.btn {
+        border-color: #FF1493; /* 여자 버튼 마우스 올릴시 빨간 테두리 */                
+    }
 
     /* 선택된 라디오 버튼의 테두리 색상을 변경 */
     #male:checked + label.btn {
@@ -26,10 +32,10 @@
         #female + label.btn {
             border-color: #C0C0C0;
         }        
-    }
+    }    
 
     #female:checked + label.btn {
-        border-color: #FF1493; /* 여자 선택 시 분홍색 테두리 */
+        border-color: #FF1493; /* 여자 선택 시 빨간색 테두리 */
         #male + label.btn {
             border-color: #C0C0C0;
         }

@@ -1,4 +1,4 @@
-11<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp , loginCustomer
 	if(session.getAttribute("loginEmp")!=null || session.getAttribute("loginCustomer")!=null){ //로그인이 이미 되어있다면
@@ -14,17 +14,25 @@
 <link href="/shop/SHOP.css" rel="stylesheet">
 	<meta charset="UTF-8">
 	<title>회원로그인</title>
+	<style>
+	.inputInfo{
+		border: 1px solid;
+		border-color: #B0C4DE;
+	}
+	
+	
+	</style>
 </head>
-<body class="container">
+<body class="container bg">
 <div class="row">
 	<div class="col"></div>
-	<div class="col-6 content " style="text-align: center; padding-top: 50px">
-	<h2>회원로그인</h2> <hr> <br>
+	<div class="col-6 content " style="text-align: center; padding-top: 30px;margin-bottom: 30px;padding-bottom: 10px" >
+	<h3>회원로그인</h3> <hr> <br>
 		<div style="background-color: white; margin-left:15%; margin-right:15%;" >
 			<form action="/shop/action/loginAction.jsp" method="post"> 	
-				<input class="form-control form-control-lg" type="text" name="id" placeholder="아이디" style="border: 1px solid">
+				<input class="form-control form-control-lg inputInfo" type="text" name="id" placeholder="아이디" >
 				<div style="heigth:40px">&nbsp;</div>
-				<input class="form-control form-control-lg" type="password" name="pw" placeholder="비밀번호" style="border: 1px solid"> <br>	
+				<input class="form-control form-control-lg inputInfo" type="password" name="pw" placeholder="비밀번호"> <br>	
 			<div style="height:30px">
 				<%	
 					String errMsg = request.getParameter("errMsg");		

@@ -19,7 +19,7 @@
 	if(request.getParameter("currentPage")!=null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	int rowPerPage = 5;
+	int rowPerPage = 10;
 	int startRow = ((currentPage-1)*rowPerPage);	
 	
 	
@@ -93,7 +93,7 @@
 	<div class="in">
 	<h1> 고객 목록 </h1>	
 	<a href="/shop/action/logout.jsp">로그아웃</a>
-	<table style="margin-left: 10px" >
+	<table style="margin-left: 10px; margin-right: 20px; font-size: 14px"  >
 		<tr>
 			<th>이름</th>
 			<th>아이디</th>
@@ -123,7 +123,7 @@
 	
 	<div>
 	<a href="/shop/customer/customerList.jsp" class="btn btn-outline-info">추가</a>
-	<a href="/shop/customer/updateCustomerPassword.jsp" class="btn btn-outline-warning">비밀번호암호화</a>
+	<a href="/shop/action/updateCustomerPassword.jsp" class="btn btn-outline-warning">비밀번호암호화</a>
 	<a href="/shop/customer/customerList.jsp" class="btn btn-outline-info">삭제</a>
 	
 	</div>

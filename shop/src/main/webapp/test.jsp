@@ -19,6 +19,14 @@
 	</style>
 </head>
 <body>
-	<input type="reset">
+	<div style="text-align: center;">
+    <span style="font-size: 30px; font-weight: bold;">Welcome </span>
+    <div id="info" style="display: inline-block; float: right;">
+        <span style="background-color: red;">직원용</span><br>
+        구디님 <br>  
+        <a href="/shop/action/logout.jsp"><span>로그아웃</span></a>		 
+    </div>
+</div>
+
 </body>
 </html>
