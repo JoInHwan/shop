@@ -80,11 +80,8 @@
 	
 	// 3. 결과분기
 	if(row==1){
-		response.sendRedirect("/shop/emp/goods/goodsList.jsp");
+		response.sendRedirect("/shop/goods/goodsList.jsp");
 	}else {
 		
 	}
-	
-	//성공 :
-	//실패 : 
 %>

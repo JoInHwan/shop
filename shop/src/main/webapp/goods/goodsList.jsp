@@ -241,7 +241,7 @@
 <body>
 <div class="row">
  <div class="col-1"></div> 
-  <div class="col-1" style="background-color:#E0E0E0; border:1px solid"><br>
+ <div class="col-1" style="background-color:#E0E0E0; border:1px solid"><br>
   	<div>  	
   	
   	<%
@@ -253,12 +253,12 @@
   		}else if(session.getAttribute("loginCustomer")!=null && session.getAttribute("loginEmp")==null){  //손님로그인이 있다면
   	%>	
   		<%=(String)(loginMember.get("name"))%>님 <br>
-  		<a href="/shop/logout.jsp"><span>로그아웃</span>  	</a>		
+  		<a href="/shop/action/logout.jsp"><span>로그아웃</span></a>		
   	<%
   		}else if(session.getAttribute("loginCustomer")==null && session.getAttribute("loginEmp")!=null){  // 사원로그인이 있다면
   	%>  <span style="background-color: red">직원</span><br>
   	  	<%=(String)(loginMember.get("empName"))%>님 <br>  
- 	  	<a href="/shop/logout.jsp"><span>로그아웃</span>  	</a>		 
+ 	  	<a href="/shop/action/logout.jsp"><span>로그아웃</span>  	</a>		 
   	<%
   		}
   	%>  
@@ -267,10 +267,10 @@
 	<h5>카테고리</h5>
 	<!-- 	서브메뉴  카테고리별 상품리스트	 -->
 		<div>		
-			<a href="/shop/emp/goods/goodsList.jsp">전체</a><br>
+			<a href="/shop/goods/goodsList.jsp">전체</a><br>
 			<%
 				for(HashMap <String, Object>m : categoryList){
-			%>	<a href="/shop/emp/goods/goodsList.jsp?category=<%=(String)(m.get("category"))%>">
+			%>	<a href="/shop/goods/goodsList.jsp?category=<%=(String)(m.get("category"))%>">
 				<%=(String)(m.get("category"))%>(<%=(Integer)(m.get("cnt")) %>) <br>
 				</a>
 			<%
@@ -290,12 +290,12 @@
 		</div> 
 		<%} %>
 		
-		<div class="row">
-		<div class="col"></div>
-		<div class="col-11"><br>
+<div style="margin-left: 30px; margin-right: 30px;" ><br>
+			<div style="text-align:center; padding-left:20%; padding-right: 20%; ">
+				<jsp:include page="/emp/inc/img.jsp"></jsp:include>
+			</div><br>
 
-	<div
-		style="display: flex; justify-content: space-between; align-items: center; width: 100%">
+	<div style="display: flex; justify-content: space-between; align-items: center; width: 100%">
 		<div>
 			<h5>
 			<%
@@ -317,7 +317,7 @@
 	</div>
 	<hr>
 	<div style="display: flex; justify-content: flex-end;">
-		<form id="orderForm" action="/shop/emp/goods/goodsList.jsp"
+		<form id="orderForm" action="/shop/goods/goodsList.jsp"
 			method="GET">
 			<input type="hidden" name="category" value="<%=category%>">
 			<input type="hidden" name="searchWord" value="<%=searchWord%>">
@@ -332,7 +332,7 @@
 			</select>
 		</form>
 		&nbsp;&nbsp;
-		<form id="perPageForm" action="/shop/emp/goods/goodsList.jsp"
+		<form id="perPageForm" action="/shop/goods/goodsList.jsp"
 			method="GET">
 			<input type="hidden" name="category" value="<%=category%>">
 			<input type="hidden" name="searchWord" value="<%=searchWord%>">
@@ -358,13 +358,13 @@
 					<br>
 	<script>
 		function submitOrderForm(value) {
-			document.getElementById("orderForm").action = "/shop/emp/goods/goodsList.jsp?order="
+			document.getElementById("orderForm").action = "/shop/goods/goodsList.jsp?order="
 					+ value;
 			document.getElementById("orderForm").submit();
 		}
 
 		function submitPerPageForm(value) {
-			document.getElementById("perPageForm").action = "/shop/emp/goods/goodsList.jsp?perPage="
+			document.getElementById("perPageForm").action = "/shop/goods/goodsList.jsp?perPage="
 					+ value;
 			document.getElementById("perPageForm").submit();
 		}
@@ -376,7 +376,7 @@
 			for(HashMap<String, Object>b : whole ){
 		%>	
 		
-		 <a class="item-wrapper" href="/shop/emp/goods/goodsOne.jsp?goodsTitle=<%=(String)(b.get("goodsTitle"))%>">	
+		 <a class="item-wrapper" href="/shop/goods/goodsOne.jsp?goodsTitle=<%=(String)(b.get("goodsTitle"))%>">	
 			<div class="item">				
 			<table>
 <!-- 이미지 -->	<tr><th class="goodsBorder itemImg"><img src="/shop/upload/<%=(String)(b.get("filename"))%>" style="width:180px;"></img></th></tr> 
@@ -421,11 +421,11 @@
 			
 			<li class="page-item <%=priviousTab%>">
 				<a class ="page-link" style="color:black;"
-				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=1"> &lt;&lt; </a>
+				href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=1"> &laquo; </a>
 			</li>
 			<li class="page-item <%=priviousTab%>">
 				<a class ="page-link" style="color:black;"
-				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=c*5%>"> &lt; </a>
+				href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=c*5%>"> &lt; </a>
 			</li>	
 			<%			
 				
@@ -439,27 +439,31 @@
 			%>					
 					<li class="page-item">
 						<a class ="page-link test" style="color:black; <%=currentPageItem%>" 
-			href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=c*5+i%>"><%=c*5+i%> </a>
+			href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=c*5+i%>"><%=c*5+i%> </a>
 					</li>							
 			<%		
 				}  
 			%>  
 			<li class="page-item <%=nextTab%>">
 				<a class ="page-link" style="color:black;"
-				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=(c+1)*5+1%>">&gt;</a>
+				href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=(c+1)*5+1%>">&gt;</a>
 			</li>
 			<li class="page-item <%=nextTab%>">
 				<a class ="page-link" style="color:black;"
-				href="/shop/emp/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=lastPage%>">&gt;&gt;</a>
+				href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=lastPage%>">&raquo;</a>
 			</li>						
 			</ul>
 		</nav>			
-	</div>	
-	<div class="col"></div> 
-	</div>
+</div>
 	</div>	
 	<div class="col-1" style="background-color:#"></div>
-	<%System.out.println("----------------------------------------"); %>		
+	<%
+	//자원반납
+	rs0.close(); rs1.close();
+	stmt0.close(); stmt1.close(); 
+	conn.close();
+	System.out.println("----------------------------------------");
+	%>		
 </div>	
 </body>
 </html>

@@ -34,13 +34,13 @@
 	if(rsPaging.next()){
 		totalRow = rsPaging.getInt("count(*)");
 	}
-	//System.out.println(totalRow+ "<-totalRow");	
+	System.out.println(totalRow+ "<-totalRow [categoryList]");	
 	
 	int lastPage = totalRow / rowPerPage; // 전체페이지수
 	if(totalRow%rowPerPage !=0){   // 딱 나눠떨어지지않으면 한페이지가 새로 추가됌
 		lastPage = lastPage+1;		
 	}
-	System.out.println(lastPage+ "<-lastPage");
+	System.out.println(lastPage+ "<-lastPage [categoryList]");
 %>
 
 <%	
@@ -92,7 +92,7 @@
 	</div>
 	<div class="in">
 	<h1> 고객 목록 </h1>	
-	<a href="/shop/logout.jsp">로그아웃</a>
+	<a href="/shop/action/logout.jsp">로그아웃</a>
 	<table style="margin-left: 10px" >
 		<tr>
 			<th>이름</th>
@@ -122,9 +122,9 @@
 	</table>
 	
 	<div>
-	<a href="/shop/emp/customer/customerList.jsp" class="btn btn-outline-info">추가</a>
-	<a href="/shop/emp/customer/updateCustomerPassword.jsp" class="btn btn-outline-warning">비밀번호암호화</a>
-	<a href="/shop/emp/customer/customerList.jsp" class="btn btn-outline-info">삭제</a>
+	<a href="/shop/customer/customerList.jsp" class="btn btn-outline-info">추가</a>
+	<a href="/shop/customer/updateCustomerPassword.jsp" class="btn btn-outline-warning">비밀번호암호화</a>
+	<a href="/shop/customer/customerList.jsp" class="btn btn-outline-info">삭제</a>
 	
 	</div>
 	<nav aria-label="Page navigation example">
@@ -133,29 +133,29 @@
 		if(currentPage > 1) {
 	%>
 		<li class="page-item">
-			<a class ="page-link" href="/shop/emp/customer/customerList.jsp?currentPage=1">처음페이지</a>
+			<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=1">처음페이지</a>
 		</li>
 		<li class="page-item">
-			<a class ="page-link" href="/shop/emp/customer/customerList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
+			<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
 		</li>																
 	<%		
 		} else {
 	%>
 		<li class="page-item disabled">
-			<a class ="page-link" href="/shop/emp/customer/customerList.jsp?currentPage=1">처음페이지</a>
+			<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=1">처음페이지</a>
 		</li>
 		<li class="page-item">
-			<a class ="page-link" href="/shop/emp/customer/customerList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
+			<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
 		</li>
 	<%		
 		}				
 		if(currentPage < lastPage) {
 	%>
 		<li class="page-item">
-			<a class ="page-link" href="/shop/emp/customer/customerList.jsp?currentPage=<%=currentPage+1%>">다음페이지</a>
+			<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=currentPage+1%>">다음페이지</a>
 		</li>
 		<li class="page-item disabled">
-			<a class ="page-link" href="/shop/emp/customer/customerList.jsp?currentPage=<%=lastPage%>">마지막페이지</a>
+			<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=lastPage%>">마지막페이지</a>
 		</li>
 	<%		
 		}
@@ -163,6 +163,7 @@
 	</ul>
 	</nav>
 	</div>
+	<%System.out.println("----------------------------------------");%>
 </div>	
 </body>
 </html>

@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+11<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-	//로그인 인증 분기 : 세션변수 -> loginEmp
-	if(session.getAttribute("loginEmp")!=null){ //로그인이 이미 되어있다면
-		response.sendRedirect("/shop/emp/empList.jsp");
+	//로그인 인증 분기 : 세션변수 -> loginEmp , loginCustomer
+	if(session.getAttribute("loginEmp")!=null || session.getAttribute("loginCustomer")!=null){ //로그인이 이미 되어있다면
+		response.sendRedirect("/shop/goods/goodsList.jsp");
 		return;
-	}
+	}	
 %>
 
 <!DOCTYPE html>
@@ -15,20 +15,17 @@
 	<meta charset="UTF-8">
 	<title>회원로그인</title>
 </head>
-
-<body>
+<body class="container">
 <div class="row">
 	<div class="col"></div>
 	<div class="col-6 content " style="text-align: center; padding-top: 50px">
 	<h2>회원로그인</h2> <hr> <br>
-		<div class="row">
-		<div class="col"></div>
-		<div class="co1-8">
-			<form action="/shop/loginAction.jsp" method="post"> 	
-				<input class="form-control form-control-lg" type="text" name="id" placeholder="아이디">
+		<div style="background-color: white; margin-left:15%; margin-right:15%;" >
+			<form action="/shop/action/loginAction.jsp" method="post"> 	
+				<input class="form-control form-control-lg" type="text" name="id" placeholder="아이디" style="border: 1px solid">
 				<div style="heigth:40px">&nbsp;</div>
-				<input class="form-control form-control-lg" type="password" name="pw" placeholder="비밀번호"> 	<br>	
-			<div  style="height:30px">
+				<input class="form-control form-control-lg" type="password" name="pw" placeholder="비밀번호" style="border: 1px solid"> <br>	
+			<div style="height:30px">
 				<%	
 					String errMsg = request.getParameter("errMsg");		
 					if(errMsg!=null){	// 에러메시지변수가 있다면 (로그인이 OFF상태라면) 출력	
@@ -38,18 +35,18 @@
 					}
 				%>		
 			</div><br>		
-			<button class="form-control form-control-lg btn btn-primary btn-lg" type="submit">로그인</button>			
+				<button class="form-control btn btn-primary btn-lg" type="submit">로그인</button>			
 			</form>	<br>
-			<form action="/shop/emp/customer/signUp.jsp"> 					
-				<button type="submit" class="form-control form-control-lg btn btn btn-outline-dark">회원가입</button>			
-			</form>	
-		</div>
-		<div class="col"></div>			
+			<form action="/shop/customer/signUpForm.jsp"> 					
+				<button type="submit" class="form-control form-control-lg btn btn-lg btn-outline-dark">회원가입</button>			
+			</form>		
 	</div><br>			
 	<a href="/shop/emp/empLoginForm.jsp">직원로그인하러가기 </a> <br>				
-	<a href="/shop/emp/goods/goodsList.jsp">비로그인쇼핑하기</a>				
+	<a href="/shop/goods/goodsList.jsp">비로그인쇼핑하기</a><br><br><br>
+	<span style="font-size: 12px;">made by 조인환 in goodee</span>			
 	</div>
-	<div class="col"></div>		
+	<div class="col"></div>
+	<%System.out.println("----------------------------------------");%>		
 </div>	
 </body>
 </html>

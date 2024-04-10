@@ -14,12 +14,6 @@
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop","root","java1234");
 	
-	// 페이징
-	int currentPage = 1;	
-	if(request.getParameter("currentPage")!=null){
-		currentPage = Integer.parseInt(request.getParameter("currentPage"));
-	}	
-	String category = request.getParameter("category");
 %>
 <%
 	PreparedStatement stmt1 = null;
@@ -33,8 +27,7 @@
 	while (rs1.next()){
 		categoryList.add(rs1.getString("category"));
 		
-	}
-	
+	}	
 	System.out.println(categoryList);	// 이상 전체 카테고리 및 개수
 /* ------------------------------------------------- */
 	
@@ -55,7 +48,7 @@
 	<div class="in">
 	<h1>상품등록</h1>
 	
-	<form action="/shop/emp/goods/addGoodsAction.jsp" enctype="multipart/form-data" method="post">
+	<form action="/shop/action/addGoodsAction.jsp" enctype="multipart/form-data" method="post">
 		카테고리 : 
 		<select name="category">
 			<option value="">선택</option>

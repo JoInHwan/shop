@@ -38,6 +38,6 @@
 	
 	}
 	System.out.println(stmt2);
-	response.sendRedirect("/shop/emp/customer/customerList.jsp");	
+	response.sendRedirect("/shop/customer/customerList.jsp");	
 %>
 

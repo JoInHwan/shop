@@ -3,9 +3,9 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>회원가입</title>
+	<title></title>
 </head>
 <body>
-<h2>회원가입</h2>
+
 </body>
 </html>

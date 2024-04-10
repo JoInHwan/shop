@@ -16,5 +16,5 @@
 		int row= stmt.executeUpdate();
 		System.out.println(row + "<-row");			
 		
-		response.sendRedirect("/shop/emp/category/categoryList.jsp");	
+		response.sendRedirect("/shop/goods/category/categoryList.jsp");	
 %>

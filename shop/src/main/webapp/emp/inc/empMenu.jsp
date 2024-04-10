@@ -23,7 +23,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;" >  <!-- navbar-expand-lg -->
   <div class="container-fluid">  
-   <a class="navbar-brand" href="/shop/emp/goods/goodsList.jsp">Home</a>
+   <a class="navbar-brand" href="/shop/goods/goodsList.jsp">Home</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -34,16 +34,16 @@
           <a class="nav-link active" aria-current="page" href="/shop/emp/empList.jsp">사원관리</a>
         </li>
          <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/shop/emp/customer/customerList.jsp">고객관리</a>
+          <a class="nav-link" aria-current="page" href="/shop/customer/customerList.jsp">고객관리</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/shop/emp/category/categoryList.jsp">카테고리관리</a>
+          <a class="nav-link active" aria-current="page" href="/shop/goods/category/categoryList.jsp">카테고리관리</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" aria-current="page" href="/shop/emp/goods/goodsList.jsp">상품관리</a>
+          <a class="nav-link" aria-current="page" href="/shop/goods/goodsList.jsp">상품관리</a>
         </li>        
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/shop/emp/goods/addGoodsForm.jsp">상품등록</a>	
+          <a class="nav-link active" aria-current="page" href="/shop/goods/addGoodsForm.jsp">상품등록</a>	
         </li> 
         
         <li class="nav-item">

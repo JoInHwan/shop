@@ -3,12 +3,11 @@
 <%@ page import = "java.net.*" %>
 <%@ page import = "java.util.*" %>
 <%
-
-	//로그인 인증 분기 : 세션변수 -> loginEmp
-// 	if(session.getAttribute("loginEmp")!=null){ //로그인이 이미 되어있다면
-// 		response.sendRedirect("/shop/emp/empList.jsp");
-// 		return;
-// 	}
+	//로그인 인증 분기 : 세션변수 -> loginEmp , loginCustomer
+	if(session.getAttribute("loginEmp")!=null || session.getAttribute("loginCustomer")!=null){ //로그인이 이미 되어있다면
+		response.sendRedirect("/shop/goods/goodsList.jsp");
+		return;
+	}	
 %>
 <%
 	Class.forName("org.mariadb.jdbc.Driver");
@@ -36,11 +35,11 @@
 		session.setAttribute("loginCustomer", loginCustomer);
 		
 		HashMap<String, Object> loginmember = (HashMap<String, Object>)(session.getAttribute("loginCustomer"));
-		System.out.println((String)(loginmember.get("id"))); // 로그인 된 empId
+		System.out.println((String)(loginmember.get("id"))); // 로그인 된 id
 		System.out.println((String)(loginmember.get("name"))); // 로그인 된 name
 		
 		
-		response.sendRedirect("/shop/emp/goods/goodsList.jsp");
+		response.sendRedirect("/shop/goods/goodsList.jsp");
 				
 	}else {		// 로그인실패
 		System.out.println("로그인실패");

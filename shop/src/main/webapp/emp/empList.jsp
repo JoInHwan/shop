@@ -34,13 +34,13 @@
 	if(rsPaging.next()){
 		totalRow = rsPaging.getInt("count(*)");
 	}
-	System.out.println(totalRow+ "<-totalRow");	
+	System.out.println(totalRow+ "<-totalRow [empList]");	
 	
 	int lastPage = totalRow / rowPerPage; // 전체페이지수
 	if(totalRow%rowPerPage !=0){   // 딱 나눠떨어지지않으면 한페이지가 새로 추가됌
 		lastPage = lastPage+1;		
 	}
-	System.out.println(lastPage+ "<-lastPage");
+	System.out.println(lastPage+ "<-lastPage [empList]");
 %>
 
 <%	
@@ -90,7 +90,7 @@
 	</div>
 	<div class="in">
 	<h1> 사원 목록 </h1>	
-	<a href="/shop/logout.jsp">로그아웃</a>
+	<a href="/shop/action/logout.jsp">로그아웃</a>
 	<table>
 		<tr>
 			<th>회원ID</th>
@@ -111,8 +111,8 @@
 				<td>
 				<%
 				HashMap<String, Object> sm = (HashMap<String, Object>)(session.getAttribute("loginEmp"));
-				if((Integer)(sm.get("grade")) > 0) {
-				%>	<a href="modifyEmpActive.jsp?empId=<%=(String)(m.get("empId"))%>&active=<%=(String)(m.get("active"))%>"
+				if((Integer)(sm.get("grade")) >= 10) {
+				%>	<a href="/shop/actoin/modifyEmpActive.jsp?empId=<%=(String)(m.get("empId"))%>&active=<%=(String)(m.get("active"))%>"
 					class="disabled">
 					<%=(String)(m.get("active"))%>
 					</a>					
@@ -127,9 +127,9 @@
 	</table>
 	
 	<div>
-	<a href="/diary/updateDiaryForm.jsp>" class="btn btn-outline-info">추가</a>
-	<a href="/diary/updateDiaryForm.jsp>" class="btn btn-outline-info">수정</a>
-	<a href="/diary/deleteDiaryAction.jsp>" class="btn btn-outline-info">삭제</a>
+	<a href="/shop/emp/updateEmpForm.jsp>" class="btn btn-outline-info">추가</a>
+	<a href="/shop/emp/updateEmpForm.jsp>" class="btn btn-outline-info">수정</a>
+	<a href="/shop/action/deleteEmpAction.jsp>" class="btn btn-outline-info">삭제</a>
 	
 	</div>
 	
@@ -169,5 +169,6 @@
 	</div>
 	
 </div>	
+<%System.out.println("----------------------------------------");%>
 </body>
 </html>

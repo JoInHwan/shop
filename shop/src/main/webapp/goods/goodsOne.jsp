@@ -2,14 +2,6 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.net.*" %>
-<%
-	//로그인 인증 분기 : 세션변수 -> loginEmp
-// 	if(session.getAttribute("loginEmp")==null){ //로그인이 이미 되어있다면
-// 		response.sendRedirect("/shop/emp/empLoginForm.jsp");
-// 		return;
-// 	}
-%>
-
 	<%//DB연결
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop","root","java1234");
@@ -61,6 +53,6 @@
 		}
 	%>
 </div>	
-				
+<%System.out.println("----------------------------------------");%>
 </body>
 </html>

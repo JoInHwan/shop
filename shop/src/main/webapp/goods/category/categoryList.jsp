@@ -59,7 +59,7 @@
 	</div>
 	<div class="in">
 	<h1> 카테고리 목록 </h1>	
-	<a href="/shop/logout.jsp">로그아웃</a>
+	<a href="/shop/action/logout.jsp">로그아웃</a>
 	<table border="1">
 		<tr>
 			<th>카테고리이름</th>
@@ -76,10 +76,10 @@
 				<td><%=(String)(m.get("createDate"))%></td>		
 				<td>&nbsp;</td>
 				<%			
-				if((Integer)(m.get("grade")) > 0) {
+				if((Integer)(m.get("grade")) >= 10) {
 				%>
-				<td><a href="/diary/updateDiaryForm.jsp?category=<%=(String)(m.get("category"))%>" class="btn btn-outline-info">수정</a></td>
-				<td><a href="/shop/emp/category/deleteCategoryAction.jsp?category=<%=(String)(m.get("category"))%>" class="btn btn-outline-danger">삭제</a></td>		
+				<td><a href="/shop/goods/category/updateyCategoryForm.jsp?category=<%=(String)(m.get("category"))%>" class="btn btn-outline-info">수정</a></td>
+				<td><a href="/shop/action/deleteCategoryAction.jsp?category=<%=(String)(m.get("category"))%>" class="btn btn-outline-danger">삭제</a></td>		
 				<% 
 				}
 				%>
@@ -94,5 +94,6 @@
 	</div>
 	</div>
 </div>
+<%System.out.println("----------------------------------------");%>
 </body>
 </html>
