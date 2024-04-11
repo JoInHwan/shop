@@ -425,32 +425,35 @@
 				}
 				%>
 
-				<li class="page-item <%=priviousTab%>"><a class="page-link"	style="color: black;"
-					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=1">	&laquo; </a></li>
-				<li class="page-item <%=priviousTab%>"><a class="page-link"	style="color: black;"
-					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=c*5%>">&lt; </a></li>
+				<li class="page-item <%=priviousTab%>"><a class="page-link"	style="color: black;  "
+					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=1">First</a></li>
+				<li class="page-item <%=priviousTab%>"><a class="page-link"	style="color: black; margin-right: 1px;"
+					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=c*5%>">Back</a></li>
 				<%
 				// 현재 페이지에 따라 (1,2,3,4,5)or (6,7,8,9,10) 로 페이지를 넘길 수 있도록 출력
+				int temp = pagingGroup;
 				for (int i = 1; i <= pagingGroup; i++) {
 					String currentPageItem = null; // 페이징그룹에서 현재페이지만 파란글씨에 테루리가 보이게 하는 알고리즘
-					if (currentPage % pagingGroup == i || (currentPage % pagingGroup == 0 && i == pagingGroup)) {
-						// 현재페이지를 페이징 그룹으로 나눈 나머지가 i 일때와 딱 나눠떨어질때 
-						currentPageItem = "font-weight: bold; color:blue; border:solid 1px ; margin:1px ";
+					if (currentPage % 5 == i || (currentPage % 5 == 0 && i == 5)) {
+						// 현재페이지를 5로 나눈 나머지가 i 일때와 딱 나눠떨어질때 
+						
+						System.out.println(pagingGroup + "<-페이징그룹");
+						currentPageItem = " font-weight: bold; color:blue; border:solid 1px;  ";
 					}
 				%>
-				<li class="page-item"><a class="page-link "	style="color:black; <%=currentPageItem%>"
+				<li class="page-item" style="margin:1px; "><a class="page-link "	style="color:black; <%=currentPageItem %>"
 					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=c * 5 + i%>"><%=c * 5 + i%>
-				</a></li>
+					</a></li>
 				<%
 				}
 				%>
-				<li class="page-item <%=nextTab%>"><a class="page-link"	style="color: black;"
-					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=(c + 1) * 5 + 1%>">&gt;</a>
+				<li class="page-item <%=nextTab%>"><a class="page-link"	style="color: black;margin-left: 1px;"
+					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=(c + 1) * 5 + 1%>">Next</a>
 				</li>
-				<li class="page-item <%=nextTab%>"><a class="page-link"	style="color: black;"
-					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=lastPage%>">&raquo;</a>
+				<li class="page-item <%=nextTab%>"><a class="page-link"	style="color: black; "
+					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=lastPage%>">Last</a>
 				</li>
-			</ul>
+			</ul>  <!--   	&laquo;   &raquo;-->
 		</nav>
 	</div>
 	<div class="col-1" style="background-color:#"></div>

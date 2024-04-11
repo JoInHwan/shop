@@ -2,7 +2,13 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.net.*" %>
 <%@ page import = "java.util.*" %>
-
+<%
+	//로그인 인증 분기 : 세션변수 -> loginEmp , loginCustomer
+	if(session.getAttribute("loginEmp")!=null || session.getAttribute("loginCustomer")!=null){ //로그인이 이미 되어있다면
+		response.sendRedirect("/shop/goods/goodsList.jsp");
+		return;
+	}	
+%>
 <%
 	//1. 요청값분석
 	String id = request.getParameter("id");
@@ -32,13 +38,14 @@
 	if(rsCheck.next()){  // 이미 아이디가 존재할때
 		System.out.println("아이디 중복");
 		String errMsg =  URLEncoder.encode("이미 존재하는 아이디입니다.","utf-8");		
-		response.sendRedirect("/shop/customer/signUpForm.jsp?errMsg="+errMsg); 				
+		response.sendRedirect("/shop/customer/signUpForm.jsp?idValue="+id+"&pwValue="+pw+"&pw2Value="+pwConfirm+"&nameValue="+name+"&errMsg="+errMsg); 				
 	}else{	// 3. pw와 pwconfirm이 서로 일치하는지 확인
 		rsCheck.beforeFirst();
 		if(!pw.equals(pwConfirm)){  // 비밀번호와 비밀번호재입력 값이 다르면다시 회원가입 페이지로 넘어감
 			System.out.println("비밀번호 불일치");
-			String errMsg2 =  URLEncoder.encode("아이디와 비밀번호가 잘못되었습니다","utf-8");		
-			response.sendRedirect("/shop/customer/signUpForm.jsp?errMsg2="+errMsg2); 
+			String errMsg2 =  URLEncoder.encode("비밀번호가 일치하지 않습니다.","utf-8");		
+			response.sendRedirect("/shop/customer/signUpForm.jsp?idValue="+id+"&pwValue="+pw+"&pw2Value="+pwConfirm+"&nameValue="+name+"&errMsg2="+errMsg2); 
+			
 		}else{	// 4. customer Table에 입력받은값 추가
 			String sql = "insert into customer(id, originPw, pw, name, birth, gender, update_date, create_date) VALUES(?,?,PASSWORD(?), ?, ?, ?, now(), now())";
 			PreparedStatement stmt = null;				

@@ -6,7 +6,22 @@
 		return;
 	}
 %>
-
+<%
+	String idValue="";
+	String pwValue="";
+	String errMsg="";
+	
+	if(request.getParameter("idValue")!=null){
+		System.out.println("a");
+		idValue = request.getParameter("idValue");
+	}
+	if(request.getParameter("pwValue")!=null){
+		pwValue = request.getParameter("pwValue");
+	}
+	if(request.getParameter("errMsg")!=null){	 /*에러메시지변수가 있다면 (로그인이 OFF상태라면) 출력*/	
+		errMsg = request.getParameter("errMsg");
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,22 +40,15 @@
 <body class="container bg">
 <div class="row">
 	<div class="col"></div>
-	<div class="col-6 content " style="text-align: center; padding-top: 50px; margin-bottom: 30px; padding-bottom: 10px">
+	<div class="col-6 content shadow" style="text-align: center; border-radius:20px; padding:20px 0px; margin:30px 0px;  ">
 	<h3>직원로그인</h3><hr> <br>
 		<div style="background-color: white; margin-left:15%; margin-right:15%;" >
 			<form action="/shop/action/empLoginAction.jsp" method="post"> 
-				<input class="form-control form-control-lg inputInfo" type="text" name="empId" placeholder="admin">
+				<input class="form-control form-control-lg inputInfo" type="text" name="empId" value="<%=idValue%>" placeholder="admin">
 				<div style="heigth:20px">&nbsp;</div>
-				<input class="form-control form-control-lg inputInfo" type="text" name="empPw" placeholder="1234" > <br>
-	<div style="height:30px">			
-		<%	
-			String errMsg = request.getParameter("errMsg");		
-			if(errMsg!=null){	// 에러메시지변수가 있다면 (로그인이 OFF상태라면) 출력	
-		%>
-			<a style="color:red;"href="/shop/emp/empLoginForm.jsp"><%=errMsg %>	</a>		
-		<%
-			}
-		%>		
+				<input class="form-control form-control-lg inputInfo" type="text" name="empPw" value="<%=pwValue%>" placeholder="1234" > <br>
+	<div style="height:30px">	
+		<a style="color:red;"href="/shop/emp/empLoginForm.jsp"><%=errMsg %>	</a>			
 	</div><br>				
 		<button class="form-control btn btn-primary btn-lg" type="submit">로그인</button>			
 	</form>	<br>

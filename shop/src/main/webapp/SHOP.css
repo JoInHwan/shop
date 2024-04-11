@@ -2,7 +2,9 @@
 
 	.bg{
 	 	background-size: 100%;
-		background-color: #E0E0E0;
+		background-color: #D3D3D3;
+/* 		background-image: url(/shop/bg2.png); */
+		background-attachment: fixed;
 	}
 	.in{
 	 padding-left: 20px;
@@ -20,4 +22,10 @@
 		border: 1px solid;
 		border-color: #F4A460;
 	}
+	
+	.findPageInput{
+		border: 1px solid;
+		border-color: #778899;
+	}
+	
 	

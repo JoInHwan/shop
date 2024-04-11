@@ -2,6 +2,40 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.net.*" %>
+<%
+	//로그인 인증 분기 : 세션변수 -> loginEmp , loginCustomer
+	if(session.getAttribute("loginEmp")!=null || session.getAttribute("loginCustomer")!=null){ //로그인이 이미 되어있다면
+		response.sendRedirect("/shop/goods/goodsList.jsp");
+		return;
+	}	
+%>
+<%
+	String idValue="";
+	String pwValue="";
+	String errMsg="";
+	String errMsg2="";
+	String pw2Value="";
+	String nameValue="";	
+	
+	if(request.getParameter("idValue")!=null){		/*기입한 아이디 유지*/
+		idValue = request.getParameter("idValue");
+	}
+	if(request.getParameter("pwValue")!=null){		/*기입한 비밀번호 유지*/
+		pwValue = request.getParameter("pwValue");
+	}
+	if(request.getParameter("pw2Value")!=null){		/*기입한 비밀번호재확인 유지*/
+		pw2Value = request.getParameter("pw2Value");
+	}
+	if(request.getParameter("nameValue")!=null){		/*기입한 이름 유지*/
+		nameValue = request.getParameter("nameValue");
+	}		
+	if(request.getParameter("errMsg")!=null){	 /*이미존재하는 아이디입니다 문자 출력*/	
+		errMsg = request.getParameter("errMsg");
+	}
+	if(request.getParameter("errMsg2")!=null){	 /*비밀번호가 일치하지 않습니다 문자 출력*/
+		errMsg2 = request.getParameter("errMsg2");
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,10 +51,12 @@
 
  	/* 선택되지 않은 라디오 버튼의 테두리 색상을 회색으로 설정 */ 
      label.btn { 
-         border-color: #C0C0C0; 
+        border: 2px solid #C0C0C0;
+        
      } 
 	#male:hover + label.btn {
-        border-color: blue; /* 남자 버튼 마우스 올릴시 파란색 테두리 */                
+        border-color: blue; /* 남자 버튼 마우스 올릴시 파란색 테두리 */  
+                   
     }
     #female:hover + label.btn {
         border-color: #FF1493; /* 여자 버튼 마우스 올릴시 빨간 테두리 */                
@@ -44,43 +80,35 @@
 
 	</style>
 </head>
-<body class="container">
+<body class="container bg">
 <div class="row">
 	<div class="col"></div>
-	<div class="col-4 content " style="text-align: centers; padding-top: 10px">
+	<div class="col-6 content shadow" style="text-align:centers; padding: 20px 50px; border-radius: 20px; margin:30px 0px">
 	<h2 style="text-align: center;">회원가입</h2><hr><br>	
 	<form class="row g-3" action="/shop/action/signUpAction.jsp" enctype="multipart/form-data" method="post">	
 		<div class="col-sm-12" style="height:70px;">
 			아이디:
-			<input type="text" name="id" class="form-control form-control-lg inputInfo">
-			<%	String errMsg = request.getParameter("errMsg");		
-				if(errMsg!=null){	// 에러메시지변수가 있다면 (로그인이 OFF상태라면) 출력	
-			%>
-			<span style="font-size: 11px;"><a style="color:red" href="/shop/customer/signUpForm.jsp"><%=errMsg%></a></span>
-			<%	}	%>		
+			<input type="text" name="id" class="form-control form-control-lg inputInfo" value="<%=idValue%>" >			
+			<span style="font-size: 11px;"><a style="color:red" href="/shop/customer/signUpForm.jsp"><%=errMsg%></a></span>				
 		</div>		
 		<div class="col-sm-12">
 			비밀번호: 
-			<input type="password" name="pw" class="form-control form-control-lg inputInfo" aria-describedby="passwordHelpInline">
+			<input type="password" name="pw" class="form-control form-control-lg inputInfo" value="<%=pwValue%>" aria-describedby="passwordHelpInline">
 		</div>
 		<div class="col-sm-12" style="height:60px;">
 			비밀번호 재확인:
-			<input type="password" name="pwConfirm" class="form-control form-control-lg inputInfo">
-			<%	String errMsg2 = request.getParameter("errMsg2");		
-				if(errMsg2!=null){	// 에러메시지변수가 있다면 (로그인이 OFF상태라면) 출력	
-			%>
-			<span style="font-size: 11px;"><a style="color:red" href="/shop/customer/signUpForm.jsp"><%=errMsg2%></a></span>
-			<%	}	%>	
+			<input type="password" name="pwConfirm" class="form-control form-control-lg inputInfo" value="<%=pw2Value%>">			
+			<span style="font-size: 11px;"><a style="color:red" href="/shop/customer/signUpForm.jsp"><%=errMsg2%></a></span>			
 		</div>
 		<div>		
 		</div>
 		<div class="col-sm-12">
 			이름:
-			<input type="text" name="name" class="form-control form-control-lg inputInfo">
+			<input type="text" name="name" class="form-control form-control-lg inputInfo" value="<%=nameValue%>">
 		</div>
 		<div class="col-sm-12">
 			생년월일:
-			<input type="date" name="birth" class="form-control form-control-lg inputInfo">
+			<input type="date" name="birth" class="form-control form-control-lg inputInfo" >
 		</div>
 		<div class="col-sm-12">	 
 			성별: <br>
@@ -90,8 +118,8 @@
 			<label class="btn" for="female" style="width:49%">여자</label> 
 		</div>	
 		
-		 <div>
-		 <input type="reset" >
+		 <div align="center">
+		 <a class="btn btn-secondary" href="/shop/customer/signUpForm.jsp">초기화</a>
 		 </div>
 		 <br>
 		 <br><br>
