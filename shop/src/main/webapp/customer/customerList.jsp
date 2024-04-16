@@ -2,6 +2,7 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.net.*" %>
+<%@ page import = "shop.dao.CustomerDAO" %>
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp
 	if(session.getAttribute("loginEmp")==null){ //로그인이 이미 되어있다면
@@ -21,54 +22,23 @@
 	}
 	int rowPerPage = 10;
 	int startRow = ((currentPage-1)*rowPerPage);	
-	
-	
-	//totalRow를 구하는 sql
-	String sqlPaging = "select count(*) from customer";
-	PreparedStatement stmtPaging = null;
-	ResultSet rsPaging = null;
-	stmtPaging = conn.prepareStatement(sqlPaging);
-	rsPaging = stmtPaging.executeQuery();
 	int totalRow = 0;
 	
-	if(rsPaging.next()){
-		totalRow = rsPaging.getInt("count(*)");
-	}
-	System.out.println(totalRow+ "<-totalRow [categoryList]");	
 	
+%>
+
+<%	ArrayList<HashMap<String, Object>> customerList = CustomerDAO.getCustomerList(startRow,rowPerPage);
+	for(HashMap<String, Object>m : customerList){
+		totalRow = (int)(m.get("cnt"));
+		break;
+	}
+	
+	System.out.println(totalRow+ "<-totalRow [categoryList]");
 	int lastPage = totalRow / rowPerPage; // 전체페이지수
 	if(totalRow%rowPerPage !=0){   // 딱 나눠떨어지지않으면 한페이지가 새로 추가됌
 		lastPage = lastPage+1;		
 	}
 	System.out.println(lastPage+ "<-lastPage [categoryList]");
-%>
-
-<%	
-	// 특수한 형태의 데이터(RDBMS:mariaDB)
-	// -> API사용 (JDBC API)하여 자료구조 (ResultSet)취득
-	// -> 일반화된 자료구조 (ArrayList<HashMap>로 변경 -> 모델 취득	
-	PreparedStatement stmt = null;
-	ResultSet rs = null;
-	
-	String sql = "select * from customer limit ?,?";
-	stmt = conn.prepareStatement(sql);
-	stmt.setInt(1,startRow);
-	stmt.setInt(2,rowPerPage);
-	rs = stmt.executeQuery(); // JDBC API 종속된 자료구조 모델 ResultSet -> 기본API 자료구조(ArrayList)로 변경	
-
-	// ResultSet 변경-> ArrayList<HashMap<String, Object>>
-	ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-	while(rs.next()){
-		HashMap<String, Object> m = new HashMap<String, Object>();
-		m.put("id",rs.getString("id"));
-		m.put("name",rs.getString("name"));
-		m.put("birth",rs.getString("birth"));
-		m.put("gender",rs.getString("gender"));
-		m.put("create_date",rs.getString("create_date"));
-		m.put("update_date",rs.getString("update_date"));
-		m.put("pw",rs.getString("pw"));
-		list.add(m);
-	}// JDBC API 사용이 끝났으므로 DB자원 반납 가능	
 %>
 <!-- View Layer -->
 <!DOCTYPE html>
@@ -90,9 +60,11 @@
 	<div>
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
-	<div class="in">
-	<h1> 고객 목록 </h1>	
-	<a href="/shop/action/logout.jsp">로그아웃</a>
+	<div class="in" style="text-align: center">
+	<div style="height:10px" ></div>
+	<div style="display: inline-block;"> 
+	<h2> 고객 목록 </h2><hr>
+	
 	<table style="margin-left: 10px; margin-right: 20px; font-size: 14px"  >
 		<tr>
 			<th>이름</th>
@@ -105,7 +77,7 @@
 		</tr>
 	
 		<%
-			for(HashMap<String, Object>m : list){
+			for(HashMap<String, Object>m : customerList){
 		%>
 			<tr style=border:solid >
 				<td><%=(String)(m.get("id"))%></td>
@@ -120,47 +92,46 @@
 			}
 		%>			
 	</table>
-	
-	<div>
-	<a href="/shop/customer/customerList.jsp" class="btn btn-outline-info">추가</a>
-	<a href="/shop/action/updateCustomerPassword.jsp" class="btn btn-outline-warning">비밀번호암호화</a>
-	<a href="/shop/customer/customerList.jsp" class="btn btn-outline-info">삭제</a>
-	
-	</div>
+		<div>
+			<a href="/shop/customer/customerList.jsp" class="btn btn-outline-info">추가</a>
+			<a href="/shop/action/updateCustomerPassword.jsp" class="btn btn-outline-warning">비밀번호암호화</a>
+			<a href="/shop/customer/customerList.jsp" class="btn btn-outline-info">삭제</a>
+		</div>
+	</div>	
 	<nav aria-label="Page navigation example">
-	<ul class="pagination justify-content-center">
-	<%
-		if(currentPage > 1) {
-	%>
-		<li class="page-item">
-			<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=1">처음페이지</a>
-		</li>
-		<li class="page-item">
-			<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
-		</li>																
-	<%		
-		} else {
-	%>
-		<li class="page-item disabled">
-			<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=1">처음페이지</a>
-		</li>
-		<li class="page-item">
-			<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
-		</li>
-	<%		
-		}				
-		if(currentPage < lastPage) {
-	%>
-		<li class="page-item">
-			<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=currentPage+1%>">다음페이지</a>
-		</li>
-		<li class="page-item disabled">
-			<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=lastPage%>">마지막페이지</a>
-		</li>
-	<%		
-		}
-	%>
-	</ul>
+		<ul class="pagination justify-content-center">
+		<%
+			if(currentPage > 1) {
+		%>
+			<li class="page-item">
+				<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=1">처음페이지</a>
+			</li>
+			<li class="page-item">
+				<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
+			</li>																
+		<%		
+			} else {
+		%>
+			<li class="page-item disabled">
+				<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=1">처음페이지</a>
+			</li>
+			<li class="page-item">
+				<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
+			</li>
+		<%		
+			}				
+			if(currentPage < lastPage) {
+		%>
+			<li class="page-item">
+				<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=currentPage+1%>">다음페이지</a>
+			</li>
+			<li class="page-item disabled">
+				<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=lastPage%>">마지막페이지</a>
+			</li>
+		<%		
+			}
+		%>
+		</ul>
 	</nav>
 	</div>
 	<%System.out.println("----------------------------------------");%>

@@ -3,6 +3,7 @@
 <%@ page import = "java.net.*" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "shop.dao.CustomerDAO" %>
+
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp , loginCustomer
 	if(session.getAttribute("loginEmp")!=null || session.getAttribute("loginCustomer")!=null){ //로그인이 이미 되어있다면

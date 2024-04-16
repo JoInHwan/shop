@@ -224,7 +224,8 @@
 		<div>
 			<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 		</div> 
-		<%} %><br>
+		<%} %>
+		<div style="height:10px" ></div>
 		<div>
 			<jsp:include page="/emp/inc/categoryBar.jsp"></jsp:include>
 		</div> 

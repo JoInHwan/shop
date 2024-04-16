@@ -26,7 +26,8 @@ public class GoodsDAO {
 			categoryMap.put("cnt",rs1.getInt("cnt"));
 			categoryList.add(categoryMap);
 		}
-			
+		rs1.close();
+	    stmt1.close();	
 		conn1.close();		
 	    return categoryList;
 	}
@@ -96,14 +97,48 @@ public class GoodsDAO {
 	        goodsList.add(goods);
 	    }
 	   
-	   try {
-		   if (rs != null) {rs.close();}
-		   if (stmt != null) {stmt.close();}
-		   if (conn != null) {conn.close();}
-	   } catch (Exception e) {
-		   e.printStackTrace();
-	   }
-	    
+//	   try {
+//		   if (rs != null) {rs.close();}
+//		   if (stmt != null) {stmt.close();}
+//		   if (conn != null) {conn.close();}
+//	   } catch (Exception e) {	   e.printStackTrace();	   }
+	   
+	   rs.close();
+	    stmt.close();
+	    conn.close();
 	    return goodsList;
 	}
+	// -----------------------------------------------------------------------------------------------
+	public static ArrayList<HashMap<String, Object>> getGoodsOne(String title) 
+	throws Exception {
+	    ArrayList<HashMap<String, Object>> getGoodsOne = new ArrayList<HashMap<String,Object>>();
+	    Connection conn = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;	    	    
+	    conn = DBHelper	.getConnection();
+	    String sql = "select * from goods where goods_title = ?";
+	    stmt = conn.prepareStatement(sql);
+	    stmt.setString(1,title);
+	    rs = stmt.executeQuery();
+	    while (rs.next()) {
+	        HashMap<String, Object> GoodsOne = new HashMap<>();
+	        GoodsOne.put("goodsTitle", rs.getString("goods_title"));
+	        GoodsOne.put("category", rs.getString("category"));   
+	        GoodsOne.put("filename", rs.getString("filename"));
+	        GoodsOne.put("goods_price", rs.getString("goods_price"));
+	        GoodsOne.put("goods_amount", rs.getString("goods_amount"));
+	        GoodsOne.put("goods_content", rs.getString("goods_content"));
+	        getGoodsOne.add(GoodsOne);
+	    }
+	     
+	    rs.close();
+	    stmt.close();
+	    conn.close();
+	    return getGoodsOne;
+	}
+	
+	
+	
+	
+	
 }

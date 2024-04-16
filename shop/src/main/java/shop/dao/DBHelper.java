@@ -14,12 +14,15 @@ public class DBHelper {
 		FileReader fr = new FileReader("C:\\Users\\SAMSUNG\\Desktop\\EclipseFile\\eclipse\\auth\\mariadb.properties");
 		Properties prop = new Properties();
 		prop.load(fr);
-		System.out.println(prop.getProperty("id"));
-		System.out.println(prop.getProperty("pw"));
+		//System.out.println(prop.getProperty("id"));
+		//System.out.println(prop.getProperty("pw"));
 		String id = (prop.getProperty("id"));
 		String pw =	(prop.getProperty("pw"));
 		
 		Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop",id,pw);
+		
+		fr.close();
 		return conn;
+		 
 	}
 }

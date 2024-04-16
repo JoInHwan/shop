@@ -4,7 +4,7 @@ import java.util.*;
 import java.sql.*;
 
 
-public class CustomerDAO {
+public class CustomerDAO { // signUpForm
 	
 	public static boolean checkDuplicateID(String id) throws Exception {
         boolean isDuplicate = false;        
@@ -24,6 +24,8 @@ public class CustomerDAO {
 			System.out.println("아이디 중복");
 			isDuplicate = true;
 		}
+		
+	 conn.close();	
 	 return isDuplicate;
 	}
 	
@@ -46,7 +48,9 @@ public class CustomerDAO {
 	
 		if(row==1) {
 		isSuccess = true;			
-		}
+		}	
+    stmt.close();
+    conn.close();	
 	 return isSuccess;	
 	}
 		
@@ -55,7 +59,7 @@ public class CustomerDAO {
 	// String empId,empPw : 로그인 폼에서 사용자가 입력한 id/pw
 	
 	// 호출 코드 HashMap<String, Object> m = EmpDAO.empLogin("admin","1234");
-	public static HashMap<String, Object> login(String id,String pw)
+	public static HashMap<String, Object> login(String id,String pw) // loginForm
 														throws Exception{												
 		HashMap<String, Object> resultMap = null;
 		
@@ -81,7 +85,49 @@ public class CustomerDAO {
 		}else {
 			System.out.println("쿼리실패");
 		}
-		conn.close();
+		rs.close();
+		stmt.close();
+	    conn.close();
 		return resultMap;		
 	}	
+	
+	public static ArrayList<HashMap<String, Object>> getCustomerList(int startRow,int rowPerPage ) 
+			throws Exception { // customerList.jsp
+	// 특수한 형태의 데이터(RDBMS:mariaDB)
+	// -> API사용 (JDBC API)하여 자료구조 (ResultSet)취득
+	// -> 일반화된 자료구조 (ArrayList<HashMap>로 변경 -> 모델 취득				
+	ArrayList<HashMap<String, Object>> customerList = new ArrayList<HashMap<String,Object>>();
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;	    	    
+    
+    conn = DBHelper	.getConnection();
+    String sql = "select *,(select count(*) from customer)AS cnt from customer limit ?,?";
+    
+	stmt = conn.prepareStatement(sql);	
+	stmt.setInt(1,startRow);
+	stmt.setInt(2,rowPerPage);
+	System.out.println(stmt);
+	rs = stmt.executeQuery();// JDBC API 종속된 자료구조 모델 ResultSet -> 기본API 자료구조(ArrayList)로 변경
+	
+	// ResultSet 변경-> ArrayList<HashMap<String, Object>>
+    while (rs.next()) {
+        HashMap<String, Object> customerMap = new HashMap<>();
+        customerMap.put("id",rs.getString("id"));
+        customerMap.put("name",rs.getString("name"));
+		customerMap.put("birth",rs.getString("birth"));
+		customerMap.put("gender",rs.getString("gender"));
+		customerMap.put("create_date",rs.getString("create_date"));
+		customerMap.put("update_date",rs.getString("update_date"));
+		customerMap.put("pw",rs.getString("pw"));
+        customerMap.put("cnt",rs.getInt("cnt"));
+        customerList.add(customerMap);
+    }
+    // JDBC API 사용이 끝났으므로 DB자원 반납 가능	
+    rs.close();
+    stmt.close();
+    conn.close();
+	return customerList;
+	}
+	
 }

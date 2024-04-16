@@ -23,7 +23,7 @@
 	<title>홈 화면</title>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;" >  <!-- navbar-expand-lg -->
+	<nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd; padding-left: 15%; height:40px " >  <!-- navbar-expand-lg -->
   <div class="container-fluid">  
    <a class="navbar-brand" href="/shop/goods/goodsList.jsp">Home</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,10 +50,15 @@
         
         <li class="nav-item">
           <a class="nav-link" href="/shop/emp/empOne.jsp"> '<%=(String)(loginMember.get("empName"))%>'님 반갑습니다</a>
-        </li>                 
+        </li>  
         <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true" style="font-size:12px;">&nbsp;&nbsp; 임시바</a>
-        </li>
+          <a class="nav-link active" aria-current="page"  style="font-size:12px;" href="/shop/action/logout.jsp">로그아웃</a>	
+        </li> 
+        
+                       
+<!--         <li class="nav-item"> -->
+<!--           <a class="nav-link disabled" aria-disabled="true" style="font-size:12px;">&nbsp;&nbsp; 임시바</a> -->
+<!--         </li> -->
        </ul>
       
     </div>

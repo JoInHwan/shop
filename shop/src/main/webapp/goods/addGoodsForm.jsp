@@ -2,6 +2,7 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.net.*" %>
+<%@ page import = "shop.dao.CategoryDAO" %>
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp
 	if(session.getAttribute("loginEmp")==null){ //로그인이 이미 되어있다면
@@ -10,27 +11,7 @@
 	}
 %>
 <%
-	//DB연결
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop","root","java1234");
-	
-%>
-<%
-	PreparedStatement stmt1 = null;
-	ResultSet rs1 = null;
-	
-	String sql1 = "select category from category";
-	stmt1 = conn.prepareStatement(sql1);
-	rs1 = stmt1.executeQuery(); // JDBC API 종속된 자료구조 모델 ResultSet -> 기본API 자료구조(ArrayList)로 변경	
-	ArrayList<String> categoryList = new ArrayList<String>();
-	
-	while (rs1.next()){
-		categoryList.add(rs1.getString("category"));
-		
-	}	
-	System.out.println(categoryList);	// 이상 전체 카테고리 및 개수
-/* ------------------------------------------------- */
-	
+	ArrayList<HashMap<String, Object>> categoryList = CategoryDAO.getCategoryList();
 %>
 <!DOCTYPE html>
 <html>
@@ -45,37 +26,39 @@
 	<div>
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
-	<div class="in">
-	<h1>상품등록</h1>
-	
-	<form action="/shop/action/addGoodsAction.jsp" enctype="multipart/form-data" method="post">
-		카테고리 : 
-		<select name="category">
-			<option value="">선택</option>
-			<%
-				for(String c : categoryList){
-			%>
-				<option value="<%=c%>"><%=c%></option>
-			<%
-				}
-			%>
-		</select>	
-		상품이름:
-		<input type="text" name="goodsTitle"> <br>
-		
-		상품사진:
-		<input type="file" name="goodsImg"> <br>
-	
-		상품가격:
-		<input type="text" name="goodsPrice"> 
-	
-		재고:
-		<input type="text" name="goodsAmount"> <br>
-	
-		제품설명 :
-		<textarea rows="5" cols="50" name="content"></textarea> <br>
-		<button type="submit">제품등록</button>
-	</form>
+	<div class="in" style="text-align: center">
+		<div style="height:10px" ></div>
+		<h2>상품등록</h2><hr>
+		<div style="display: inline-block;"> 
+			<form action="/shop/action/addGoodsAction.jsp" enctype="multipart/form-data" method="post">
+				카테고리 : 
+				<select name="category">
+					<option value="">선택</option>
+					<%
+						for(HashMap<String, Object> c : categoryList){
+					%>
+						<option value="<%=(String)(c.get("category"))%>"><%=(String)(c.get("category"))%></option>
+					<%
+						}
+					%>
+				</select>	
+				상품이름:
+				<input type="text" name="goodsTitle"> <br>
+				
+				상품사진:
+				<input type="file" name="goodsImg"> <br>
+			
+				상품가격:
+				<input type="text" name="goodsPrice"> 
+			
+				재고:
+				<input type="text" name="goodsAmount"> <br>
+			
+				제품설명 :
+				<textarea rows="5" cols="50" name="content"></textarea> <br>
+				<button type="submit">제품등록</button>
+			</form>
+		</div>
 	</div>
 </div>	
 </body>

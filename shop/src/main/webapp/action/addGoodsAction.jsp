@@ -12,10 +12,6 @@
 %>
 
 <%
-	HashMap<String, Object> loginMember = (HashMap<String, Object>)(session.getAttribute("loginEmp"));
-%>
-
-<%
 //1. 요청분석
 	String category = request.getParameter("category");
 // 	String empId = request.getParameter("empId");
