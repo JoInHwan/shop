@@ -11,16 +11,12 @@
 %>
 <%
 	
-	String errPwMsg = "";
 	String errMsg2 = "";
 	String cPwValue = "";	
 	String cPwValue2 = "";	
 	
-	if(request.getParameter("errPwMsg")!=null){	
-		errPwMsg = request.getParameter("errPwMsg");
-	}
 	
-		if(request.getParameter("cPwValue")!=null){		/*기입한 비밀번호재확인 유지*/
+	if(request.getParameter("cPwValue")!=null){		/*기입한 비밀번호재확인 유지*/
 		cPwValue2 = request.getParameter("cPwValue");
 	}	
 	if(request.getParameter("cPwValue2")!=null){		/*기입한 비밀번호재확인 유지*/
@@ -60,8 +56,7 @@
 		System.out.println("해당 아이디가 없습니다");
 		String errMsg =  URLEncoder.encode("해당 아이디가 없습니다.","utf-8");		
 		a = 1;
-		response.sendRedirect("/shop/customer/checkIdForm.jsp?errMsg="+errMsg); 
-		//nameValue="+name+"&idValue="+id+"&birthValue="+birth+"&
+		response.sendRedirect("/shop/customer/checkIdForm.jsp?nameValue="+name+"&idValue="+id+"&errMsg="+errMsg); 
 	}	
 	
 

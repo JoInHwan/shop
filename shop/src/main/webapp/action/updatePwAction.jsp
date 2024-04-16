@@ -38,75 +38,40 @@
 		
 	String errPwMsg =  URLEncoder.encode("비밀번호가 틀렸습니다.","utf-8");		
 	
-	
-	int a = 0; // 비밀번호는 맞고 새로운 비밀번호와 재확인이 다를떼
-	int b = 0; // 비밀번호가 맞고 새로운 비밀번호와 재확인이 같을때
-	int c=0; // 비밀번호가 틀릴때
+	name = URLEncoder.encode(name,"utf-8");		
+	id = URLEncoder.encode(id,"utf-8");		
+	pw = URLEncoder.encode(pw,"utf-8");		
+	pwConfirm = URLEncoder.encode(pwConfirm,"utf-8");	
 	String errMsg2 = null;
+	
 	if(rsCheck.next()){  // 해당 아이디와 비밀번호가 존재할때		
 		if(changePw.equals(pwConfirm)){  // 두 비밀번호가 같으면
 		
 		System.out.println("검색결과있음");
 		// 비밀번호 변경 쿼리문
 		PreparedStatement stmt = null; 
-		String sql = "update customer set originPw = ? where originPw = ?" ;
+		String sql = "update customer set pw = password(?) where id = ? and pw = password(?)" ;
 		stmt = conn.prepareStatement(sql); 
 		stmt.setString(1,changePw);
-		stmt.setString(2,pw);			
+		stmt.setString(2,id);
+		stmt.setString(3,pw);			
 		System.out.println(stmt + "<-stmt");
 		
 		int row = 0;
-		
 		row = stmt.executeUpdate();
 		
 		System.out.println(row+"<-row");		
 			if(row==1){							
-				b=1;				
+			response.sendRedirect("/shop/loginForm.jsp");				
 			}		
 		}else{
-				// errMsg2 =  URLEncoder.encode("비밀번호가 일치하지 않습니다.","utf-8");		
-				//response.sendRedirect("/shop/customer/updatePwForm.jsp?name=구디고객&id=qwer&pwValue="+changePw+"&pw2Value="+pwConfirm+"&errMsg2="+errMsg2); 
-				a = 1;			
+			errMsg2 =  URLEncoder.encode("비밀번호가 일치하지 않습니다.","utf-8");						
+			response.sendRedirect("/shop/customer/updatePwForm.jsp?name="+name+"&id=qwer&pwValue="+changePw+"&pw2Value="+pwConfirm+"&errMsg2="+errMsg2); 
+							
 		}	
 	}else{	//존재하지 않을때
-		//response.sendRedirect("/shop/customer/updatePwForm.jsp?name=구디고객&id=qwer");
+		
 		System.out.println("비밀번호가 틀림");
-		c=1;
+		response.sendRedirect("/shop/customer/updatePwForm.jsp?name="+name+"&id="+id+"&errPwMsg="+errPwMsg);
 	}	
-
-	System.out.println(a + "<-a");
-	System.out.println(b + "<-b");
-	System.out.println(c + "<-c");
-	
 %>
-<!DOCTYPE html>
-<html>
-<head>
-	<%if(c==1){ System.out.println("비밀번호가 틀립니다");
-	%>	
-	 <meta http-equiv="refresh" content="0;url=/shop/customer/updatePwForm.jsp?name=<%=name%>&id=<%=id%>&errPwMsg=<%=errPwMsg%>">
-	<%
-	}	
-	%>	
-	
-	<%
-		if(b==1){ System.out.println("비밀번호 변경 성공");
-	%>
-		<meta http-equiv="refresh" content="0;url=/shop/loginForm.jsp">
-	<%		
-		}
-	%>
-	
-	<% if(a==1){ System.out.println("비밀번호 불일치2");
-	%>
-	  
-	   <meta http-equiv="refresh" content="0;url=/shop/customer/updatePwForm.jsp?name=<%=name%>&id=<%=id%>&pwValue=<%=pw%>&errMsg2=비밀번호가다릅니다">
-	   
-	<%		
-	}
-	%>
-</head>
-<body>	
-<!-- 			response.sendRedirect("/shop/loginForm.jsp");			 -->
-</body>
-</html>

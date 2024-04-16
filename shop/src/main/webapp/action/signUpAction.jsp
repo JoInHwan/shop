@@ -2,6 +2,7 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.net.*" %>
 <%@ page import = "java.util.*" %>
+<%@ page import = "shop.dao.CustomerDAO" %>
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp , loginCustomer
 	if(session.getAttribute("loginEmp")!=null || session.getAttribute("loginCustomer")!=null){ //로그인이 이미 되어있다면
@@ -25,45 +26,26 @@
 	System.out.println(birth);
 	System.out.println(gender);	
 
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop","root","java1234");
-	// 2. 중복된 아이디 확인
-	String sqlCheck = "select id,name from customer where id =?";
-	PreparedStatement stmtCheck = null; 	
-	ResultSet rsCheck = null;
-	stmtCheck=conn.prepareStatement(sqlCheck);
-	stmtCheck.setString(1,id);
-	rsCheck = stmtCheck.executeQuery();
-	
-	if(rsCheck.next()){  // 이미 아이디가 존재할때
-		System.out.println("아이디 중복");
-		String errMsg =  URLEncoder.encode("이미 존재하는 아이디입니다.","utf-8");		
-		response.sendRedirect("/shop/customer/signUpForm.jsp?idValue="+id+"&pwValue="+pw+"&pw2Value="+pwConfirm+"&nameValue="+name+"&errMsg="+errMsg); 				
-	}else{	// 3. pw와 pwconfirm이 서로 일치하는지 확인
-		rsCheck.beforeFirst();
-		if(!pw.equals(pwConfirm)){  // 비밀번호와 비밀번호재입력 값이 다르면다시 회원가입 페이지로 넘어감
+	boolean isDuplicate = CustomerDAO.checkDuplicateID(id);
+	 if (isDuplicate == true) {
+         String errMsg =  URLEncoder.encode("이미 존재하는 아이디입니다.", "utf-8");
+         response.sendRedirect("/shop/customer/signUpForm.jsp?idValue=" + id + "&errMsg=" + errMsg);
+     } else{
+    	if(!pw.equals(pwConfirm)){  // 비밀번호와 비밀번호재입력 값이 다르면다시 회원가입 페이지로 넘어감	     
 			System.out.println("비밀번호 불일치");
 			String errMsg2 =  URLEncoder.encode("비밀번호가 일치하지 않습니다.","utf-8");		
-			response.sendRedirect("/shop/customer/signUpForm.jsp?idValue="+id+"&pwValue="+pw+"&pw2Value="+pwConfirm+"&nameValue="+name+"&errMsg2="+errMsg2); 
-			
-		}else{	// 4. customer Table에 입력받은값 추가
-			String sql = "insert into customer(id, originPw, pw, name, birth, gender, update_date, create_date) VALUES(?,?,PASSWORD(?), ?, ?, ?, now(), now())";
-			PreparedStatement stmt = null;				
-			int row = 0;				
-			stmt = conn.prepareStatement(sql);
-			stmt.setString(1,id );
-			stmt.setString(2,pw );
-			stmt.setString(3,pw );
-			stmt.setString(4,name );
-			stmt.setString(5,birth );
-			stmt.setString(6,gender );
-			System.out.println(stmt + "<-stmt");
-			
-			row = stmt.executeUpdate();
-			// 5. 회원가입 즉시 로그인됌
-			if(row==1){
-				response.sendRedirect("/shop/action/loginAction.jsp?id="+id+"&pw="+pw); 
-			}	
+			response.sendRedirect("/shop/customer/signUpForm.jsp?idValue="+id+"&pwValue="+pw+"&pw2Value="+pwConfirm+"&nameValue="+name+"&errMsg2="+errMsg2);				
+		}else{	// 비밀번호와 비밀번호 확인이 같을 때
+			if(	name == null || birth == null || gender == null){
+				String errMsg3 =  URLEncoder.encode("입력하지 않은 칸이 있습니다.","utf-8");	
+				response.sendRedirect("/shop/customer/signUpForm.jsp?idValue="+id+"&pwValue="+pw+"&pw2Value="+pwConfirm+"&errMsg3="+errMsg3);	
+			}else{ // 모든 칸이 정상적으로 입력되었을때 
+				boolean isSuccess = CustomerDAO.insertCustomer(id, pw, name, birth, gender);					
+				// 5. 회원가입 즉시 로그인됌
+				if(isSuccess = true){
+					response.sendRedirect("/shop/action/loginAction.jsp?id="+id+"&pw="+pw); 
+				}					
+			}				
 		}
 	}
 

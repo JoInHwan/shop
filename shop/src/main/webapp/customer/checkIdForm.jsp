@@ -61,9 +61,9 @@
 	    </form>
 		</div><br>
 		<div class="col-sm-12" style="font-size:24px; text-align:center;">
-			<a style="color:red" href="/shop/customer/findPwForm.jsp"><%=errMsg%></a>
+			<a style="color:red" href="#"> <%=errMsg%></a>
 		</div>
-		
+		<!--       /shop/customer/checkIdForm.jsp           -->
 		<br> <br>
 		
 	</div>

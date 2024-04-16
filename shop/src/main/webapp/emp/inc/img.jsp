@@ -8,7 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<title></title>
 </head>
-<body>
+<body >
 <!-- Carousel -->
 <div id="demo" class="carousel slide" data-bs-ride="carousel">
 
@@ -20,15 +20,15 @@
   </div>
 
   <!-- The slideshow/carousel -->
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="/shop/upload/aa.jpg" alt="Los Angeles" class="d-block w-100">
+  <div class="carousel-inner" >
+    <div class="carousel-item active" data-bs-interval="2500">
+      <img src="/shop/upload/im1.png" alt="Los Angeles" class="d-block w-100" style="width:">
     </div>
-    <div class="carousel-item">
-      <img src="/shop/upload/bb.jpg" alt="Chicago" class="d-block w-100">
+    <div class="carousel-item" data-bs-interval="2500">
+      <img src="/shop/upload/im2.png" alt="Chicago" class="d-block w-100">
     </div>
-    <div class="carousel-item">
-      <img src="/shop/upload/cc.jpg" alt="New York" class="d-block w-100">
+    <div class="carousel-item" data-bs-interval="2500">
+      <img src="/shop/upload/im3.png" alt="New York" class="d-block w-100">
     </div>
   </div>
 

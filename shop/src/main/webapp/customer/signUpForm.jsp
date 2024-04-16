@@ -14,6 +14,7 @@
 	String pwValue="";
 	String errMsg="";
 	String errMsg2="";
+	String errMsg3="";
 	String pw2Value="";
 	String nameValue="";	
 	
@@ -35,6 +36,11 @@
 	if(request.getParameter("errMsg2")!=null){	 /*비밀번호가 일치하지 않습니다 문자 출력*/
 		errMsg2 = request.getParameter("errMsg2");
 	}
+	
+	if(request.getParameter("errMsg3")!=null){	 /*빈칸이 있을때 문자 출력*/
+		errMsg3 = request.getParameter("errMsg3");
+	}
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -117,7 +123,7 @@
 			<input type="radio" class="btn-check gender" name="gender" id="female" value="여"  >
 			<label class="btn" for="female" style="width:49%">여자</label> 
 		</div>	
-		
+		<span style="font-size: 11px;"><a style="color:red" href="#"><%=errMsg3%></a></span>
 		 <div align="center">
 		 <a class="btn btn-secondary" href="/shop/customer/signUpForm.jsp">초기화</a>
 		 </div>

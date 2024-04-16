@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.net.*" %>
+<%@ page import = "java.util.*" %>
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp , loginCustomer
 	if(session.getAttribute("loginEmp")!=null || session.getAttribute("loginCustomer")!=null){ //로그인이 이미 되어있다면
@@ -9,6 +10,7 @@
 	}	
 %>
 <% 
+	
 	String id = request.getParameter("id");	
 	String name = request.getParameter("name");	
 	String birth = request.getParameter("birth");	
@@ -25,13 +27,9 @@
 	
 	Class.forName("org.mariadb.jdbc.Driver");
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop","root","java1234");
-	
-	String errPwMsg =  URLEncoder.encode("비밀번호가 틀렸습니다.","utf-8");		
-	
-	
-	int a = 0; // 새로운 비밀번호와 재확인이 다를떄
-	int b = 0; //  새로운 비밀번호와 재확인이 같을때
-	String errMsg2 = null;
+		
+	String errMsg2 =  URLEncoder.encode("비밀번호가 다릅니다","utf-8");
+	name = URLEncoder.encode ( name ,"utf-8" );	
 		
 		if(changePw.equals(pwConfirm)){  // 두 비밀번호가 같으면
 		
@@ -45,44 +43,24 @@
 		stmt.setString(4,birth);			
 		System.out.println(stmt + "<-stmt");
 		
+			
 		int row = 0;
 		
 		row = stmt.executeUpdate();
 		
 		System.out.println(row+"<-row");		
-			if(row==1){							
-				b=1;				
-			}		
+			
+		if(row==1){						
+			response.sendRedirect("/shop/loginForm.jsp");
+		}		
 		}else{
-				a = 1;			
-		}	
-	
-
-	System.out.println(a + "<-a");
-	System.out.println(b + "<-b");
+			System.out.println("비밀번호 불일치"); 			
+			String name1 = "abc";
+			String birth1 = "abcd";
+			String id1 = "abcde";
+			String errMsg3 = "abcdef";
+			response.sendRedirect("/shop/customer/resetPwForm.jsp?name="+name+"&id="+id+"&birth="+birth+"&errMsg2="+errMsg2);
+		
+		}
 	
 %>
-<!DOCTYPE html>
-<html>
-<head>		
-	
-	<%
-		if(b==1){ System.out.println("비밀번호 변경 성공");
-	%>
-		<meta http-equiv="refresh" content="0;url=/shop/loginForm.jsp">
-	<%		
-		}
-	%>
-	
-	<% if(a==1){ System.out.println("비밀번호 불일치2");
-	%>	  
-	   <meta http-equiv="refresh" content="0;url=/shop/customer/resetPwForm.jsp?name=<%=name%>&id=<%=id%>&birth=<%=birth%>>&errMsg2=비밀번호가다릅니다">
-	   
-	<%		
-	}
-	%>
-</head>
-<body>	
-<!-- 			response.sendRedirect("/shop/loginForm.jsp");			 -->
-</body>
-</html>
