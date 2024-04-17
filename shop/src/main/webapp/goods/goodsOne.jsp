@@ -19,6 +19,9 @@
 	String title = request.getParameter("goodsTitle");
 	ArrayList<HashMap<String, Object>> GoodsOne = GoodsDAO.getGoodsOne(title); 
 	
+	int iitemIndexerPage = 8;
+	ArrayList<HashMap<String, Object>> goodsList = GoodsDAO.GoodsListBottom(iitemIndexerPage); 
+	
 	
 %>
 
@@ -27,8 +30,53 @@
 <head>
 	<meta charset="UTF-8">
 	<title>상품 자세히</title>
+<Style>
+<style>
+	.item{
+	/* 상품div */
+			display: flex;
+     		width:25%;     
+/*    			width:200px;    */
+			flex-wrap: wrap;
+ 			box-sizing: border-box; 
+			float:left;
+			border:none; 			
+            transition: background-color 0.3s ease;
+	}
+	   .itemIndex:hover {
+            background-color: #ccc;
+        }
+         .item-wrapper {
+        display: block; /* div를 블록 레벨 요소로 변경 */
+        text-decoration: none; /* 링크에 밑줄 제거 */
+        color: inherit; /* 링크 색상 상속 */
+    }
+	.item>.itemIndex>.table{	/*상품 div>table*/
+		width: 100%;
+		height: 60px; 			
+		box-sizing: border-box;
+		text-align: left;	
+		border: none;
+		margin-bottom: 40px;
+		margin-top: 20px;		
+		}
+	
+	.itemIndex{
+	display:inline-block;
+	}
+	td{
+		border:solid 1px;
+	}
+	
+	.indexTable{
+	margin-top:5px;
+	}
+	
+</Style>	
+	
+	
 </head> 
-<body class="container">
+<body>
 <div class="row">
  <div class="col-1">
   	 	
@@ -61,29 +109,94 @@
 		<div>
 			<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 		</div> 
-		<%} %><br>
+		<%} %>
+		<div style="height:10px" ></div>
 		<div>
 			<jsp:include page="/emp/inc/categoryBar.jsp"></jsp:include>
 		</div> 
-		<br>
-	
+		<br><br>	
 		
-		
-		<div>
-			<%
+	<div class="in" style="text-align: center">
+		<div style="display: inline-block;">	
+			<table>
+		<%
 			for (HashMap<String, Object> goodsMap : GoodsOne) { 
-			%>
-				<img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:200px;"></img><br>
-				<%=(String)(goodsMap.get("goods_title"))%><br>
-				<%=(String)(goodsMap.get("category"))%><br>
-				<%=(String)(goodsMap.get("goods_price"))%><br>
-				<%=(String)(goodsMap.get("goods_amount"))%><br>
-				<%=(String)(goodsMap.get("goods_content"))%><br>
-				
-			<%
+		%>
+			<tr>
+				<td rowspan="6">
+					<img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:300px;"></img>
+				</td>
+				<td style="font-size:12px; width:80px;">이름 : </td>
+				<td style="">
+					<b><%=(String)(goodsMap.get("goodsTitle"))%></b>
+				</td>
+			</tr>
+			<tr>
+				<td style="font-size:12px;"> 카테고리 : </td>
+				<td><%=(String)(goodsMap.get("category"))%></td>
+			</tr>			
+			<tr>
+				<td style="font-size:12px;"> 가격 : </td>
+				<td style="color:red"><%=(String)(goodsMap.get("goods_price"))%>원</td>
+			</tr>
+			<tr>
+				<td style="font-size:12px;">재고 : </td>
+				<td ><%=(String)(goodsMap.get("goods_amount"))%>개</td>
+			</tr>
+			<tr>
+				<td style="font-size:12px;">정보 : </td>
+				<td style="width:300px"><%=(String)(goodsMap.get("goods_content"))%></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><a href="" class="form-control-lg btn btn-outline-success">장바구니 담기 </a>&nbsp;
+				<a href="" class="form-control-lg btn btn-primary"> 바로구매 </a></td>
+			<tr>
+		<%
 				}
-			%>
+		%>
+			</table>
+		</div>
+		<div class="d-flex " style="text-align:center">
+			<div style="width:200px"> 
+				
+			</div>
+			<div style="width:200px"> 
+				
+			</div>	
+		</div>
+		
+		
+	</div>	
+	<hr><div style="font-size:14px; height:20px; padding-left:15%" > 함께 보면 좋을 상품 </div>
+		<div class="row">
+	 		<div class="col-2" style="background-color:"></div>
+<!-- 	 		<div class="col-10">	 		 -->
+<!-- 				<div style="font-size:16px; height:20px;" > 함께 보면 좋을 상품 </div><br> -->
+	
+				<%	
+					for (HashMap<String, Object> goodsMap : goodsList) { 
+				%>	
+				
+					<div class="itemIndex col-1"  style="padding-top:1px;">
+						<a class="item-wrapper" href="/shop/goods/goodsOne.jsp?goodsTitle=<%=(String)(goodsMap.get("goodsTitle"))%>">		
+							<table class="indexTable">
+			<!-- 이미지 -->	<tr><th><img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:80px;"></img></th></tr> 
+			<!-- 상풍명 -->	<tr><td style="font-size: 10px; text-align: center;"><%=(String)(goodsMap.get("goodsTitle"))%></td></tr>
+			<!-- 가격 -->		<tr><td style="font-size: 12px; color:red; text-align: center;"><%=(String)(goodsMap.get("goodsPrice"))%>원</td></tr>				
+							</table>	
+						</a>
+					</div>
+		
+				<%	
+				}
+				%>
+<!-- 			</div> -->
+			<div class="col-2" style="background-color:"></div>
+			
 		</div>	
+<br><br><br>
+
 
 	</div>
 	<div class="col-1" style="background-color:#"></div>

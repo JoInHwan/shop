@@ -50,20 +50,28 @@ public class GoodsDAO {
 		 WHERE 1=1 and category = ? and goods_title LIKE ? 												// 카테고리가 ?이고 ?가 포함된 상품의 모든정보
 		order by wcnt,? limit ?,?	*/	  				// 처음엔 모두 같은 값을 가지는 wcnt로 정렬(무의미)한 이후 카테고리가 없고 정렬한값이 없으면 그상태로 출력
 			    	    
-	    String sql = "SELECT (SELECT COUNT(*) FROM goods WHERE 1=1 ";
+	    String sql = 
+	    		"SELECT "
+	    		+ "(SELECT COUNT(*) FROM goods WHERE 1=1 ";
 	    if (category != null && !category.equals("null")) {				// ()괄호 안 카테고리가 정해졌다면 category = ?의 where 조건이 추가된 상품의 '수'	
-	        sql += "AND category = ?";
+	        sql += 
+	        	"AND category = ?";
 	        System.out.println("카테고리가 널입니다1");
-	    }
-	    sql += " AND goods_title LIKE ?) AS wcnt, goods_title AS goodsTitle, filename, goods_price AS goodsPrice, goods_amount AS goodsAmount FROM goods WHERE 1=1 ";
+	    }   
+	    sql += " AND goods_title LIKE ?)AS wcnt,"
+	    		+ " goods_title AS goodsTitle,"
+	    		+ " filename,"
+	    		+ " goods_price AS goodsPrice,"
+	    		+ " goods_amount AS goodsAmount"
+	    		+ " FROM goods WHERE 1=1 ";
+	   
 	    if (category != null && !category.equals("null")) {				// 카테고리가 정해졌다면 category = ?의 where 조건이 추가된 상품의 모든 정보	
-
-        sql += "AND category = ?";
-        System.out.println("카테고리가 널입니다2");
+	    	sql += "AND category = ?";
+	    	System.out.println("카테고리가 널입니다2");
 	    }
 	    sql += " AND goods_title LIKE ? ORDER BY wcnt";
 	    
-	    if (order == null || order.equals("null")) {					 // 받아온 order 값이 없다면 무작위로 배열 
+	    if (order == null || order.equals("null")) {					// 받아온 order 값이 없다면 무작위로 배열 
 	        sql += ",RAND()";
 	        System.out.println("order가 널입니다");
 	    }
@@ -109,6 +117,7 @@ public class GoodsDAO {
 	    return goodsList;
 	}
 	// -----------------------------------------------------------------------------------------------
+	//GoodsOne 
 	public static ArrayList<HashMap<String, Object>> getGoodsOne(String title) 
 	throws Exception {
 	    ArrayList<HashMap<String, Object>> getGoodsOne = new ArrayList<HashMap<String,Object>>();
@@ -135,6 +144,34 @@ public class GoodsDAO {
 	    stmt.close();
 	    conn.close();
 	    return getGoodsOne;
+	}
+	// GoodsOne 아래 
+	public static ArrayList<HashMap<String, Object>> GoodsListBottom(int itemPerPage) 
+			throws Exception {
+	    ArrayList<HashMap<String, Object>> goodsList = new ArrayList<HashMap<String,Object>>();
+	    Connection conn = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;	    
+	    
+	    conn = DBHelper	.getConnection();
+	    String sql = "select * from goods order by rand() limit ?";
+	    
+	    stmt = conn.prepareStatement(sql); 
+	    stmt.setInt(1,itemPerPage);
+	    rs = stmt.executeQuery();
+	    
+	    while (rs.next()) {
+	        HashMap<String, Object> goods = new HashMap<>();
+	        goods.put("goodsTitle", rs.getString("goods_title"));
+	        goods.put("filename", rs.getString("filename"));
+	        goods.put("goodsPrice", rs.getString("goods_price"));
+	        goodsList.add(goods);
+	    }	    
+		    
+	    rs.close();
+	    stmt.close();
+	    conn.close();
+	    return goodsList;
 	}
 	
 	

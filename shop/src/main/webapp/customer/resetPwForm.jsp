@@ -55,7 +55,8 @@
 	}else{	//존재하지 않을때
 		System.out.println("해당 아이디가 없습니다");
 		String errMsg =  URLEncoder.encode("해당 아이디가 없습니다.","utf-8");		
-		a = 1;
+		name =  URLEncoder.encode(name,"utf-8");
+		id =  URLEncoder.encode(id,"utf-8");
 		response.sendRedirect("/shop/customer/checkIdForm.jsp?nameValue="+name+"&idValue="+id+"&errMsg="+errMsg); 
 	}	
 	
@@ -79,12 +80,7 @@
 
 	</style>
 </head>
-<%
-	if(a==1){
-%>
 
-<%	}
-%>
 <body class="container bg">
 <div class="row">
 	<div class="col"></div>

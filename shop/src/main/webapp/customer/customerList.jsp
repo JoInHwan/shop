@@ -5,7 +5,7 @@
 <%@ page import = "shop.dao.CustomerDAO" %>
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp
-	if(session.getAttribute("loginEmp")==null){ //로그인이 이미 되어있다면
+	if(session.getAttribute("loginEmp")==null){ //로그인이 안되어있으면
 		response.sendRedirect("/shop/emp/empLoginForm.jsp");
 		return;
 	}
@@ -20,7 +20,7 @@
 	if(request.getParameter("currentPage")!=null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	int rowPerPage = 10;
+	int rowPerPage = 15;
 	int startRow = ((currentPage-1)*rowPerPage);	
 	int totalRow = 0;
 	
@@ -70,7 +70,8 @@
 			<th>이름</th>
 			<th>아이디</th>
 			<th>성별</th>
-			<th>생일</th>
+			<th>생일</th>			
+			<th>주소</th>
 			<th>생성날짜</th>
 			<th>변경날짜</th>
 			<th>비밀번호</th>
@@ -84,18 +85,20 @@
 				<td><%=(String)(m.get("name"))%></td>
 				<td><%=(String)(m.get("birth"))%></td>
 				<td><%=(String)(m.get("gender"))%></td>
+				<td><%=(String)(m.get("address"))%></td>	
 				<td><%=(String)(m.get("create_date"))%></td>
-				<td><%=(String)(m.get("update_date"))%></td>
+				<td><%=(String)(m.get("update_date"))%></td>				
 				<td><%=(String)(m.get("pw"))%></td>				
+							
 			</tr>		
 		<%		
 			}
 		%>			
 	</table>
 		<div>
-			<a href="/shop/customer/customerList.jsp" class="btn btn-outline-info">추가</a>
+			<a href="/shop/customer/signUpForm.jsp" class="btn btn-outline-info">추가</a>
 			<a href="/shop/action/updateCustomerPassword.jsp" class="btn btn-outline-warning">비밀번호암호화</a>
-			<a href="/shop/customer/customerList.jsp" class="btn btn-outline-info">삭제</a>
+			<a href="/shop/customer/deleteCustomerList.jsp" class="btn btn-outline-info">삭제</a>
 		</div>
 	</div>	
 	<nav aria-label="Page navigation example">

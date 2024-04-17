@@ -56,9 +56,9 @@ public class CustomerDAO { // signUpForm
 		
 /*----------------------------------------------------------------------------*/	
 	// HashMap<String, Object> : null 이면 로그인 실패, 아니면 성공
-	// String empId,empPw : 로그인 폼에서 사용자가 입력한 id/pw
+	// String id,pw : 로그인 폼에서 사용자가 입력한 id/pw
 	
-	// 호출 코드 HashMap<String, Object> m = EmpDAO.empLogin("admin","1234");
+	// 호출 코드 HashMap<String, Object> m = CustomerDAO.login("admin","1234");
 	public static HashMap<String, Object> login(String id,String pw) // loginForm
 														throws Exception{												
 		HashMap<String, Object> resultMap = null;
@@ -117,6 +117,7 @@ public class CustomerDAO { // signUpForm
         customerMap.put("name",rs.getString("name"));
 		customerMap.put("birth",rs.getString("birth"));
 		customerMap.put("gender",rs.getString("gender"));
+		customerMap.put("address",rs.getString("address"));
 		customerMap.put("create_date",rs.getString("create_date"));
 		customerMap.put("update_date",rs.getString("update_date"));
 		customerMap.put("pw",rs.getString("pw"));
@@ -129,5 +130,47 @@ public class CustomerDAO { // signUpForm
     conn.close();
 	return customerList;
 	}
+	
+	//--------------------------------------------------------
+	//CustometOne
+	public static HashMap<String, Object> CustomerOne(String name, String id)
+			throws Exception{												
+		HashMap<String, Object> resultMap = null;
+		
+		// DB 접근
+		Connection conn = DBHelper.getConnection(); 
+		
+		String sql = "select * from customer where name = ? and id = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,name);
+		stmt.setString(2,id);
+		System.out.println(stmt);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()){
+		System.out.println("쿼리성공");
+		// 하나의 세션변수에 여러개의 값을 저장하기 위해
+		resultMap = new HashMap<String, Object>();
+		resultMap.put("id", rs.getString("id"));
+		resultMap.put("name", rs.getString("name"));
+		resultMap.put("birth", rs.getString("birth"));
+		resultMap.put("gender", rs.getString("gender"));
+		resultMap.put("name", rs.getString("name"));
+		resultMap.put("address", rs.getString("address"));
+		resultMap.put("createDate", rs.getString("create_date"));
+		resultMap.put("updateDate", rs.getString("update_date"));
+		
+		System.out.println((String)(resultMap.get("id")) + "<-로그인 된 id at CustomerDAO"); // 로그인 된 id
+		System.out.println((String)(resultMap.get("name")) + "<-로그인 된 name at CustomerDAO"); // 로그인 된 name
+		
+		}else {
+		System.out.println("쿼리실패");
+		}
+		rs.close();
+		stmt.close();
+		conn.close();
+		return resultMap;		
+		}	
+	
+	
 	
 }

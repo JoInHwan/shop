@@ -20,7 +20,7 @@
 	if(request.getParameter("currentPage")!=null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	int rowPerPage = 10;
+	int rowPerPage = 15;
 	int startRow = ((currentPage-1)*rowPerPage);	
 	
 	
@@ -113,7 +113,7 @@
 		%>			
 	</table>	
 		<div style="display: inline-block;">
-			<a href="/shop/emp/updateEmpForm.jsp>" class="btn btn-outline-info">추가</a>
+			<a href="/shop/action/updateEmpForm.jsp>" class="btn btn-outline-info">추가</a>
 			<a href="/shop/emp/updateEmpForm.jsp>" class="btn btn-outline-info">수정</a>
 			<a href="/shop/action/deleteEmpAction.jsp>" class="btn btn-outline-info">삭제</a>
 		</div>		

@@ -13,7 +13,7 @@
 %>
 <%
 	
-	HashMap<String,Object> loginMember	= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));
+	HashMap<String,Object> loginMember	= null;
 	
 	if(session.getAttribute("loginCustomer")==null && session.getAttribute("loginEmp")!=null){ // '직원'으로 로그인 하면 세션 loginMember에 loginEmp가 저장
 		loginMember	= (HashMap<String,Object>)(session.getAttribute("loginEmp"));
@@ -80,11 +80,12 @@
 				totalItem = (Integer)(categoryMap.get("cnt"));				// 전체 아이템수 설정
 			}			
 		}
-	} System.out.println(totalItem+"<-totalItem");
+	} 
 
 /* 두번째 쿼리------------------------------------------------ */	
 	// 쿼리문에서 받아온 wcnt 값 이용해 페이징 마무리
 	String searchCount = null; // 검색결과 수 변수 초기화
+	
 	ArrayList<HashMap<String, Object>> goodsList = GoodsDAO.getGoodsList(category,searchWord,order,currentPage,itemPerPage) ; 
 	for (HashMap<String, Object> goodsMap : goodsList) {    
 		searchCount = (String) goodsMap.get("wcnt");
@@ -92,9 +93,11 @@
 	}
 	
 	System.out.println("검색 항목 수 : " + searchCount + "개");	 
-		
-	totalItem = Integer.parseInt(searchCount);	
 	
+	if(searchCount!=null){  						 // 검색결과가 없어 null값이 반환되는 예외 분리
+	totalItem = Integer.parseInt(searchCount);	
+	}
+	System.out.println(totalItem+"<-totalItem");
 	int lastPage = totalItem / itemPerPage;;
  	if(totalItem % itemPerPage != 0) {
 		lastPage = lastPage + 1;
@@ -204,9 +207,11 @@
 				<a class="btn btn-primary btn-login" style="width: 65px; font-size: 12px; margin-top: 16px;"href="/shop/loginForm.jsp">로그인</a>
 			</div>
 		<%	} else if (session.getAttribute("loginCustomer") != null && session.getAttribute("loginEmp") == null) { //손님로그인이 있다면
-		%>	<div style="display: inline-block; float: right;">
-				<span style="font-size: 12px; margin-top: 10px;">'<%=(String) (loginMember.get("name"))%>'님
-				</span><br> <a class="btn btn-danger" style="width: 75px; font-size: 12px;"	href="/shop/action/logout.jsp"><span>로그아웃</span></a>
+		%>	<div style="display: inline-block; float: right;"><br>
+				<a class="btn btn-outline-info" style="width: 98px; font-size: 12px; color:black" href="/shop/customer/customerOne.jsp">
+					<b>'<%=(String) (loginMember.get("name"))%>'님</b>
+				</a>
+				<a class="btn btn-danger" style="width: 74px; font-size: 12px;"	href="/shop/action/logout.jsp"><span>로그아웃</span></a>
 			</div>
 		<%
 		} else if (session.getAttribute("loginCustomer") == null && session.getAttribute("loginEmp") != null) { // 사원로그인이 있다면
@@ -229,11 +234,12 @@
 		<div>
 			<jsp:include page="/emp/inc/categoryBar.jsp"></jsp:include>
 		</div> 
-		<div style="text-align:center; padding-left:10%; padding-right: 10%; ">
- 				<jsp:include page="/emp/inc/img.jsp"></jsp:include> 
-			</div><br>
 		
+		<div style="text-align:center; padding:0px 10%">
+			<jsp:include page="/emp/inc/img.jsp"></jsp:include> 
+		</div>
 		
+		<br>	
 	<div style="margin-left: 30px; margin-right: 30px;" >
 			
 	<div style="display: flex; justify-content: space-between; align-items: center; width: 100%">
@@ -325,7 +331,7 @@
 		 <a class="item-wrapper" href="/shop/goods/goodsOne.jsp?goodsTitle=<%=(String)(goodsMap.get("goodsTitle"))%>">	
 			<div class="item">				
 			<table>
-<!-- 이미지 -->	<tr><th class="goodsBorder itemImg"><img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:140px;"></img></th></tr> 
+<!-- 이미지 -->	<tr><th class="goodsBorder itemImg"><img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:140px; height:140px;"></img></th></tr> 
 <!-- 상풍명 -->	<tr><td class="goodsBorder itemTitle"><%=(String)(goodsMap.get("goodsTitle"))%></td></tr>
 <!-- 가격 -->		<tr><td class="price itemEx"><%=(String)(goodsMap.get("goodsPrice"))%>원</td></tr>
 <!-- 재고 -->		<tr><td class="goodsBorder itemEx"><%=(String)(goodsMap.get("goodsAmount"))%>개</td></tr>				

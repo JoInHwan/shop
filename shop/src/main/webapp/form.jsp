@@ -9,7 +9,7 @@
     <body>
     <form action="./action.jsp" method="post" enctype="multipart/form-data">
 		<input type="text" name="title" />
-		<input type="file" name="file" />
+		<input type="file" name="file"/>
 		<input type="submit" value="저장" />
     </form>
     </body>
