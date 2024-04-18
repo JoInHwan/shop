@@ -11,10 +11,6 @@
 	}
 %>
 <% 
-	//DB연결
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop","root","java1234");
-	
 	// 페이징
 	int currentPage = 1;	
 	if(request.getParameter("currentPage")!=null){
@@ -28,6 +24,7 @@
 %>
 
 <%	ArrayList<HashMap<String, Object>> customerList = CustomerDAO.getCustomerList(startRow,rowPerPage);
+	
 	for(HashMap<String, Object>m : customerList){
 		totalRow = (int)(m.get("cnt"));
 		break;
@@ -39,6 +36,8 @@
 		lastPage = lastPage+1;		
 	}
 	System.out.println(lastPage+ "<-lastPage [categoryList]");
+	
+	
 %>
 <!-- View Layer -->
 <!DOCTYPE html>
@@ -48,10 +47,16 @@
 <link href="/shop/SHOP.css" rel="stylesheet">
 	<title></title>
 	<style>
-	table, th, td {
+	table, th{
 	  border: 1px solid;
 	  text-align:center;
 	}
+	
+	.td{
+		border: 1px solid;
+		padding : 0px 5px;
+	}
+	
 	
 	</style>
 </head>
@@ -75,25 +80,40 @@
 			<th>생성날짜</th>
 			<th>변경날짜</th>
 			<th>비밀번호</th>
+			<th>자세히</th>
 		</tr>
 	
 		<%
 			for(HashMap<String, Object>m : customerList){
+				String id = (String) m.get("id");
+				String name = (String) m.get("name");
+				String birth = (String) m.get("birth");
+				String gender = (String) m.get("gender");
+				String address = (String) m.get("address");
+				String pw = (String) m.get("pw");
+				String createDate = (String) m.get("create_date");
+				String updateDate = (String) m.get("update_date");
+				
+				pw = pw.substring(0, 10);				// 암호화된 비밀번호는 너무 기니 앞 10글자만 출력
+				createDate = createDate.substring(2);	// yyyy-mm-dd 를 yy-mm-dd 로 출력		
+				updateDate = updateDate.substring(2);
 		%>
-			<tr style=border:solid >
-				<td><%=(String)(m.get("id"))%></td>
-				<td><%=(String)(m.get("name"))%></td>
-				<td><%=(String)(m.get("birth"))%></td>
-				<td><%=(String)(m.get("gender"))%></td>
-				<td><%=(String)(m.get("address"))%></td>	
-				<td><%=(String)(m.get("create_date"))%></td>
-				<td><%=(String)(m.get("update_date"))%></td>				
-				<td><%=(String)(m.get("pw"))%></td>				
-							
+			<tr>
+				<td class="td"><%=id%></td>
+				<td class="td"><%=name%></td>
+				<td class="td"><%=birth%></td>
+				<td class="td"><%=gender%>자</td>
+				<td class="td"><%=address%></td>	
+				<td class="td"><%=createDate%></td>
+				<td class="td"><%=updateDate%></td>				
+				<td class="td"><%=pw%></td>				
+				<td><a href="/shop/customer/customerOne.jsp?id=<%=id%>&name=<%=name%>">자세히</a></td>			
 			</tr>		
 		<%		
 			}
 		%>			
+		
+		
 	</table>
 		<div>
 			<a href="/shop/customer/signUpForm.jsp" class="btn btn-outline-info">추가</a>

@@ -118,9 +118,9 @@ public class GoodsDAO {
 	}
 	// -----------------------------------------------------------------------------------------------
 	//GoodsOne 
-	public static ArrayList<HashMap<String, Object>> getGoodsOne(String title) 
-	throws Exception {
-	    ArrayList<HashMap<String, Object>> getGoodsOne = new ArrayList<HashMap<String,Object>>();
+	public static HashMap<String, String> getGoodsOne(String title) 
+									throws Exception {
+		HashMap<String, String> GoodsOne = null;
 	    Connection conn = null;
 	    PreparedStatement stmt = null;
 	    ResultSet rs = null;	    	    
@@ -130,20 +130,19 @@ public class GoodsDAO {
 	    stmt.setString(1,title);
 	    rs = stmt.executeQuery();
 	    while (rs.next()) {
-	        HashMap<String, Object> GoodsOne = new HashMap<>();
+	    	GoodsOne = new HashMap<String, String>();
 	        GoodsOne.put("goodsTitle", rs.getString("goods_title"));
 	        GoodsOne.put("category", rs.getString("category"));   
 	        GoodsOne.put("filename", rs.getString("filename"));
 	        GoodsOne.put("goods_price", rs.getString("goods_price"));
 	        GoodsOne.put("goods_amount", rs.getString("goods_amount"));
 	        GoodsOne.put("goods_content", rs.getString("goods_content"));
-	        getGoodsOne.add(GoodsOne);
 	    }
 	     
 	    rs.close();
 	    stmt.close();
 	    conn.close();
-	    return getGoodsOne;
+	    return GoodsOne;
 	}
 	// GoodsOne 아래 
 	public static ArrayList<HashMap<String, Object>> GoodsListBottom(int itemPerPage) 
@@ -173,6 +172,34 @@ public class GoodsDAO {
 	    conn.close();
 	    return goodsList;
 	}
+
+	// updateGoodsAction
+	
+	public static int updateGoods (String title,String category,int price,int amount, String content) 
+			throws Exception {
+		int row = 0;
+		Connection conn = null;
+	    PreparedStatement stmt = null;
+	    conn = DBHelper	.getConnection();
+	    String sql = "update goods set title = ?,category = ?,price = ?,amount = ?,content = ?) where ";
+		
+		
+		
+		stmt = conn.prepareStatement(sql);	
+		stmt.setString(1,title);
+		stmt.setString(1,category);
+		stmt.setInt(1,price);
+		stmt.setInt(1,amount);
+		stmt.setString(1,content);
+		
+		row = stmt.executeUpdate();		   
+		   
+		
+	    stmt.close();
+	    conn.close();    
+		return row;
+	}
+	
 	
 	
 	

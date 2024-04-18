@@ -23,7 +23,7 @@
 		
 	System.out.println("로그인성공");		
 	session.setAttribute("loginEmp", loginEmp);	
-	response.sendRedirect("/shop/emp/empList.jsp");
+	response.sendRedirect("/shop/goods/goodsList.jsp");
 				
 	}else {  // 로그인실패		
 		

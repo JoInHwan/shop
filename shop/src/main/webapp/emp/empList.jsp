@@ -5,7 +5,7 @@
 <%@ page import = "shop.dao.EmpDAO" %>
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp
-	if(session.getAttribute("loginEmp")==null){ //로그인이 안되어있으면
+	if(session.getAttribute("loginEmp")==null){ // 직원로그인이 안되어있으면
 		response.sendRedirect("/shop/emp/empLoginForm.jsp");
 		return;
 	}

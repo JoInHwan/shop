@@ -29,13 +29,13 @@ public class CustomerDAO { // signUpForm
 	 return isDuplicate;
 	}
 	
-	public static  boolean insertCustomer(String id, String pw, String name, String birth, String gender) 
+	public static  boolean insertCustomer(String id, String pw, String name, String birth, String gender, String address) 
 			throws Exception {
 
 	
 	boolean isSuccess = false;
 	Connection conn = DBHelper.getConnection();
-	String sql = "insert into customer(id, originPw, pw, name, birth, gender, update_date, create_date) VALUES(?,?,PASSWORD(?), ?, ?, ?, now(), now())";
+	String sql = "insert into customer(id, originPw, pw, name, birth, gender,address, update_date, create_date) VALUES(?,?,PASSWORD(?), ?, ?, ?, ?, now(), now())";
 	PreparedStatement stmt = conn.prepareStatement(sql);
 	stmt.setString(1,id );
 	stmt.setString(2,pw );
@@ -43,6 +43,7 @@ public class CustomerDAO { // signUpForm
 	stmt.setString(4,name );
 	stmt.setString(5,birth );
 	stmt.setString(6,gender );	
+	stmt.setString(7,address );	
 	System.out.println(stmt);
 	int row  = stmt.executeUpdate();		
 	
@@ -55,6 +56,7 @@ public class CustomerDAO { // signUpForm
 	}
 		
 /*----------------------------------------------------------------------------*/	
+//signUpAction
 	// HashMap<String, Object> : null 이면 로그인 실패, 아니면 성공
 	// String id,pw : 로그인 폼에서 사용자가 입력한 id/pw
 	
@@ -90,7 +92,7 @@ public class CustomerDAO { // signUpForm
 	    conn.close();
 		return resultMap;		
 	}	
-	
+/*----------------------------------------------------------------------------*/	
 	public static ArrayList<HashMap<String, Object>> getCustomerList(int startRow,int rowPerPage ) 
 			throws Exception { // customerList.jsp
 	// 특수한 형태의 데이터(RDBMS:mariaDB)
@@ -132,24 +134,19 @@ public class CustomerDAO { // signUpForm
 	}
 	
 	//--------------------------------------------------------
-	//CustometOne
-	public static HashMap<String, Object> CustomerOne(String name, String id)
+	//CustomerOne
+	public static HashMap<String, String> CustomerOne(String name, String id)
 			throws Exception{												
-		HashMap<String, Object> resultMap = null;
-		
+		HashMap<String, String> resultMap = null;		
 		// DB 접근
-		Connection conn = DBHelper.getConnection(); 
-		
+		Connection conn = DBHelper.getConnection();		
 		String sql = "select * from customer where name = ? and id = ?";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1,name);
 		stmt.setString(2,id);
-		System.out.println(stmt);
 		ResultSet rs = stmt.executeQuery();
-		if(rs.next()){
-		System.out.println("쿼리성공");
-		// 하나의 세션변수에 여러개의 값을 저장하기 위해
-		resultMap = new HashMap<String, Object>();
+		while(rs.next()){
+		resultMap = new HashMap<String, String>();
 		resultMap.put("id", rs.getString("id"));
 		resultMap.put("name", rs.getString("name"));
 		resultMap.put("birth", rs.getString("birth"));
@@ -159,11 +156,6 @@ public class CustomerDAO { // signUpForm
 		resultMap.put("createDate", rs.getString("create_date"));
 		resultMap.put("updateDate", rs.getString("update_date"));
 		
-		System.out.println((String)(resultMap.get("id")) + "<-로그인 된 id at CustomerDAO"); // 로그인 된 id
-		System.out.println((String)(resultMap.get("name")) + "<-로그인 된 name at CustomerDAO"); // 로그인 된 name
-		
-		}else {
-		System.out.println("쿼리실패");
 		}
 		rs.close();
 		stmt.close();

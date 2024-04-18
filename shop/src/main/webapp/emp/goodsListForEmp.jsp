@@ -186,17 +186,17 @@
 	</style>
 </head>
 <body >
+
 <div class="row">
  <div class="col-1">
   	 	
   </div>	
 	<div class="col-10"><br>
+	<h2>상품 수정용</h2>
 		<div>
 			<jsp:include page="/emp/inc/CommonBar.jsp"></jsp:include>
 		</div> 		
-		<div style="text-align:center; padding:0px 10%">
-			<jsp:include page="/emp/inc/img.jsp"></jsp:include> 
-		</div>	<br>	
+		<br>	
 	<div style="margin-left: 30px; margin-right: 30px;" >
 			
 	<div style="display: flex; justify-content: space-between; align-items: center; width: 100%">
@@ -227,7 +227,7 @@
 	<div style="display: flex; justify-content: flex-end;">
 			<!-- 있었음 -->			
 		<div style="width:90px">
-		<form id="orderForm" action="/shop/goods/goodsList.jsp"	method="GET">
+		<form id="orderForm" action="/shop/emp/goodsListForEmp.jsp"	method="GET">
 			<input type="hidden" name="category" value="<%=category%>">
 			<input type="hidden" name="searchWord" value="<%=searchWord%>">
 			<input type="hidden" name="perPage" value="<%=perPage%>">
@@ -241,7 +241,7 @@
 			</select>
 		</form>
 		</div>
-			<form id="perPageForm" action="/shop/goods/goodsList.jsp" method="GET">
+			<form id="perPageForm" action="/shop/emp/goodsListForEmp.jsp" method="GET">
 			<input type="hidden" name="category" value="<%=category%>">
 			<input type="hidden" name="searchWord" value="<%=searchWord%>">
 			<input type="hidden" name="order" value="<%=array%>"> 
@@ -266,13 +266,13 @@
 					<br>
 	<script>
 		function submitOrderForm(value) {
-			document.getElementById("orderForm").action = "/shop/goods/goodsList.jsp?order="
+			document.getElementById("orderForm").action = "/shop/emp/goodsListForEmp.jsp?order="
 					+ value;
 			document.getElementById("orderForm").submit();
 		}
 
 		function submitPerPageForm(value) {
-			document.getElementById("perPageForm").action = "/shop/goods/goodsList.jsp?perPage="
+			document.getElementById("perPageForm").action = "/shop/emp/goodsListForEmp.jsp?perPage="
 					+ value;
 			document.getElementById("perPageForm").submit();
 		}
@@ -284,7 +284,7 @@
 			for (HashMap<String, Object> goodsMap : goodsList) { 
 		%>	
 		
-		 <a class="item-wrapper" href="/shop/goods/goodsOne.jsp?goodsTitle=<%=(String)(goodsMap.get("goodsTitle"))%>">	
+		 <a class="item-wrapper" href="/shop/emp/updateGoodsForm.jsp?goodsTitle=<%=(String)(goodsMap.get("goodsTitle"))%>">	
 			<div class="item">				
 			<table>
 <!-- 이미지 -->	<tr><th class="goodsBorder itemImg"><img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:140px; height:140px;"></img></th></tr> 
@@ -324,9 +324,9 @@
 			%>
 	
 				<li class="page-item <%=priviousTab%>"><a class="page-link"	style="color: black;  "
-					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=1">First</a></li>
+					href="/shop/emp/goodsListForEmp.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=1">First</a></li>
 				<li class="page-item <%=priviousTab%>"><a class="page-link"	style="color: black; margin-right: 1px;"
-					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=c*5%>">Back</a></li>
+					href="/shop/emp/goodsListForEmp.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=c*5%>">Back</a></li>
 			<%
 				// 현재 페이지에 따라 (1,2,3,4,5)or (6,7,8,9,10) 로 페이지를 넘길 수 있도록 출력
 				int temp = pagingGroup;
@@ -340,18 +340,18 @@
 					}
 			%>
 				<li class="page-item" style="margin:1px; "><a class="page-link "	style="color:black; <%=currentPageItem %>"
-					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=c * 5 + i%>"><%=c * 5 + i%>
+					href="/shop/emp/goodsListForEmp.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=c * 5 + i%>"><%=c * 5 + i%>
 					</a></li>
 			<%
 				}
 			%>
 				<li class="page-item <%=nextTab%>"><a class="page-link"	style="color: black;margin-left: 1px;"
-					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=(c + 1) * 5 + 1%>">Next</a>
+					href="/shop/emp/goodsListForEmp.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=(c + 1) * 5 + 1%>">Next</a>
 				</li>
 				<li class="page-item <%=nextTab%>"><a class="page-link"	style="color: black; "
-					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=lastPage%>">Last</a>
+					href="/shop/emp/goodsListForEmp.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=lastPage%>">Last</a>
 				</li>
-			</ul>  <!--   	&laquo;   &raquo;-->
+			</ul> 
 		</nav>
 	</div>
 	<div class="col-1" style="background-color:#"></div>

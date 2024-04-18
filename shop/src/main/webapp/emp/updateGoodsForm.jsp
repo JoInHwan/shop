@@ -3,6 +3,7 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.net.*" %>
 <%@ page import = "shop.dao.GoodsDAO" %>
+
 <%
 	
 	HashMap<String,Object> loginMember	= null;
@@ -10,9 +11,7 @@
 	if(session.getAttribute("loginCustomer")==null && session.getAttribute("loginEmp")!=null){ // '직원'으로 로그인 하면 세션 loginMember에 loginEmp가 저장
 		loginMember	= (HashMap<String,Object>)(session.getAttribute("loginEmp"));
 	}
-	if(session.getAttribute("loginCustomer")!=null && session.getAttribute("loginEmp")==null){ // '고객'으로 로그인 하면 세션 loginMember에 loginCustome이 저장
-		loginMember	= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));
-	}
+	
 %>
 <%
 	// MaraiDB연동 DAO 연결
@@ -66,6 +65,7 @@
 	}
 	td{
 		border:solid 1px;
+		padding-left:20px;
 	}
 	
 	.indexTable{
@@ -83,55 +83,70 @@
   </div>	
 	<div class="col-10"><br>		
 		<div>
-			<jsp:include page="/emp/inc/CommonBar.jsp"></jsp:include>
+			<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 		</div> 
 		<br><br>	
 		<div class="in" style="text-align: center">
-			<div style="display: inline-block;">	
-				<table>
-			
-				<tr>
-					<td rowspan="6">
-						<img src="/shop/upload/<%=(goodsOne.get("filename"))%>" style="width:300px;"></img>
-					</td>
-					<td style="font-size:12px; width:80px;">이름 : </td>
-					<td style=""><b><%=(goodsOne.get("goodsTitle"))%></b></td>
-				</tr>
-				<tr>
-					<td style="font-size:12px;"> 카테고리 : </td>
-					<td><%=(goodsOne.get("category"))%></td>
-				</tr>			
-				<tr>
-					<td style="font-size:12px;"> 가격 : </td>
-					<td style="color:red"><%=(goodsOne.get("goods_price"))%>원</td>
-				</tr>
-				<tr>
-					<td style="font-size:12px;">재고 : </td>
-					<td ><%=(goodsOne.get("goods_amount"))%>개</td>
-				</tr>
-				<tr>
-					<td style="font-size:12px;">정보 : </td>
-					<td style="width:300px"><%=(goodsOne.get("goods_content"))%></td>
-				</tr>
-				<tr>
-					<td> &nbsp; </td>
-					<td colspan="2"><a href="" class="form-control-lg btn btn-outline-success">장바구니 담기 </a>&nbsp;
-						<a href="" class="form-control-lg btn btn-primary"> 바로구매 </a>
-					</td>
-				<tr>			
+			<div style="display: inline-block;">
+				<form method="post" action="/shop/action/updateGoodsAction.jsp">
+				<table style="text-align:left">
+					<tr>
+						<td rowspan="6" style=" border-right:solid;">
+							<img src="/shop/upload/<%=(goodsOne.get("filename"))%>"	style="height:500px;"></img>
+						</td>
+						<td style="width:600px;">
+							<label class="form-label"> <b>이름</b></label> 
+							<input type="text" class="form-control" name="title" value='<%=(goodsOne.get("goodsTitle"))%>'>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label class="form-label"><b>카테고리</b></label> 
+							<select	name="category" class="form-control">
+								<option value='<%=(goodsOne.get("category"))%>'><%=(goodsOne.get("category"))%></option>
+								<option value="맨시티">맨시티</option>
+								<option value="맨유">맨유</option>
+								<option value="리버풀">리버풀</option>
+								<option value="아스날">아스날</option>
+								<option value="토트넘">토트넘</option>
+								<option value="축구공">축구공</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td style="color: red">
+							<label class="form-label"><b>가격</b></label> 
+							<input type="text" class="form-control" name="price" value='<%=(goodsOne.get("goods_price"))%>'>
+						</td>
+					</tr>
+					<tr>
+						<td><label class="form-label"><b>재고</b></label> 
+						<input type="text" class="form-control" name="amount" value='<%=(goodsOne.get("goods_amount"))%>'></td>
+					</tr>
+					<tr>
+						<td>
+							<label class="form-label"><b>내용</b></label> 
+							<input type="text" class="form-control" name="content" height="60px;" value='<%=(goodsOne.get("goods_content"))%>'>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<button type="submit" class="btn btn-primary">수정하기</button>
+						</td>
+					<tr>
 				</table>
+				</form>
 			</div>
-			
 		</div>	
 		<hr>
-		<div style="font-size:14px; height:20px; padding-left:15%" > 함께 보면 좋을 상품 </div>
+		<div style="font-size:14px; height:20px; padding-left:15%" > 다른 상품 </div>
 			<div class="row">
 		 		<div class="col-2" style="background-color:"></div>		
 				<%	
 					for (HashMap<String, Object> goodsMap : goodsList) { 
 				%>						
 					<div class="itemIndex col-1"  style="padding-top:1px;">
-						<a class="item-wrapper" href="/shop/goods/goodsOne.jsp?goodsTitle=<%=(String)(goodsMap.get("goodsTitle"))%>">		
+						<a class="item-wrapper" href="/shop/emp/updateGoodsForm.jsp?goodsTitle=<%=(String)(goodsMap.get("goodsTitle"))%>">		
 							<table class="indexTable">
 			<!-- 이미지 -->	<tr><th><img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:80px;"></img></th></tr> 
 			<!-- 상풍명 -->	<tr><td style="font-size: 10px; text-align: center;"><%=(String)(goodsMap.get("goodsTitle"))%></td></tr>

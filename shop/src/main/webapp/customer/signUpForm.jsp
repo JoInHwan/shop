@@ -123,7 +123,12 @@
 			<input type="radio" class="btn-check gender" name="gender" id="female" value="여"  >
 			<label class="btn" for="female" style="width:49%">여자</label> 
 		</div>	
-		<span style="font-size: 11px;"><a style="color:red" href="#"><%=errMsg3%></a></span>
+		<div class="col-sm-12">
+			주소:
+			<input type="text" name="address" class="form-control form-control-lg inputInfo">
+		</div>
+		
+		<span style="font-size: 20px;"><a style="color:red" href="#"><%=errMsg3%></a></span>
 		 <div align="center">
 		 <a class="btn btn-secondary" href="/shop/customer/signUpForm.jsp">초기화</a>
 		 </div>
