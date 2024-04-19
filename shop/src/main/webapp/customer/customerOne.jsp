@@ -16,13 +16,13 @@
 	
 		String loginId = null;
 		String loginName = null;
-	if(session.getAttribute("loginCustomer")!=null){ 
+	if(session.getAttribute("loginCustomer")!=null){      // 고객으로 로그인 되어있어 본인 정보 볼 때 
 		loginId = (String) (loginMember.get("id"));
 		loginName = (String) (loginMember.get("name"));		
 	}
 	
 	
-	if( request.getParameter("id")!=null && request.getParameter("name")!= null){
+	if( request.getParameter("id")!=null && request.getParameter("name")!= null){ // 직원으로 로그인해서 고객정보 볼 때
 		loginId = request.getParameter("id");
 		loginName = request.getParameter("name");
 	}

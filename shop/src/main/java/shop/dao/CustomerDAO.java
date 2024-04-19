@@ -56,7 +56,7 @@ public class CustomerDAO { // signUpForm
 	}
 		
 /*----------------------------------------------------------------------------*/	
-//signUpAction
+	//loginAction
 	// HashMap<String, Object> : null 이면 로그인 실패, 아니면 성공
 	// String id,pw : 로그인 폼에서 사용자가 입력한 id/pw
 	

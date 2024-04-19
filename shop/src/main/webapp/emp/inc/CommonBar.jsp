@@ -23,7 +23,6 @@
 <body>
 <div style="font-size: 30px; font-weight: bold; text-align:center; height:1px;">Welcome </div >	
 <div style="text-align: center; height: 60px; ">	
-	<div style="font-size: 30px; font-weight: bold; text-align:center; height:1px;">Welcome </div >	
 		<%	if (session.getAttribute("loginCustomer") == null && session.getAttribute("loginEmp") == null) { // customer,emp 모두 로그인x
 		%>	<div style="display: inline-block; float: right;">
 				<a class="btn btn-primary btn-login" style="width: 65px; font-size: 12px; margin-top: 16px;"href="/shop/loginForm.jsp">로그인</a>
@@ -33,7 +32,7 @@
 			<a class="btn btn-outline-info" style="width: 98px; font-size: 12px; color:black" href="/shop/customer/customerOne.jsp">
 				<b>'<%=(String) (loginMember.get("name"))%>'님</b>
 			</a>
-			<a class="btn btn-danger" style="width: 74px; font-size: 12px;"	href="/shop/action/logout.jsp"><span>로그아웃</span></a>
+			<a class="btn btn-danger" style="width: 80px; font-size: 12px;"	href="/shop/action/logout.jsp"><span>로그아웃</span></a>
 		</div>
 		
 	<%

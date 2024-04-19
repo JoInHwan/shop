@@ -19,6 +19,10 @@
 		.nav-link {
 		color:black;
 		}
+		 .nav-item .nav-link {
+            font-size: 12px; /* 원하는 크기로 설정 */
+            color: black; /* 원하는 색상으로 설정 */
+        }
 	</style>
 	<title>홈 화면</title>
 </head>

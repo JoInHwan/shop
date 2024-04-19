@@ -4,13 +4,11 @@
 <%@ page import = "java.net.*" %>
 <%@ page import = "shop.dao.GoodsDAO" %>
 <%	
-	HashMap<String,Object> loginMember	= null;
+	HashMap<String,Object> loginMember	= (HashMap<String,Object>)(session.getAttribute("loginEmp"));
 	
-	if(session.getAttribute("loginCustomer")==null && session.getAttribute("loginEmp")!=null){ // '직원'으로 로그인 하면 세션 loginMember에 loginEmp가 저장
-		loginMember	= (HashMap<String,Object>)(session.getAttribute("loginEmp"));
-	}
-	if(session.getAttribute("loginCustomer")!=null && session.getAttribute("loginEmp")==null){ // '고객'으로 로그인 하면 세션 loginMember에 loginCustome이 저장
-		loginMember	= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));
+	if(session.getAttribute("loginEmp")==null){ // 직원로그인이 안되어있으면
+		response.sendRedirect("/shop/emp/empLoginForm.jsp");
+		return;
 	}
 %>
 
@@ -284,7 +282,7 @@
 			for (HashMap<String, Object> goodsMap : goodsList) { 
 		%>	
 		
-		 <a class="item-wrapper" href="/shop/emp/updateGoodsForm.jsp?goodsTitle=<%=(String)(goodsMap.get("goodsTitle"))%>">	
+		 <a class="item-wrapper" href="/shop/emp/updateGoodsForm.jsp?goodsNum=<%=(String)(goodsMap.get("goodsNum"))%>">	
 			<div class="item">				
 			<table>
 <!-- 이미지 -->	<tr><th class="goodsBorder itemImg"><img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:140px; height:140px;"></img></th></tr> 

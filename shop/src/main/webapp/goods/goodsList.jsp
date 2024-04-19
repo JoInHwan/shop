@@ -12,6 +12,7 @@
 	if(session.getAttribute("loginCustomer")!=null && session.getAttribute("loginEmp")==null){ // '고객'으로 로그인 하면 세션 loginMember에 loginCustome이 저장
 		loginMember	= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));
 	}
+
 %>
 
 <%
@@ -284,7 +285,7 @@
 			for (HashMap<String, Object> goodsMap : goodsList) { 
 		%>	
 		
-		 <a class="item-wrapper" href="/shop/goods/goodsOne.jsp?goodsTitle=<%=(String)(goodsMap.get("goodsTitle"))%>">	
+		 <a class="item-wrapper" href="/shop/goods/goodsOne.jsp?goodsNum=<%=(String)(goodsMap.get("goodsNum"))%>">	
 			<div class="item">				
 			<table>
 <!-- 이미지 -->	<tr><th class="goodsBorder itemImg"><img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:140px; height:140px;"></img></th></tr> 

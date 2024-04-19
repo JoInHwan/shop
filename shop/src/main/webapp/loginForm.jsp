@@ -47,9 +47,9 @@
 	<h2>회원로그인</h2> <hr> <br>
 		<div style="background-color: white; margin-left:15%; margin-right:15%;" >
 			<form action="/shop/action/loginAction.jsp" method="post"> 	
-				<input class="form-control form-control-lg inputInfo" type="text" name="id" value="<%=idValue%>" placeholder="아이디" >
+				<input class="form-control form-control-lg inputInfo" type="text" name="id" value="dlsghks<%=idValue%>" placeholder="아이디" >
 				<div style="heigth:40px">&nbsp;</div>
-				<input class="form-control form-control-lg inputInfo" type="password" name="pw" value="<%=pwValue%>" placeholder="비밀번호"> <br>	
+				<input class="form-control form-control-lg inputInfo" type="password" name="pw" value="1234<%=pwValue%>" placeholder="비밀번호"> <br>	
 			<div style="height:30px">				
 				<a style="color:red;" href="/shop/loginForm.jsp"><%=errMsg %></a>					
 			</div><br>		

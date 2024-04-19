@@ -15,13 +15,17 @@
 %>
 <%
 	// MaraiDB연동 DAO 연결
-	String title = request.getParameter("goodsTitle");
-	HashMap<String, String> goodsOne = GoodsDAO.getGoodsOne(title); 
+	String goodsNum = request.getParameter("goodsNum");
+	HashMap<String, String> goodsOne = GoodsDAO.getGoodsOne(goodsNum); 
 	
 	int iitemIndexerPage = 8;
 	ArrayList<HashMap<String, Object>> goodsList = GoodsDAO.GoodsListBottom(iitemIndexerPage); 
 	
+	int updateSucceed = 0;
 	
+	if(request.getParameter("updateSucceed")!=null){
+		updateSucceed = 1; 
+	}
 %>
 
 <!DOCTYPE html>
@@ -85,10 +89,13 @@
 		<div>
 			<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 		</div> 
-		<br><br>	
+		<br>	
 		<div class="in" style="text-align: center">
 			<div style="display: inline-block;">
+				<h2>상품수정</h2>
+				<hr>
 				<form method="post" action="/shop/action/updateGoodsAction.jsp">
+				<input type="hidden" class="form-control" name="goodsNum" value='<%=(goodsOne.get("goodsNum"))%>'>
 				<table style="text-align:left">
 					<tr>
 						<td rowspan="6" style=" border-right:solid;">
@@ -126,12 +133,22 @@
 					<tr>
 						<td>
 							<label class="form-label"><b>내용</b></label> 
-							<input type="text" class="form-control" name="content" height="60px;" value='<%=(goodsOne.get("goods_content"))%>'>
+							<textarea rows="3" cols="4" class="form-control" name="content"  ><%=(goodsOne.get("goods_content"))%></textarea>							
 						</td>
 					</tr>
+					
 					<tr>
 						<td>
 							<button type="submit" class="btn btn-primary">수정하기</button>
+							&nbsp;
+						<%
+							if(updateSucceed==1){
+						%>
+							<span style="color:red; font-size:20px"> 상품이 수정되었습니다!</span>
+						<%							
+							}
+						%>							
+							
 						</td>
 					<tr>
 				</table>
@@ -146,7 +163,7 @@
 					for (HashMap<String, Object> goodsMap : goodsList) { 
 				%>						
 					<div class="itemIndex col-1"  style="padding-top:1px;">
-						<a class="item-wrapper" href="/shop/emp/updateGoodsForm.jsp?goodsTitle=<%=(String)(goodsMap.get("goodsTitle"))%>">		
+						<a class="item-wrapper" href="/shop/emp/updateGoodsForm.jsp?goodsNum=<%=(String)(goodsMap.get("goodsNum"))%>">		
 							<table class="indexTable">
 			<!-- 이미지 -->	<tr><th><img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:80px;"></img></th></tr> 
 			<!-- 상풍명 -->	<tr><td style="font-size: 10px; text-align: center;"><%=(String)(goodsMap.get("goodsTitle"))%></td></tr>

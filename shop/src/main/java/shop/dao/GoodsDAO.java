@@ -62,7 +62,8 @@ public class GoodsDAO {
 	    		+ " goods_title AS goodsTitle,"
 	    		+ " filename,"
 	    		+ " goods_price AS goodsPrice,"
-	    		+ " goods_amount AS goodsAmount"
+	    		+ " goods_amount AS goodsAmount,"
+	    		+ " goods_num AS goodsNum"
 	    		+ " FROM goods WHERE 1=1 ";
 	   
 	    if (category != null && !category.equals("null")) {				// 카테고리가 정해졌다면 category = ?의 where 조건이 추가된 상품의 모든 정보	
@@ -97,11 +98,12 @@ public class GoodsDAO {
 	    
 	    while (rs.next()) {
 	        HashMap<String, Object> goods = new HashMap<>();
-	        goods.put("wcnt", rs.getString("wcnt"));
+	        goods.put("wcnt", rs.getString("wcnt"));	     
 	        goods.put("goodsTitle", rs.getString("goodsTitle"));
 	        goods.put("filename", rs.getString("filename"));
 	        goods.put("goodsPrice", rs.getString("goodsPrice"));
 	        goods.put("goodsAmount", rs.getString("goodsAmount"));
+	        goods.put("goodsNum", rs.getString("goodsNum"));
 	        goodsList.add(goods);
 	    }
 	   
@@ -118,19 +120,20 @@ public class GoodsDAO {
 	}
 	// -----------------------------------------------------------------------------------------------
 	//GoodsOne 
-	public static HashMap<String, String> getGoodsOne(String title) 
+	public static HashMap<String, String> getGoodsOne(String goodsNum) 
 									throws Exception {
 		HashMap<String, String> GoodsOne = null;
 	    Connection conn = null;
 	    PreparedStatement stmt = null;
 	    ResultSet rs = null;	    	    
 	    conn = DBHelper	.getConnection();
-	    String sql = "select * from goods where goods_title = ?";
+	    String sql = "select * from goods where goods_num = ?";
 	    stmt = conn.prepareStatement(sql);
-	    stmt.setString(1,title);
+	    stmt.setString(1,goodsNum);
 	    rs = stmt.executeQuery();
 	    while (rs.next()) {
 	    	GoodsOne = new HashMap<String, String>();
+	    	GoodsOne.put("goodsNum", rs.getString("goods_num"));
 	        GoodsOne.put("goodsTitle", rs.getString("goods_title"));
 	        GoodsOne.put("category", rs.getString("category"));   
 	        GoodsOne.put("filename", rs.getString("filename"));
@@ -164,6 +167,7 @@ public class GoodsDAO {
 	        goods.put("goodsTitle", rs.getString("goods_title"));
 	        goods.put("filename", rs.getString("filename"));
 	        goods.put("goodsPrice", rs.getString("goods_price"));
+	        goods.put("goodsNum", rs.getString("goods_num"));
 	        goodsList.add(goods);
 	    }	    
 		    
@@ -175,34 +179,30 @@ public class GoodsDAO {
 
 	// updateGoodsAction
 	
-	public static int updateGoods (String title,String category,int price,int amount, String content) 
+	public static int updateGoods (String title,String category,int price,int amount, String content, int goodsNum) 
 			throws Exception {
 		int row = 0;
 		Connection conn = null;
 	    PreparedStatement stmt = null;
 	    conn = DBHelper	.getConnection();
-	    String sql = "update goods set title = ?,category = ?,price = ?,amount = ?,content = ?) where ";
-		
-		
-		
+	    String sql = "update goods set goods_title = ?,category = ?,goods_price = ?,goods_amount = ?,goods_content = ? "
+	    		+ "where goods_num = ?";		
+	
 		stmt = conn.prepareStatement(sql);	
 		stmt.setString(1,title);
-		stmt.setString(1,category);
-		stmt.setInt(1,price);
-		stmt.setInt(1,amount);
-		stmt.setString(1,content);
-		
-		row = stmt.executeUpdate();		   
+		stmt.setString(2,category);
+		stmt.setInt(3,price);
+		stmt.setInt(4,amount);
+		stmt.setString(5,content);
+		stmt.setInt(6,goodsNum);
+		System.out.println(stmt);
+		row = stmt.executeUpdate();		     
 		   
-		
 	    stmt.close();
 	    conn.close();    
 		return row;
-	}
+	}      
 	
-	
-	
-	
-	
+		
 	
 }

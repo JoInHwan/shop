@@ -80,7 +80,7 @@ public class EmpDAO {
 	    conn.close();
 	    return empList;
 	}
-	
+	  
 	// -----------------------------------------------------------------------------------------------
 		// modify.jsp
 	public static int modifyActive(String empId,String active) 
