@@ -29,7 +29,7 @@
 			</div>
 		<%	} else if (session.getAttribute("loginCustomer") != null && session.getAttribute("loginEmp") == null) { //손님로그인이 있다면
 			%>	<div style="display: inline-block; float: right;"><br>
-			<a class="btn btn-outline-info" style="width: 98px; font-size: 12px; color:black" href="/shop/customer/customerOne.jsp">
+			<a class="btn btn-outline-info" style="width:; font-size: 12px; color:black; padding:6px 10px" href="/shop/customer/customerOne.jsp">
 				<b>'<%=(String) (loginMember.get("name"))%>'님</b>
 			</a>
 			<a class="btn btn-danger" style="width: 80px; font-size: 12px;"	href="/shop/action/logout.jsp"><span>로그아웃</span></a>

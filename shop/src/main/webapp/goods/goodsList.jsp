@@ -186,7 +186,7 @@
     }
 	</style>
 </head>
-<body >
+<body>
 <div class="row">
  <div class="col-1">
   	 	
@@ -195,7 +195,7 @@
 		<div>
 			<jsp:include page="/emp/inc/CommonBar.jsp"></jsp:include>
 		</div> 		
-		<div style="text-align:center; padding:0px 10%">
+		<div style="text-align:center; padding:0px 10%; height: ; ">
 			<jsp:include page="/emp/inc/img.jsp"></jsp:include> 
 		</div>	<br>	
 	<div style="margin-left: 30px; margin-right: 30px;" >
@@ -265,7 +265,7 @@
 		
 	</div>
 					<br>
-	<script>
+	<script>   // submit 버튼 없이 select의 옵션을 클릭했을때 작동되게 하는 스크립트
 		function submitOrderForm(value) {
 			document.getElementById("orderForm").action = "/shop/goods/goodsList.jsp?order="
 					+ value;

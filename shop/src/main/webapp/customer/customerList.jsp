@@ -72,14 +72,14 @@
 	
 	<table style="margin-left: 10px; margin-right: 20px; font-size: 14px"  >
 		<tr>
-			<th>이름</th>
 			<th>아이디</th>
+			<th>이름</th>
 			<th>성별</th>
 			<th>생일</th>			
 			<th>주소</th>
 			<th>생성날짜</th>
 			<th>변경날짜</th>
-			<th>비밀번호</th>
+			<th>전화번호</th>
 			<th>자세히</th>
 		</tr>
 	
@@ -90,23 +90,26 @@
 				String birth = (String) m.get("birth");
 				String gender = (String) m.get("gender");
 				String address = (String) m.get("address");
-				String pw = (String) m.get("pw");
+				String phoneNum = (String) m.get("phoneNum");
 				String createDate = (String) m.get("create_date");
-				String updateDate = (String) m.get("update_date");
+				String updateDate = (String) m.get("update_date");				
+				birth = birth.substring(2, 4) + "년" + birth.substring(5, 7) + "월" + birth.substring(8, 10) + "일";
+				createDate = createDate.substring(0, 4) + "년" + createDate.substring(5, 7) + "월" + createDate.substring(8, 10) + "일";
+				updateDate = updateDate.substring(0, 4) + "년" + updateDate.substring(5, 7) + "월" + updateDate.substring(8, 10) + "일";
 				
-				pw = pw.substring(0, 10);				// 암호화된 비밀번호는 너무 기니 앞 10글자만 출력
+				
 				createDate = createDate.substring(2);	// yyyy-mm-dd 를 yy-mm-dd 로 출력		
 				updateDate = updateDate.substring(2);
 		%>
 			<tr>
 				<td class="td"><%=id%></td>
 				<td class="td"><%=name%></td>
-				<td class="td"><%=birth%></td>
 				<td class="td"><%=gender%>자</td>
+				<td class="td"><%=birth%></td>
 				<td class="td"><%=address%></td>	
 				<td class="td"><%=createDate%></td>
 				<td class="td"><%=updateDate%></td>				
-				<td class="td"><%=pw%></td>				
+				<td class="td"><%=phoneNum%></td>				
 				<td><a href="/shop/customer/customerOne.jsp?id=<%=id%>&name=<%=name%>">자세히</a></td>			
 			</tr>		
 		<%		

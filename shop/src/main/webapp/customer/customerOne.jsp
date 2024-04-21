@@ -85,6 +85,10 @@
 				<td><%=customerInfo.get("address")%></td>			
 			</tr>
 			<tr>
+				<td>전화번호</td>
+				<td><%=customerInfo.get("phoneNum")%></td>			
+			</tr>
+			<tr>
 				<td>회원가입일</td>
 				<td><%=customerInfo.get("createDate")%></td>			
 			</tr>

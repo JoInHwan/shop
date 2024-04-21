@@ -4,7 +4,7 @@ import java.util.*;
 import java.sql.*;
 
 
-public class CustomerDAO { // signUpForm
+public class CustomerDAO { // signUpAction
 	
 	public static boolean checkDuplicateID(String id) throws Exception {
         boolean isDuplicate = false;        
@@ -120,6 +120,7 @@ public class CustomerDAO { // signUpForm
 		customerMap.put("birth",rs.getString("birth"));
 		customerMap.put("gender",rs.getString("gender"));
 		customerMap.put("address",rs.getString("address"));
+		customerMap.put("phoneNum",rs.getString("phone_num"));
 		customerMap.put("create_date",rs.getString("create_date"));
 		customerMap.put("update_date",rs.getString("update_date"));
 		customerMap.put("pw",rs.getString("pw"));
@@ -152,6 +153,7 @@ public class CustomerDAO { // signUpForm
 		resultMap.put("birth", rs.getString("birth"));
 		resultMap.put("gender", rs.getString("gender"));
 		resultMap.put("name", rs.getString("name"));
+		resultMap.put("phoneNum", rs.getString("phone_num"));
 		resultMap.put("address", rs.getString("address"));
 		resultMap.put("createDate", rs.getString("create_date"));
 		resultMap.put("updateDate", rs.getString("update_date"));

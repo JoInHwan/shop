@@ -3,6 +3,7 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.net.*" %>
 <%@ page import = "shop.dao.GoodsDAO" %>
+<%@ page import = "shop.dao.OrderDAO" %>
 <%@ page import = "shop.dao.ReviewDAO" %>
 <%
 	
@@ -20,49 +21,91 @@
 	
 	
 	
+	
+	
 %>
 <%
 	// MaraiDB연동 DAO 연결
 	String goodsNum = request.getParameter("goodsNum");
 	System.out.println("상품번호 : " + goodsNum);
 	if(	goodsNum == null){ 				// 선택한 상품이 없으면 상품리스트 페이지로
-		System.out.println("선택한 상품이 없음 " );
-		response.sendRedirect("/shop/goods/goodsList.jsp");
+		System.out.println("선택한 상품이 없음 " );  
+		response.sendRedirect("/shop/goods/goodsList.jsp"); //적용안됌
 		
 	}else{		
 		goodsNum = request.getParameter("goodsNum");	
 	}
 	
-	HashMap<String, String> goodsOne = GoodsDAO.getGoodsOne(goodsNum); 
+	HashMap<String, String> goodsOne = GoodsDAO.getGoodsOne(goodsNum); // GoodsOne 출력
+	
+	
 	
 	int itemIndexerPage = 8;
-	ArrayList<HashMap<String, Object>> goodsList = GoodsDAO.GoodsListBottom(itemIndexerPage); 
+	ArrayList<HashMap<String, Object>> goodsList = GoodsDAO.GoodsListBottom(itemIndexerPage); // 하단 다른 상품목록 출력
 	
 	
-	HashMap<String, String> review = ReviewDAO.getReviewList(goodsNum); 
 	
+	
+	 
+	boolean reviewOk = false;				// 리뷰작성권한 확인
+	
+	HashMap<String, String> orderNumCheck = null; 
+	String orderNum = null;
+	
+	if(session.getAttribute("loginCustomer")!=null){		//  고객로그인 되어있을때
+		
+		reviewOk = OrderDAO.orderCheck(id,goodsNum);		// 리뷰작성 가능/불가능 확인
+		System.out.println("reviewOK : " + reviewOk);
+		
+		
+		orderNumCheck = OrderDAO.orderNumCheck(id,goodsNum);
+		if(orderNumCheck!=null){
+		orderNum = orderNumCheck.get("orderNum");
+		System.out.println(orderNum + "<-orderNum ");	
+	
+		}
+	}
+	
+	ArrayList<HashMap<String, String>> reviewList = ReviewDAO.getReviewList(goodsNum); // 리뷰리스트 출력
 	
 	// 별점 알고리즘
 	
-	int sr = 0;
-	int fullStar = 0;
+	String score = null;   // 점수 변수
+	int sr = 0;      		// 점수를 flaot로 형변환 한뒤 10배 한 값 변수
+	int fullStar = 0;	
 	int halfStar = 0;
-	int emptyStar = 0;
+	int emptyStar = 0;	
 	
-	if(review!=null){ 		
-		String score = review.get("score");   // DB의 score값 저장
-		float star = Float.parseFloat(score); // float로 형변환
-		System.out.println("star : " + star);
+		if(reviewList!=null){ 		 // 리뷰가 있으면
+			for(HashMap<String, String>m : reviewList){		
+					score =	m.get("score");   // DB의 score값 저장			
+				float scoreF = Float.parseFloat(score); // float로 형변환
+				System.out.println("starF : " + scoreF);
+				
+			sr = Math.round(scoreF)*10; // 반올림 한 뒤 10배
+			System.out.println("sr : " + sr);
+			fullStar = sr / 20;		   // 가득찬 별 수
+			emptyStar = ((101-sr)/20); // 빈 별 수
+			halfStar = 5 -( fullStar + emptyStar); //반쪽별 수
+			
+			System.out.println("가득찬별 수 : " + fullStar);
+			System.out.println("빈 별 수 : " + emptyStar);
+			
+			 m.put("fullStar", String.valueOf(fullStar));
+			 m.put("halfStar", String.valueOf(halfStar));
+			 m.put("emptyStar", String.valueOf(emptyStar));
+			
+			}	
+			for(HashMap<String, String>m : reviewList){
+				
+				System.out.println( Integer.parseInt(m.get("fullStar"))  + "<--fullStar");
+				System.out.println( Integer.parseInt(m.get("emptyStar")) + "<--emptyStar");
+				System.out.println( Integer.parseInt(m.get("halfStar")) + "<--halfStar");
+			}
 		
-		sr = Math.round(star)*10; // 반올림 한 뒤 10배
-		System.out.println("sr : " + sr);
-		fullStar = sr / 20;		   // 가득찬 별 수
-		emptyStar = ((101-sr)/20); // 빈 별 수
-		halfStar = 5 -( fullStar + emptyStar); //반쪽별 수
-		
-		System.out.println("가득찬별 수 : " + fullStar);
-		System.out.println("빈 별 수 : " + emptyStar);
-	}
+		}
+	
+	
 	
 %>
 
@@ -106,7 +149,7 @@
 	border:solid 1px;
 	}
 	.checked {
-	  color: black;
+	  color: orange;
 	}
 </Style>	
 	
@@ -124,7 +167,7 @@
 		<br><br>	
 		<div style="text-align: center">
 			<div style="display: inline-block; width:80%">	
-			
+				<!-- goodsOne 출력 -->
 				<table style="display: inline-block;">			
 				<tr>
 					<td rowspan="6">
@@ -150,13 +193,18 @@
 					<td style="width:300px"><%=(goodsOne.get("goods_content"))%></td>
 				</tr>
 				<tr>
-					<td> &nbsp; </td>
-					<td colspan="2"><a href="" class="form-control-lg btn btn-outline-success">장바구니 담기 </a>&nbsp;
-						<a href="" class="form-control-lg btn btn-primary"> 바로구매 </a>
-					</td>
-				<tr>			
+				    <td>&nbsp;</td>
+					    <td colspan="2" style="display: flex; ">
+					        <a href="" class="form-control-lg btn btn-outline-success" style="margin-left: 20px;">장바구니 담기</a>
+					        <form action="/shop/goods/purchaseGoodsForm.jsp" method="post" style="margin-left: 20px;">
+					        	<input type="hidden" name="goodsNum" value="<%=goodsNum%>">
+					        	<input type="hidden" name="id" value="<%=id%>">					        	
+					            <button type="submit" class="form-control-lg btn btn-primary">바로 구매</button>
+					        </form>
+					    </td>
+					<tr>			
 				</table>
-				
+				<!--------------  리뷰 리스트 출력 코드 ------------------>
 				<br><br>
 				
 				<table class="table table-hover" >
@@ -164,78 +212,113 @@
 						<th colspan="3" style="background-color: #A9A9A9">상품평</th>								
 					</tr>
 				<%
-					if(review==null){ 				
+					if(reviewList==null){ 		// 리뷰가 없을때
 				%>
 					<tr>
-						<td colspan="3"> 상품 구매 후 리뷰를 작성해 주세요!</td>												 
+						<td colspan="3"> 리뷰가 없습니다 </td>												 
 					</tr>
 				<%
-					}else if( review!=null){
+					}else if( reviewList!=null){
 				%>
 					<tr>
 						<th style= "width:20%; height:18px; font-size:13px; paddin ">평점</th>
 						<td style="font-size:13px;">내용</td>
 						<td style= "width:20%; font-size:13px;" >비고</td>
 					</tr>
+				<%		
+						for(HashMap<String, String>m : reviewList){  //리뷰리스트 출력
+				%>
+					
 					<tr>
-						<td> <%=review.get("score")%>
-						
-						<%
-						for(int i=1;i<=fullStar;i++){
-					%>
+						<td> <%=m.get("score")%>						
+					<%
+						for(int i=1; i<=Integer.parseInt(m.get("fullStar")); i++){
+					%> 
 						<span class="fa fa-star checked"></span>
 					<%	
 						}
 						
-						if(halfStar == 1){
+						if( Integer.parseInt(m.get("halfStar")) == 1){
 					%>
 						<span class="fa fa-star-half-o checked"></span>
 					<%		
 						}
 						if(emptyStar!=0){						
-							for(int i=1;i<=emptyStar;i++){
-						%>
+							for(int i=1; i<=Integer.parseInt(m.get("emptyStar")) ; i++){
+					%>
 							<span class="fa fa-star-o"></span>
-						<%		
+					<%		
 							}
 						}
-					%>
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-<!-- 							<span class="fa fa-star checked"></span> -->
-<!-- 							<span class="fa fa-star checked"></span> -->
-<!-- 							<span class="fa fa-star checked"></span> -->
-<!-- 							<span class="fa fa-star-half-o checked"></span>  -->
-<!-- 							<span class="fa fa-star-o"></span>  -->
-							
+					%>	
 						</td>
 						<td >
-							<%=review.get("content")%>
+							<%=m.get("content")%>
 						</td>
-						<td style="text-align: right;font-size:12px;"><%=review.get("createDate")%>
-							<br> 작성자 : <%=review.get("id")%>							<a href="#"> 삭제 </a> 
+						<td style="text-align: right;font-size:12px;">	
+								<form action="/shop/action/deleteReviewAction.jsp" method="post">
+									<input type="hidden" name="orderNum" value="<%=orderNum%>">
+									<input type="hidden" name="createDate" value="<%=m.get("createDate")%>">
+									<input type="hidden" name="goodsNum" value="<%=goodsNum%>">
+										<%=m.get("createDate")%>								
+									<%
+										if(reviewOk==true&& m.get("id").equals(id) ){	// 리뷰작성권한이 있고 리뷰를작성한 id와 로그인한 id가 같아야 삭제 가능			
+									%>		
+										<button type="submit" class="btn btn-danger" style="font-size:8px; width:14px; padding:0px "> X </button>																					
+									<%
+										}
+									%>									
+										<br> 작성자 : <%=m.get("id")%>									
+								</form>	
 						</td>						 
 					</tr>	
 									
 				<% 				
+						}
 					}
 				%>
 			</table>
-				
+			<form method="post" class="form-control" action="/shop/action/addReviewAction.jsp" style="display: flex; flex-direction: row; align-items: center;">
+				<input type="hidden" name="goodsNum" value="<%=goodsNum%>">
+				<input type="hidden" name="orderNum" value="<%=orderNum%>">
+				<div style="flex: 4; margin-left: 10px;">
+			        <textarea name="content" class="form-control" placeholder="후기를 입력해주세요" rows="3"></textarea>
+			    </div>
+			    <div style="flex: 1;">
+			        <input type="range" min="0.0" max="10.0" step="0.1" value="5.0" id="slider" name="score" style="width:150px;">
+			        <p id="sliderValue" style="font-size:12px">평점 : 5.0 점</p>					
+					    <script>
+					        // 슬라이더 요소를 가져옵니다.
+					        var slider = document.getElementById("slider");
+					        // 텍스트를 추가할 요소를 가져옵니다.
+					        var sliderValue = document.getElementById("sliderValue");
+					
+					        // 슬라이더 값이 변경될 때마다 실행되는 함수를 정의합니다.
+					        slider.oninput = function() {
+					            // 슬라이더의 현재 값을 가져옵니다.
+					            var value = slider.value;
+					            // 텍스트를 설정합니다.
+					            sliderValue.innerHTML = "평점 : " + value + " 점";
+					        };1111
+					    </script>
+					<%
+						if(reviewOk==true){				
+					%>				
+						
+						<button class="btn btn-outline-info btn-sm align-self-end" type="submit">리뷰등록</button>						
+					<%
+						}else {
+					%>
+						<span style="font-size:8px">제품구매시에만 리뷰를 작성할 수 있습니다 </span>
+					<%		
+						}
+					%>
+				</div>
+			</form>	
 				
 			</div>
 			
-		</div>	
-		
-			
+		</div>			
 		
 		<hr>
 		<div style="font-size:14px; height:20px; padding-left:15%" > 함께 보면 좋을 상품 </div>
