@@ -6,21 +6,20 @@
 <%@ page import = "shop.dao.OrderDAO" %>
 <%@ page import = "shop.dao.CustomerDAO" %>
 <%
+	if((HashMap<String,Object>)(session.getAttribute("loginCustomer")) == null){
+		response.sendRedirect("/shop/loginForm.jsp"); 
+	} 
+	else{
+
 	HashMap<String,Object> loginMember	= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));
 	
 		String loginId = null;
 		String loginName = null;
-	if(session.getAttribute("loginCustomer")!=null){      // 고객으로 로그인 되어있어 본인 정보 볼 때 
+	if(session.getAttribute("loginCustomer")!=null){   
 		loginId = (String) (loginMember.get("id"));
 		loginName = (String) (loginMember.get("name"));		
 	}
-	
-	
-	if( request.getParameter("id")!=null && request.getParameter("name")!= null){ // 직원으로 로그인해서 고객정보 볼 때
-		loginId = request.getParameter("id");
-		loginName = request.getParameter("name");
-	}
-	
+		
 	
 	System.out.println("id : " + loginId);
 	System.out.println("name : " + loginName);
@@ -57,13 +56,12 @@
 		
 		.tbLeft{
 			text-align:right;
-			background-color: #C0C0C0;
+			background-color: #D3D3D3;
 			width: 20%;
 			padding:6px 16px;
 			font-weight: bold;
 		}
 		.tbRight{
-		
 			padding:6px 16px;
 		}
 		
@@ -105,15 +103,16 @@
 		<table style="border-top: 2px solid">		
 			<tr>
 				<td class="tbLeft">이름</td>
-				<td class="tbRight"><%=loginName%></td>			
+				<td class="tbRight">
+				<input type= "text" value="<%=loginName%>"></td>			
 			</tr>				
 			<tr>
 				<td class="tbLeft"> 주소</td>
-				<td class="tbRight"><%=customerInfo.get("address")%></td>			
+				<td class="tbRight"><input type= "text" value="<%=customerInfo.get("address")%>" style="width:600px"></td>			
 			</tr>
 			<tr>
 				<td class="tbLeft">연락처</td>
-				<td class="tbRight"><%=customerInfo.get("phoneNum")%></td>			
+				<td class="tbRight"><input type= "text" value="<%=customerInfo.get("phoneNum")%>"></td>			
 			</tr>			
 		</table>
 		<br><br>
@@ -164,9 +163,9 @@
 		</form>
 		<script>
 		    function calculateTotal() {
-		        var price = <%=(goodsOne.get("goods_price"))%>;
+		        var price = <%=(goodsOne.get("goods_price"))%>;		        
 		        var quantity = document.getElementById("quantity").value;
-		        var total_price = price * quantity;
+		        var total_price = (price * quantity).toLocaleString('kr');
 		        document.getElementById("total_price").innerText = total_price;
 		    }
 		</script>
@@ -174,3 +173,4 @@
 	<br><br><br><br><br><br><br>
 </body>
 </html>
+<%}%>

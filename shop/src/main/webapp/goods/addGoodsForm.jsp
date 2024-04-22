@@ -49,10 +49,10 @@
 				<input type="file" name="goodsImg"> <br>
 			
 				상품가격:
-				<input type="text" name="goodsPrice"> 
+				<input type="number" name="goodsPrice"> 
 			
 				재고:
-				<input type="text" name="goodsAmount"> <br>
+				<input type="number" name="goodsAmount"> <br>
 			
 				제품설명 :
 				<textarea rows="5" cols="50" name="content"></textarea> <br>

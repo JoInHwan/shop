@@ -6,32 +6,6 @@ import java.sql.*;
 
 public class GoodsDAO { 
 	
-	public static  ArrayList<HashMap<String, Object>> getCategoryList()
-			throws Exception {	
-		ArrayList<HashMap<String,Object>> categoryList = new ArrayList<HashMap<String,Object>>();	
-	    Connection conn1 = null;
-	    PreparedStatement stmt1 = null;
-	    ResultSet rs1 = null;    
-	    
-	    conn1 = DBHelper.getConnection();
-	    
-	    String sql1 = "select category, count(*) cnt from goods group by category order by cnt desc";
-	    stmt1 = conn1.prepareStatement(sql1);
-		rs1 = stmt1.executeQuery(); // JDBC API 종속된 자료구조 모델 ResultSet -> 기본API 자료구조(ArrayList)로 변경	
-		
-	    
-		while (rs1.next()){
-			HashMap<String,Object> categoryMap = new HashMap<>();
-			categoryMap.put("category",rs1.getString("category"));
-			categoryMap.put("cnt",rs1.getInt("cnt"));
-			categoryList.add(categoryMap);
-		}
-		rs1.close();
-	    stmt1.close();	
-		conn1.close();		
-	    return categoryList;
-	}
-	
 	// -----------------------------------------------------------------------------------------------
 	public static ArrayList<HashMap<String, Object>> getGoodsList(String category, String searchWord, String order, int currentPage, int itemPerPage) 
 	throws Exception {
@@ -52,7 +26,7 @@ public class GoodsDAO {
 			    	    
 	    String sql = 
 	    		"SELECT "
-	    		+ "(SELECT COUNT(*) FROM goods WHERE 1=1 ";
+	    		+ "(SELECT count(*) FROM goods WHERE 1=1 ";
 	    if (category != null && !category.equals("null")) {				// ()괄호 안 카테고리가 정해졌다면 category = ?의 where 조건이 추가된 상품의 '수'	
 	        sql += 
 	        	"AND category = ?";
@@ -70,13 +44,8 @@ public class GoodsDAO {
 	    	sql += "AND category = ?";
 	    	System.out.println("카테고리가 널입니다2");
 	    }
-	    sql += " AND goods_title LIKE ? ORDER BY wcnt";
-	    
-	    if (order == null || order.equals("null")) {					// 받아온 order 값이 없다면 무작위로 배열 
-	        sql += ",RAND()";
-	        System.out.println("order가 널입니다");
-	    }
-	    sql += order + " LIMIT ?,?";
+	    sql += " AND goods_title LIKE ? ORDER BY wcnt"
+	    		+ order + " LIMIT ?,?";
 	    
 	    stmt = conn.prepareStatement(sql);
 	    if (category != null && !category.equals("null")) {
@@ -203,6 +172,26 @@ public class GoodsDAO {
 		return row;
 	}      
 	
+
+	//  addOrderAction 페이지에서 재품수량 감소
+		public static int updateGoodsAmount (String goodsNum, int amount) 
+			throws Exception {
+			int row2 = 0;
+			Connection conn = null;
+		    PreparedStatement stmt = null;
+		    conn = DBHelper	.getConnection();
+		    String sql = "update goods set goods_amount = goods_amount - ? where goods_num = ? ";
 		
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1,amount);
+			stmt.setString(2,goodsNum);
+			System.out.println(stmt);
+			row2 = stmt.executeUpdate();		     
+			   
+		    stmt.close();
+		    conn.close();    
+			return row2;
+		} 
+			
 	
 }

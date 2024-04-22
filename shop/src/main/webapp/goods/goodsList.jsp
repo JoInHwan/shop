@@ -3,6 +3,7 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.net.*" %>
 <%@ page import = "shop.dao.GoodsDAO" %>
+<%@ page import = "shop.dao.CategoryDAO" %>
 <%	
 	HashMap<String,Object> loginMember	= null;
 	
@@ -25,7 +26,7 @@
 	
 	String perPage = request.getParameter("perPage");						// 원하는 개수대로 아이템을 보도록 하는 변수 perPage
 	
-	System.out.println(perPage+ "<-perPage");									
+	System.out.println( "perPage : " + perPage);									
 	if(perPage == null || perPage.equals("null")) {
 		itemPerPage = 12;
 	    System.out.println("itemPerPage가 널일때 12로 초기화");					// perPage변수가 null이면 itemPerPage = 12
@@ -40,22 +41,22 @@
 	if(request.getParameter("searchWord")!=null){							// 검색한 단어 저장
 		searchWord = request.getParameter("searchWord");
 	}
-	System.out.println("검색한것 : " + searchWord);	
+	System.out.println("searchWord : " + searchWord);	
 	
 	/*정렬기능*/	
 	String order = request.getParameter("order");
 	String array = request.getParameter("order"); // 페이징그룹의 a태그 안에 넣을 용도(위의 order변수와 달리 if문을 안거치고 받아온값을 그대로 이용하기 위함)
 	System.out.println("ORDER : "+order );
 	if( order == null || order.equals("null") ){ 							//  처음 페이지를 불러올때 || a태그로 order값에 null이란 문자가 들어올때
-		order = "";
-		System.out.println("받아온 order 값이 없어 빈 값으로 처리" );
+		order = "";  // "안에 ,rand() 넣으면 랜덤출력"
+		System.out.println("order : null  ( 정렬조건없음 )" );
 	} else {
 		order = ","+ order;
-		System.out.println("쉼표 추가됨");      								// sql문에서 기본 order by ~ 에 ',' ~ 추가 
-	}
+		System.out.println("order : " + order + " (새로 정렬할 조건) ");      								// sql문에서 기본 order by ~ 에 ',' ~ 추가 
+	} 
 		
 	String category = request.getParameter("category"); 					// 카테고리 변수 받기	
-	System.out.println("카테고리 : " +category);	
+	System.out.println("category : " +category);	
 %>
 
 <%
@@ -63,7 +64,7 @@
 		// 이상 전체 카테고리 및 개수
 	int totalItem = 0;	
 	// 카테고리 이름과 그 개수를 하나씩 가져와서 선택한 카테고리와 같을 때 cnt 값을 totalItem에 저장
-	ArrayList<HashMap<String, Object>> categoryList = GoodsDAO.getCategoryList(); 
+	ArrayList<HashMap<String, Object>> categoryList = CategoryDAO.getCategoryList(); 
 	
 	if(category!=null && !category.equals("null") ){ 						// 카테고리 값이 선택되었을때 (null이 아닐때)에만 동작
 // 		↑'전체'보기하거나 처음페이지에 들어왔을때 && a태그로 category값에 null문자가 넘겨질때  		
@@ -179,11 +180,7 @@
 	input[type=text] {
  	border-style: none;
 		}
-	
     
-    .btn-login{
-    ;
-    }
 	</style>
 </head>
 <body>
@@ -352,7 +349,7 @@
 				<li class="page-item <%=nextTab%>"><a class="page-link"	style="color: black; "
 					href="/shop/goods/goodsList.jsp?category=<%=category%>&searchWord=<%=searchWord%>&order=<%=array%>&perPage=<%=perPage%>&currentPage=<%=lastPage%>">Last</a>
 				</li>
-			</ul>  <!--   	&laquo;   &raquo;-->
+			</ul>
 		</nav>
 	</div>
 	<div class="col-1" style="background-color:#"></div>

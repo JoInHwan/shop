@@ -63,9 +63,7 @@
 	<div style="display: flex; justify-content: center;">
     <a href="/shop/customer/findIdForm.jsp" class="findID" style="" >아이디 찾기</a>
     <span style="margin: 0px 4%">|</span>
-    <a href="/shop/customer/checkIdForm.jsp" class="findID" style="">비밀번호 찾기</a>
-    <span style="margin: 0px 4%">|</span>
-    <a href="/shop/customer/findPwForm.jsp" class="findID" style="">비밀번호 변경</a>
+    <a href="/shop/customer/findPwForm.jsp" class="findID" style="">비밀번호 찾기</a>
 	</div> <br><br><br>
 
 	

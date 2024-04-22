@@ -18,10 +18,10 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title></title>
 </head>
 <body>
-<div style="font-size: 30px; font-weight: bold; text-align:center; height:1px;">Welcome </div >	
+<div style="font-size: 30px; font-weight: bold; text-align:center; height:1px;">
+	<a href="/shop/goods/goodsList.jsp" style="text-decoration:none; color:black">Welcome</a> </div >	
 <div style="text-align: center; height: 60px; ">	
 		<%	if (session.getAttribute("loginCustomer") == null && session.getAttribute("loginEmp") == null) { // customer,emp 모두 로그인x
 		%>	<div style="display: inline-block; float: right;">

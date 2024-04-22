@@ -4,14 +4,14 @@ import java.util.*;
 import java.sql.*;
 
 
-public class CustomerDAO { // signUpAction
+public class CustomerDAO { // signUpAction, updatePwForm
 	
 	public static boolean checkDuplicateID(String id) throws Exception {
         boolean isDuplicate = false;        
         PreparedStatement stmtCheck = null;
         ResultSet rsCheck = null;		
 
-	// DB 접근
+	// 1. DB 접근
 	Connection conn = DBHelper.getConnection();
 	
 	// 2. 중복된 아이디 확인
@@ -21,14 +21,35 @@ public class CustomerDAO { // signUpAction
 	rsCheck = stmtCheck.executeQuery();
 	
 		if(rsCheck.next()){  // 이미 아이디가 존재할때
-			System.out.println("아이디 중복");
+			System.out.println("아이디 존재");
 			isDuplicate = true;
 		}
 		
 	 conn.close();	
 	 return isDuplicate;
 	}
+	// 
+	public static int findPw(String id,String name, String birth) throws Exception {
+		int row = 0;        
+        PreparedStatement stmt = null;
+        ResultSet rs = null;		
+        
+	Connection conn = DBHelper.getConnection();
+	String sqlCheck = "select id from customer where id = ? and name =? and birth = ?";
+	stmt = conn.prepareStatement(sqlCheck);
+	stmt.setString(1,id );
+	stmt.setString(2,name );
+	stmt.setString(3,birth );
+	rs= stmt.executeQuery();
 	
+		if(rs.next()){ 
+			row = 1;
+		}
+		
+	 conn.close();	
+	 return row;
+	}
+	// signupAction
 	public static  boolean insertCustomer(String id, String pw, String name, String birth, String gender, String address) 
 			throws Exception {
 
@@ -155,6 +176,7 @@ public class CustomerDAO { // signUpAction
 		resultMap.put("name", rs.getString("name"));
 		resultMap.put("phoneNum", rs.getString("phone_num"));
 		resultMap.put("address", rs.getString("address"));
+		resultMap.put("pw", rs.getString("pw"));
 		resultMap.put("createDate", rs.getString("create_date"));
 		resultMap.put("updateDate", rs.getString("update_date"));
 		
@@ -165,6 +187,111 @@ public class CustomerDAO { // signUpAction
 		return resultMap;		
 		}	
 	
-	
+		// deleteCutomerAction
+			public static int deleteCustomer (String id) 
+					throws Exception {
+				int row = 0;
+				Connection conn = null;
+			    PreparedStatement stmt = null;
+			    conn = DBHelper	.getConnection();
+			    String sql = "delete from customer where id = ?";
+			
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1,id);	
+				System.out.println(stmt);
+				row = stmt.executeUpdate();		     
+				   
+			    stmt.close();
+			    conn.close();    
+				return row;
+			}
+			
+				//updateCutomerAction
+			public static int updateCustomer (String address, String phoneNum , String id) 
+					throws Exception {
+				int row = 0;
+				Connection conn = null;
+			    PreparedStatement stmt = null;
+			    conn = DBHelper	.getConnection();
+			    String sql = "update customer set address = ?, phone_num = ?,update_date = NOW() where id = ? ";
+			
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1,address);	
+				stmt.setString(2,phoneNum);	
+				stmt.setString(3,id);	
+				System.out.println(stmt);
+				row = stmt.executeUpdate();		     
+				   
+			    stmt.close();
+			    conn.close();    
+				return row;
+			}
+
+			//resetPwAction
+			public static int resetPw (String pw, String name , String id , String birth) 
+					throws Exception {
+				int row = 0;
+				Connection conn = null;
+			    PreparedStatement stmt = null;
+			    conn = DBHelper	.getConnection();
+			    String sql = "update customer set pw = password(?) where name = ? and id = ? and birth = ?" ;
+				stmt = conn.prepareStatement(sql); 
+				stmt.setString(1,pw);
+				stmt.setString(2,name);			
+				stmt.setString(3,id);			
+				stmt.setString(4,birth);	
+				System.out.println(stmt);
+				row = stmt.executeUpdate();		     
+				   
+			    stmt.close();
+			    conn.close();    
+				return row;
+			}
+		
+		public static boolean checkPw(String id,String name, String pw)
+				throws Exception {
+	        boolean correctPw = false;        
+	        PreparedStatement stmt= null;
+	        ResultSet rs = null;	
+		Connection conn = DBHelper.getConnection();
+		
+		String sql = "select pw from customer where id = ? and name = ? and pw = password(?)";
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1,id );
+		stmt.setString(2,name );
+		stmt.setString(3,pw );
+		System.out.println(stmt);
+		rs = stmt.executeQuery();
+		
+			if(rs.next()){  // 비밀번호가 일치할때
+				System.out.println("비밀번호 일치");
+				correctPw = true;
+			}
+			
+		 conn.close();	
+		 return correctPw;
+		}	
+		
+		
+		//updatePwAction
+		public static int updatePw (String changePw, String id , String pw) 
+				throws Exception {
+			int row = 0;
+			Connection conn = null;
+		    PreparedStatement stmt = null;
+		    conn = DBHelper	.getConnection();
+		    String sql = "update customer set pw = password(?) where id = ? and pw = password(?)" ;
+			stmt = conn.prepareStatement(sql); 
+			stmt.setString(1,changePw);
+			stmt.setString(2,id);
+			stmt.setString(3,pw);	
+			System.out.println(stmt);
+			row = stmt.executeUpdate();		     
+			   
+		    stmt.close();
+		    conn.close();    
+			return row;
+		}	
+			
 	
 }

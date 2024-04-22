@@ -2,6 +2,7 @@
 <%@ page import = "java.net.*" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "shop.dao.OrderDAO" %>
+<%@ page import = "shop.dao.GoodsDAO" %>
 <%
 	//로그인 인증 분기 : 세션변수 -> loginCustomer
 	if(session.getAttribute("loginCustomer")==null){ 
@@ -21,14 +22,28 @@
 	
 
 	
+	
+	
+	
+	
 %>
 <%
 	int row = 0;
 	row = OrderDAO.addOrder(id,goodsNum,amount);
 	System.out.println("row : " + row);
 	
-	if(row==1){
-		response.sendRedirect("/shop/goods/goodsOne.jsp?goodsNum="+ goodsNum);
+	int amount2 = Integer.parseInt(amount);
+	int row2 = 0;
+	row2 = GoodsDAO.updateGoodsAmount(goodsNum,amount2);
+	System.out.println("row : " + row);
+	
+	if(row==1 && row2==1){
+		response.sendRedirect("/shop/customer/customerOne.jsp");
 	}
+	
+	
+	
+	
+	
 %>
 	

@@ -2,15 +2,8 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.net.*" %>
 <%@ page import = "java.util.*" %>
+<%@ page import = "shop.dao.CustomerDAO" %>
 <%
-	//로그인 인증 분기 : 세션변수 -> loginEmp , loginCustomer
-	if(session.getAttribute("loginEmp")!=null || session.getAttribute("loginCustomer")!=null){ //로그인이 이미 되어있다면
-		response.sendRedirect("/shop/goods/goodsList.jsp");
-		return;
-	}	
-%>
-<%
-	
 	String errPwMsg = "";
 	String errMsg2 = "";
 	String pwValue = "";
@@ -35,41 +28,25 @@
 		errMsg2 = request.getParameter("errMsg2");
 	}
 %>
-
 <%
 	String id = request.getParameter("id");	
 	String name = request.getParameter("name");	
 	System.out.println(id  + "<--  at updatePwForm ");
 	System.out.println(name + "<-- name at updatePwForm ");
 	
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop","root","java1234");
-	// 2. 중복된 아이디 확인
-	String sqlCheck = "select id,name from customer where id =?";
-	PreparedStatement stmtCheck = null; 	
-	ResultSet rsCheck = null;
-	stmtCheck=conn.prepareStatement(sqlCheck);
-	stmtCheck.setString(1,id);
-	rsCheck = stmtCheck.executeQuery();
+	
+	boolean isDuplicate = false;
+	isDuplicate = CustomerDAO.checkDuplicateID(id);
+	
+	if(isDuplicate==true){
 		
-	if(rsCheck.next()){  // 아이디가 존재할때
-		
-		
-							
 	}else{	//존재하지 않을때
 		System.out.println("해당 아이디가 없습니다");
 		String errMsg =  URLEncoder.encode("해당 아이디가 없습니다.","utf-8");		
-		response.sendRedirect("/shop/customer/findPwForm.jsp?errMsg="+errMsg); 
+		response.sendRedirect("/shop/customer/checkIdForm.jsp?errMsg="+errMsg); 
 		
 	}	
 	
-		// 3. pw와 pwconfirm이 서로 일치하는지 확인
-// 		rsCheck.beforeFirst();
-// 		if(!pw.equals(pwConfirm)){  // 비밀번호와 비밀번호재입력 값이 다르면다시 회원가입 페이지로 넘어감
-// 			System.out.println("비밀번호 불일치");
-// 			String errMsg2 =  URLEncoder.encode("비밀번호가 일치하지 않습니다.","utf-8");		
-// 			response.sendRedirect("/shop/customer/updatePwForm.jsp?pwValue="+pw+"&pw2Value="+pwConfirm+"&errMsg2="+errMsg2); 			
- 		
 %>
 
 

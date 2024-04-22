@@ -14,20 +14,24 @@
 	
 	String nameValue="";
 	String idValue="";
+	String birthValue="";
 	
 	if(request.getParameter("nameValue")!=null){
 		nameValue = request.getParameter("nameValue");
 	}
 	if(request.getParameter("idValue")!=null){
 		idValue = request.getParameter("idValue");
-	}	
+	}
+	if(request.getParameter("birthValue")!=null){
+		birthValue = request.getParameter("birthValue");
+	}
 	
 %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>비밀번호 찾기</title>
+	<title>아이디 확인</title>
 	<style>
 	.inputInfo{
 		border: 1px solid;
@@ -43,22 +47,23 @@
 	<div class="col"></div>
 	<div class="col-6 content shadow" style="padding:20px 20px; margin-bottom: 20px; border-radius: 20px;" >
 		<span><a href="/shop/loginForm.jsp">뒤로</a></span>
-		<h3 style="text-align: center;">비밀번호변경</h3> 
+		<h3 style="text-align: center;">아이디 확인</h3> 
 		<hr> <br><br><br><br>	
 			<div class="col-sm-12" style="text-align:center">
 			<img src="/shop/upload/findPw.png" style="width:500px;"></img>
 			</div><br><br><br><br>
 		<div align="center">
-	    <form action="/shop/customer/updatePwForm.jsp" style="justify-content: center;">
-	  		  <input class="form-control form-control-lg inputInfo" type="text" style="width:350px; margin-right: 10px;" name="name" value="<%=nameValue%>" placeholder="이름"><br>
+	    <form action="/shop/customer/resetPwForm.jsp" style="justify-content: center;">
+	  		 <input class="form-control form-control-lg inputInfo" type="text" style="width:350px; margin-right: 10px;" name="name" value="<%=nameValue%>" placeholder="이름"><br>
 	        <input class="form-control form-control-lg inputInfo" type="text" style="width:350px; margin-right: 10px;" name="id" value="<%=idValue%>" placeholder="아이디"><br>
+	        <input class="form-control form-control-lg inputInfo" type="date" style="width:350px; margin-right: 10px;" name="birth" value="<%=birthValue%>"><br>
 	        <button class="btn btn-secondary btn-lg" style="width:80px;" type="submit">다음</button>
 	    </form>
 		</div><br>
 		<div class="col-sm-12" style="font-size:24px; text-align:center;">
-			<a style="color:red" href="/shop/customer/findPwForm.jsp"><%=errMsg%></a>
+			<a style="color:red" href="#"> <%=errMsg%></a>
 		</div>
-		
+		<!--       /shop/customer/checkIdForm.jsp           -->
 		<br> <br>
 		
 	</div>

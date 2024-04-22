@@ -14,7 +14,7 @@ public class ReviewDAO {
 		String sql = "SELECT score, content , id , buyTime ,create_date"
 				+ "	FROM review c INNER JOIN orders o"
 				+ "	ON c.orders_num = o.orders_num"
-				+ "	WHERE o.goods_num = ?";	
+				+ "	WHERE o.goods_num = ? order by c.create_date";	
 		
 		stmt = conn.prepareStatement(sql);		
 		stmt.setString(1,goodsNum);
@@ -76,8 +76,6 @@ public class ReviewDAO {
 		    stmt.close();
 		    conn.close();    
 			return row;
-		} 
-		
-		
+		}
 		
 }

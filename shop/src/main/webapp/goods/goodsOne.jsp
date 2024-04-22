@@ -80,29 +80,22 @@
 			for(HashMap<String, String>m : reviewList){		
 					score =	m.get("score");   // DB의 score값 저장			
 				float scoreF = Float.parseFloat(score); // float로 형변환
-				System.out.println("starF : " + scoreF);
+				//System.out.println("starF : " + scoreF);
 				
 			sr = Math.round(scoreF)*10; // 반올림 한 뒤 10배
-			System.out.println("sr : " + sr);
+			//System.out.println("sr : " + sr);
 			fullStar = sr / 20;		   // 가득찬 별 수
 			emptyStar = ((101-sr)/20); // 빈 별 수
 			halfStar = 5 -( fullStar + emptyStar); //반쪽별 수
 			
-			System.out.println("가득찬별 수 : " + fullStar);
-			System.out.println("빈 별 수 : " + emptyStar);
+			//System.out.println("가득찬별 수 : " + fullStar);
+			//System.out.println("빈 별 수 : " + emptyStar);
 			
 			 m.put("fullStar", String.valueOf(fullStar));
 			 m.put("halfStar", String.valueOf(halfStar));
 			 m.put("emptyStar", String.valueOf(emptyStar));
 			
 			}	
-			for(HashMap<String, String>m : reviewList){
-				
-				System.out.println( Integer.parseInt(m.get("fullStar"))  + "<--fullStar");
-				System.out.println( Integer.parseInt(m.get("emptyStar")) + "<--emptyStar");
-				System.out.println( Integer.parseInt(m.get("halfStar")) + "<--halfStar");
-			}
-		
 		}
 	
 	
@@ -252,7 +245,7 @@
 						}
 					%>	
 						</td>
-						<td >
+						<td>
 							<%=m.get("content")%>
 						</td>
 						<td style="text-align: right;font-size:12px;">	
@@ -285,7 +278,7 @@
 			        <textarea name="content" class="form-control" placeholder="후기를 입력해주세요" rows="3"></textarea>
 			    </div>
 			    <div style="flex: 1;">
-			        <input type="range" min="0.0" max="10.0" step="0.1" value="5.0" id="slider" name="score" style="width:150px;">
+			        <input type="range" min="0.0" max="10.0" step="0.1" value="5.0" id="slider" name="score" style="width:70%;">
 			        <p id="sliderValue" style="font-size:12px">평점 : 5.0 점</p>					
 					    <script>
 					        // 슬라이더 요소를 가져옵니다.
@@ -303,13 +296,12 @@
 					    </script>
 					<%
 						if(reviewOk==true){				
-					%>				
-						
-						<button class="btn btn-outline-info btn-sm align-self-end" type="submit">리뷰등록</button>						
+					%>	
+						<button class="btn btn-outline-info" type="submit">리뷰등록</button>						
 					<%
 						}else {
 					%>
-						<span style="font-size:8px">제품구매시에만 리뷰를 작성할 수 있습니다 </span>
+						<button class="btn" disabled data-bs-toggle="button" >리뷰등록</button>
 					<%		
 						}
 					%>

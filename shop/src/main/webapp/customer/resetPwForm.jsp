@@ -2,6 +2,7 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.net.*" %>
 <%@ page import = "java.util.*" %>
+<%@ page import = "shop.dao.CustomerDAO" %>
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp , loginCustomer
 	if(session.getAttribute("loginEmp")!=null || session.getAttribute("loginCustomer")!=null){ //로그인이 이미 되어있다면
@@ -35,32 +36,20 @@
 	System.out.println(id  + "<--  id at resetPwForm ");
 	System.out.println(name + "<-- name at resetPwForm ");
 	System.out.println(birth + "<-- birth at resetPwForm ");
-	int a = 0; // 
-	Class.forName("org.mariadb.jdbc.Driver");
-	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop","root","java1234");
-	// 2. 중복된 아이디 확인
-	String sqlCheck = "select id,name from customer where name = ? and id =? and birth = ?";
-	PreparedStatement stmtCheck = null; 	
-	ResultSet rsCheck = null;
-	stmtCheck=conn.prepareStatement(sqlCheck);
-	stmtCheck.setString(1,name);
-	stmtCheck.setString(2,id);
-	stmtCheck.setString(3,birth);
-	rsCheck = stmtCheck.executeQuery();
+	
+	int row = 0;
+	row = CustomerDAO.findPw(id,name,birth);
+	// 3. 결과분기
+	if(row==1){
 		
-	if(rsCheck.next()){  // 아이디가 존재할때
-		
-		
-							
 	}else{	//존재하지 않을때
 		System.out.println("해당 아이디가 없습니다");
 		String errMsg =  URLEncoder.encode("해당 아이디가 없습니다.","utf-8");		
 		name =  URLEncoder.encode(name,"utf-8");
 		id =  URLEncoder.encode(id,"utf-8");
-		response.sendRedirect("/shop/customer/checkIdForm.jsp?nameValue="+name+"&idValue="+id+"&errMsg="+errMsg); 
+		response.sendRedirect("/shop/customer/findPwForm.jsp?nameValue="+name+"&idValue="+id+"&errMsg="+errMsg); 
 	}	
 	
-
 %>
 
 
