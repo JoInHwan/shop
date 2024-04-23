@@ -9,17 +9,14 @@
 	}	
 %>
 <%
-	
 	int orderNum = Integer.parseInt(request.getParameter("orderNum"));
 	float score = Float.parseFloat(request.getParameter("score"));	
 	String content = request.getParameter("content");
 	int goodsNum = Integer.parseInt(request.getParameter("goodsNum"));
 	
-	System.out.println("orderNum : " + orderNum );
-	System.out.println("score : " +  score );	
-	System.out.println("content : " +  content );
-	
-
+	System.out.println(orderNum + " <-- orderNum | at addReviewAction");
+	System.out.println(score + " <-- score | at addReviewAction" );	
+	System.out.println(content + "<-- content | at addReviewAction");
 	
 %>
 <%

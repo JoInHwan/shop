@@ -3,7 +3,6 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.net.*" %>
 <%@ page import = "shop.dao.GoodsDAO" %>
-<%@ page import = "shop.dao.CategoryDAO" %>
 <%	
 	HashMap<String,Object> loginMember	= null;
 	
@@ -13,7 +12,6 @@
 	if(session.getAttribute("loginCustomer")!=null && session.getAttribute("loginEmp")==null){ // '고객'으로 로그인 하면 세션 loginMember에 loginCustome이 저장
 		loginMember	= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));
 	}
-
 %>
 
 <%
@@ -60,23 +58,9 @@
 %>
 
 <%
-	
-		// 이상 전체 카테고리 및 개수
 	int totalItem = 0;	
-	// 카테고리 이름과 그 개수를 하나씩 가져와서 선택한 카테고리와 같을 때 cnt 값을 totalItem에 저장
-	ArrayList<HashMap<String, Object>> categoryList = CategoryDAO.getCategoryList(); 
-	
-	if(category!=null && !category.equals("null") ){ 						// 카테고리 값이 선택되었을때 (null이 아닐때)에만 동작
-// 		↑'전체'보기하거나 처음페이지에 들어왔을때 && a태그로 category값에 null문자가 넘겨질때  		
-		for(HashMap <String, Object>categoryMap : categoryList){    
-			if(category.equals((String)(categoryMap.get("category")))){		// 받아온 category 값이 카테고리Table 의 것과 같다면
-				totalItem = (Integer)(categoryMap.get("cnt"));				// 전체 아이템수 설정
-			}			
-		}
-	} 
 
-/* 두번째 쿼리------------------------------------------------ */	
-	// 쿼리문에서 받아온 wcnt 값 이용해 페이징 마무리
+	// 쿼리문에서 받아온 wcnt 값 이용해 페이징 
 	String searchCount = null; // 검색결과 수 변수 초기화
 	
 	ArrayList<HashMap<String, Object>> goodsList = GoodsDAO.getGoodsList(category,searchWord,order,currentPage,itemPerPage) ; 
@@ -105,44 +89,43 @@
 <head>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/shop/SHOP.css" rel="stylesheet">
-	<meta charset="UTF-8">
-	
+	<link rel="icon" href="/shop/favicon.ico">	
+		<meta charset="UTF-8">	
 	<title>goodsList</title>
 	<style>
 	.item{   /* 상품div */
-			display: flex;
-     		width:25%;     
+		display: flex;
+   		width:25%;     
 /*    			width:200px;    */
-			flex-wrap: wrap;
- 			box-sizing: border-box; 
-			float:left;
-			border:none; 			
-            transition: background-color 0.3s ease;
+		flex-wrap: wrap;
+ 		box-sizing: border-box; 
+		float:left;
+		border:none; 			
+        transition: background-color 0.3s ease;
 	}
-	   .item:hover {
-            background-color: #ccc;
-        }
-         .item-wrapper {
-        display: block; /* div를 블록 레벨 요소로 변경 */
-        text-decoration: none; /* 링크에 밑줄 제거 */
-        color: inherit; /* 링크 색상 상속 */
+	.item:hover {
+         background-color: #ccc;
+    }
+	.item-wrapper {
+      	display: block; /* div를 블록 레벨 요소로 변경 */
+     	text-decoration: none; /* 링크에 밑줄 제거 */
+      	color: inherit; /* 링크 색상 상속 */
     }
 	.item>table{	/*상품 div>table*/
-			width: 100%;
- 			height: 80px; 			
-			box-sizing: border-box;
-			text-align: left;	
-			border: none;
-			margin-bottom: 40px;
-			margin-top: 20px;		
+		width: 100%;
+		height: 80px; 			
+		box-sizing: border-box;
+		text-align: left;	
+		border: none;
+		margin-bottom: 40px;
+		margin-top: 20px;		
 		}
-	.itemImg{  /* 이미지 th */
+	.itemImg {  /* 이미지 th */
 		text-align: center;	
 	}
 	td{
-	padding-left: 10%;	
-	padding-right: 10%;	
-	
+		padding-left: 10%;	
+		padding-right: 10%;		
 	}					
 	.price{		/* 가격 td */
 		border: none;
@@ -150,36 +133,27 @@
 		color: red;
 	}
 	.goodsBorder{	/*  th , td */
-   	border:none   
+   		border:none   
 	}	
 	.itemTitle a {   /* 상품이름 안 a태그 */  
-    display: block; /* 인라인 요소를 블록 요소로 변경하여 전체 영역을 차지하도록 함 */
-    width: 100%; /* 테이블 셀 전체 크기로 확장 */   
-    height: 100%; /* 테이블 셀 전체 크기로 확장 */  
-    color: inherit; /* 링크 색상을 상속받음 */
-    background-color: #E0E0E0;  
-    padding-left: 10%; 
-    height:45px;
-	font-family: "Georgia", Serif;
-	font-weight: bold;	
+    	display: block; /* 인라인 요소를 블록 요소로 변경하여 전체 영역을 차지하도록 함 */
+	    width: 100%; /* 테이블 셀 전체 크기로 확장 */   
+	    height: 100%; /* 테이블 셀 전체 크기로 확장 */  
+	    color: inherit; /* 링크 색상을 상속받음 */
+	    background-color: #E0E0E0;  
+	    padding-left: 10%; 
+	    height:45px;
+		font-family: "Georgia", Serif;
+		font-weight: bold;	
 	}
 	.itemEx a{ /* 상품 가격,재고 안 a태그 */  
-	display: block;
-	padding-left: 10%; 	
-	}
-	
-	.category{
-	text-decoration: none;	
-	display:block;
-	color:black;
-	border: 1px solid;
-	padding:5px;
-	border-radius: 10px;
+		display: block;
+		padding-left: 10%; 	
 	}
 	
 	input[type=text] {
- 	border-style: none;
-		}
+ 		border-style: none;
+	}
     
 	</style>
 </head>

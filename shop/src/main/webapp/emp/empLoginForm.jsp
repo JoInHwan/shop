@@ -28,6 +28,7 @@
 <meta charset="UTF-8">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="/shop/SHOP.css" rel="stylesheet">
+<link rel="icon" href="/shop/favicon.ico">
 	<title>직원로그인</title>
 	<style>
 	.inputInfo{
@@ -44,9 +45,9 @@
 	<h3>직원로그인</h3><hr> <br>
 		<div style="background-color: white; margin-left:15%; margin-right:15%;" >
 			<form action="/shop/action/empLoginAction.jsp" method="post"> 
-				<input class="form-control form-control-lg inputInfo" type="text" name="empId" value="<%=idValue%>" placeholder="admin">
+				<input class="form-control form-control-lg inputInfo" type="text" name="empId" value="admin<%=idValue%>" placeholder="admin">
 				<div style="heigth:20px">&nbsp;</div>
-				<input class="form-control form-control-lg inputInfo" type="text" name="empPw" value="<%=pwValue%>" placeholder="1234" > <br>
+				<input class="form-control form-control-lg inputInfo" type="text" name="empPw" value="1234<%=pwValue%>" placeholder="1234" > <br>
 	<div style="height:30px">	
 		<a style="color:red;"href="/shop/emp/empLoginForm.jsp"><%=errMsg %>	</a>			
 	</div><br>				

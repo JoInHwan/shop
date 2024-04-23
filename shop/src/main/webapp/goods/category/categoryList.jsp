@@ -47,20 +47,20 @@
 			<%
 				for(HashMap<String, Object>m : categoryList){
 			%>
-				<tr>
-					<td><%=(String)(m.get("category"))%></td> 
-					<td><%=(String)(m.get("empId"))%></td>		
-					<td><%=(String)(m.get("createDate"))%></td>		
-					<td>&nbsp;</td>
+					<tr>
+						<td><%=(String)(m.get("category"))%></td> 
+						<td><%=(String)(m.get("empId"))%></td>		
+						<td><%=(String)(m.get("createDate"))%></td>		
+						<td>&nbsp;</td>
 					<%			
-					if((Integer)(m.get("grade")) >= 1) {
+						if((Integer)(m.get("grade")) >= 1) {
 					%>
-					<td><a href="/shop/goods/category/updateyCategoryForm.jsp?category=<%=(String)(m.get("category"))%>" class="btn btn-outline-info">수정</a></td>
-					<td><a href="/shop/action/deleteCategoryAction.jsp?category=<%=(String)(m.get("category"))%>" class="btn btn-outline-danger">삭제</a></td>		
+							<td><a href="/shop/goods/category/updateyCategoryForm.jsp?category=<%=(String)(m.get("category"))%>" class="btn btn-outline-info">수정</a></td>
+							<td><a href="/shop/action/deleteCategoryAction.jsp?category=<%=(String)(m.get("category"))%>" class="btn btn-outline-danger">삭제</a></td>		
 					<% 
-					}
+						}
 					%>
-				</tr>		
+					</tr>		
 			<%		
 				}
 			%>			

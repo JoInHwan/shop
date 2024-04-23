@@ -15,35 +15,27 @@
 	String amount =request.getParameter("amount");
 	String pay =request.getParameter("pay");
 	
-	System.out.println("id : " +  id );	
-	System.out.println("goodsNum : " +  goodsNum );
-	System.out.println("amount : " +  amount );
-	System.out.println("pay : " +  pay );
-	
-
-	
-	
-	
-	
-	
+	System.out.println(id + " <-- id | at addOrderAction");	
+	System.out.println(goodsNum  + " <-- goodsNum | at addOrderAction");
+	System.out.println(amount + " <-- amount | at addOrderAction" );
+	System.out.println(pay + " <-- pay | at addOrderAction" );	
 %>
 <%
+	//주문 추가 메서드
 	int row = 0;
 	row = OrderDAO.addOrder(id,goodsNum,amount);
-	System.out.println("row : " + row);
-	
+	// 재고량 감소 메서드
 	int amount2 = Integer.parseInt(amount);
 	int row2 = 0;
 	row2 = GoodsDAO.updateGoodsAmount(goodsNum,amount2);
-	System.out.println("row : " + row);
+	
+	
+	System.out.println(row + " <-- row | at addOrderAction (주문추가 성공)");
+	System.out.println(row2 + " <-- row2 | at addOrderAction (재고량 감소 성공)");
+	
 	
 	if(row==1 && row2==1){
 		response.sendRedirect("/shop/customer/customerOne.jsp");
 	}
-	
-	
-	
-	
-	
 %>
 	

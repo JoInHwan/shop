@@ -34,7 +34,6 @@
 	System.out.println(id  + "<--  at updatePwForm ");
 	System.out.println(name + "<-- name at updatePwForm ");
 	
-	
 	boolean isDuplicate = false;
 	isDuplicate = CustomerDAO.checkDuplicateID(id);
 	
@@ -43,10 +42,8 @@
 	}else{	//존재하지 않을때
 		System.out.println("해당 아이디가 없습니다");
 		String errMsg =  URLEncoder.encode("해당 아이디가 없습니다.","utf-8");		
-		response.sendRedirect("/shop/customer/checkIdForm.jsp?errMsg="+errMsg); 
-		
+		response.sendRedirect("/shop/customer/checkIdForm.jsp?errMsg="+errMsg); 		
 	}	
-	
 %>
 
 
@@ -62,8 +59,6 @@
 		border: 1px solid;
 		border-color: red;
 	}
-
-
 	</style>
 </head>
 <body class="container bg">
@@ -82,7 +77,7 @@
 				<div style="font-size: 20px; height:40px">
 					<a style="color:red" href="/shop/customer/updatePwForm.jsp?name=<%=name%>&id=<%=id%>">&nbsp;<%=errPwMsg%></a>
 				</div>	
-			</div>	<br><br>	
+			</div><br><br>	
 			<div class="col-sm-12">
 				비밀번호: 
 				<input type="password" name="changePw" class="form-control form-control-lg inputInfo" 

@@ -18,11 +18,6 @@
 		loginMember	= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));
 		id = (String)(loginMember.get("id"));
 	}
-	
-	
-	
-	
-	
 %>
 <%
 	// MaraiDB연동 DAO 연결
@@ -38,15 +33,8 @@
 	
 	HashMap<String, String> goodsOne = GoodsDAO.getGoodsOne(goodsNum); // GoodsOne 출력
 	
-	
-	
 	int itemIndexerPage = 8;
 	ArrayList<HashMap<String, Object>> goodsList = GoodsDAO.GoodsListBottom(itemIndexerPage); // 하단 다른 상품목록 출력
-	
-	
-	
-	
-	 
 	boolean reviewOk = false;				// 리뷰작성권한 확인
 	
 	HashMap<String, String> orderNumCheck = null; 
@@ -68,35 +56,33 @@
 	
 	ArrayList<HashMap<String, String>> reviewList = ReviewDAO.getReviewList(goodsNum); // 리뷰리스트 출력
 	
-	// 별점 알고리즘
-	
+	// 별점 알고리즘	
 	String score = null;   // 점수 변수
 	int sr = 0;      		// 점수를 flaot로 형변환 한뒤 10배 한 값 변수
 	int fullStar = 0;	
 	int halfStar = 0;
 	int emptyStar = 0;	
 	
-		if(reviewList!=null){ 		 // 리뷰가 있으면
-			for(HashMap<String, String>m : reviewList){		
-					score =	m.get("score");   // DB의 score값 저장			
-				float scoreF = Float.parseFloat(score); // float로 형변환
-				//System.out.println("starF : " + scoreF);
-				
-			sr = Math.round(scoreF)*10; // 반올림 한 뒤 10배
-			//System.out.println("sr : " + sr);
-			fullStar = sr / 20;		   // 가득찬 별 수
-			emptyStar = ((101-sr)/20); // 빈 별 수
-			halfStar = 5 -( fullStar + emptyStar); //반쪽별 수
+	if(reviewList!=null){ 		 // 리뷰가 있으면
+		for(HashMap<String, String>m : reviewList){		
+				score =	m.get("score");   // DB의 score값 저장			
+			float scoreF = Float.parseFloat(score); // float로 형변환
+			//System.out.println("starF : " + scoreF);
 			
-			//System.out.println("가득찬별 수 : " + fullStar);
-			//System.out.println("빈 별 수 : " + emptyStar);
-			
-			 m.put("fullStar", String.valueOf(fullStar));
-			 m.put("halfStar", String.valueOf(halfStar));
-			 m.put("emptyStar", String.valueOf(emptyStar));
-			
-			}	
-		}
+		sr = Math.round(scoreF)*10; // 반올림 한 뒤 10배
+		//System.out.println("sr : " + sr);
+		fullStar = sr / 20;		   // 가득찬 별 수
+		emptyStar = ((101-sr)/20); // 빈 별 수
+		halfStar = 5 -( fullStar + emptyStar); //반쪽별 수
+		
+		//System.out.println("가득찬별 수 : " + fullStar);
+		//System.out.println("빈 별 수 : " + emptyStar);
+		
+		 m.put("fullStar", String.valueOf(fullStar));
+		 m.put("halfStar", String.valueOf(halfStar));
+		 m.put("emptyStar", String.valueOf(emptyStar));
+		}	
+	}
 	
 	
 	
@@ -108,41 +94,43 @@
 	<meta charset="UTF-8">
 	<title>상품 자세히</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="/shop/SHOP.css" rel="stylesheet">
+	<link rel="icon" href="/shop/favicon.ico">
 <Style>
 	.item{
 	/* 상품div */
-			display: flex;
-     		width:25%;     
+		display: flex;
+		width:25%;     
 /*    			width:200px;    */
-			flex-wrap: wrap;
- 			box-sizing: border-box; 
-			float:left;
-			border:none; 			
-            transition: background-color 0.3s ease;
+		flex-wrap: wrap;
+		box-sizing: border-box; 
+		float:left;
+		border:none; 			
+		transition: background-color 0.3s ease;
 	}
-	   .itemIndex:hover {
-            background-color: #ccc;
+	.itemIndex:hover {
+    	background-color: #ccc;
         }
-         .item-wrapper {
-        display: block; /* div를 블록 레벨 요소로 변경 */
-        text-decoration: none; /* 링크에 밑줄 제거 */
-        color: inherit; /* 링크 색상 상속 */
+	.item-wrapper {
+		display: block; /* div를 블록 레벨 요소로 변경 */
+		text-decoration: none; /* 링크에 밑줄 제거 */
+		color: inherit; /* 링크 색상 상속 */
     }
 	
 	
 	.itemIndex{
-	display:inline-block;
+		display:inline-block;
 	}
 	
 	.indexTable{
-	margin-top:5px;
+		margin-top:5px;
 	}
 	
 	.reviewTable{
-	border:solid 1px;
+		border:solid 1px;
 	}
 	.checked {
-	  color: orange;
+		color: orange;
 	}
 </Style>	
 	

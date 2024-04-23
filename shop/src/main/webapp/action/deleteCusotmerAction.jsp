@@ -2,7 +2,6 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "shop.dao.CustomerDAO" %>
 <%
-
 	 String id = request.getParameter("id");
 
 	int row = 0;

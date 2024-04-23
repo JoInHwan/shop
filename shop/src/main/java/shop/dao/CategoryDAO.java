@@ -15,7 +15,7 @@ public class CategoryDAO {
     ResultSet rs = null;	    	    
     
     conn = DBHelper	.getConnection();
-    String sql = "select category,create_date createDate,emp_id empId,grade,count(*) cnt from category order by create_date";
+    String sql = "select category,create_date createDate,emp_id empId,grade from category order by create_date";
 	stmt = conn.prepareStatement(sql);	
 	
 	rs = stmt.executeQuery();// JDBC API 종속된 자료구조 모델 ResultSet -> 기본API 자료구조(ArrayList)로 변경
@@ -27,7 +27,6 @@ public class CategoryDAO {
         categoryMap.put("createDate",rs.getString("createDate"));
         categoryMap.put("empId",rs.getString("empId"));
         categoryMap.put("grade",rs.getInt("grade"));
-        categoryMap.put("cnt",rs.getInt("cnt"));
         categoryList.add(categoryMap);
     }
     // JDBC API 사용이 끝났으므로 DB자원 반납 가능	

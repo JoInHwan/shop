@@ -11,14 +11,16 @@
 	}	
 %>
 <%
-
 	// 요청값분석 (controller)
 	String empId = request.getParameter("empId");
 	String empPw = request.getParameter("empPw");
 	
+	System.out.println(empId + " <-- empId | at empLoginAction");
+	System.out.println(empPw + " <-- empPw | at empLoginAction");
+	
 	// 모델 호출하는 코드
 	HashMap<String, Object> loginEmp =  EmpDAO.empLogin(empId, empPw);
-	
+	System.out.println(loginEmp);
 	if(loginEmp != null){// 로그인성공 (select문 결과값이 있을때)
 		
 	System.out.println("로그인성공");		

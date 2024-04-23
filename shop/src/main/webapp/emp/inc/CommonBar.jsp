@@ -19,9 +19,13 @@
 <head>
 	<meta charset="UTF-8">
 </head>
-<body>
-<div style="font-size: 30px; font-weight: bold; text-align:center; height:1px;">
-	<a href="/shop/goods/goodsList.jsp" style="text-decoration:none; color:black">Welcome</a> </div >	
+<body><br>
+<div style="height:1px; display: flex; justify-content: center; align-items: center;">
+  <a href="/shop/goods/goodsList.jsp" style="text-decoration:none; color:black; padding-right:40px; display: flex; align-items: center;">
+  	<span style="height: 100%; "><img src="/shop/upload/sosom.png" style="width:35px; margin-top:10%;"></span>
+  	<span style="height: 100%; font-size: 40px;  font-weight: bold;  padding-left:5px;">SOSOM</span>
+  </a>	
+</div>	
 <div style="text-align: center; height: 60px; ">	
 		<%	if (session.getAttribute("loginCustomer") == null && session.getAttribute("loginEmp") == null) { // customer,emp 모두 로그인x
 		%>	<div style="display: inline-block; float: right;">

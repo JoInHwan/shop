@@ -16,6 +16,14 @@
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");	
 	
+	
+	String goodsNum = "";
+	if(request.getParameter("goodsNum")!=null){
+		goodsNum = request.getParameter("goodsNum");
+	}
+	System.out.println(goodsNum + " <-goodsNum");
+	
+	
 	// 모델 호출하는 코드
 	HashMap<String, Object> login =  CustomerDAO.login(id, pw);
 	
@@ -23,7 +31,13 @@
 		
 		System.out.println("로그인성공");	
 		session.setAttribute("loginCustomer", login);
-		response.sendRedirect("/shop/goods/goodsList.jsp");
+		if(goodsNum==null || goodsNum.equals("")){
+		response.sendRedirect("/shop/goods/goodsList.jsp");	
+		}else{
+		System.out.println(goodsNum);	
+		response.sendRedirect("/shop/goods/purchaseGoodsForm.jsp?goodsNum="+goodsNum);
+		}
+		
 				
 	}else {		// 로그인실패
 		System.out.println("로그인실패");

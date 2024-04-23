@@ -16,9 +16,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="/shop/SHOP.css" rel="stylesheet">
+	<link href="/shop/SHOP.css" rel="stylesheet">
 	<meta charset="UTF-8">
 	<title></title>
+	<style>
+		table{
+		text-align:left;
+		}
+		td{
+		padding:5px;
+		border: 1px solid black;
+		}		
+	</style>
 </head>
 <body class="container bg">
 <div class="content">
@@ -31,34 +40,45 @@
 		<h2>상품등록</h2><hr>
 		<div style="display: inline-block;"> 
 			<form action="/shop/action/addGoodsAction.jsp" enctype="multipart/form-data" method="post">
-				카테고리 : 
-				<select name="category">
-					<option value="">선택</option>
-					<%
-						for(HashMap<String, Object> c : categoryList){
-					%>
-						<option value="<%=(String)(c.get("category"))%>"><%=(String)(c.get("category"))%></option>
-					<%
-						}
-					%>
-				</select>	
-				상품이름:
-				<input type="text" name="goodsTitle"> <br>
+			<table border="1">
+			<tr>
+				<td>카테고리 : </td>
+				<td>	<select name="category">
+						<option value="">선택</option>
+						<%
+							for(HashMap<String, Object> c : categoryList){
+						%>
+							<option value="<%=(String)(c.get("category"))%>"><%=(String)(c.get("category"))%></option>
+						<%
+							}
+						%>
+					</select> 
+				</td>
+				<td>상품사진 : <input type="file" name="goodsImg"></td>
+			</tr>
+			<tr>
+				<td >상품이름 : </td>
+				<td colspan="2"><input type="text" name="goodsTitle"></td>
+			</tr>
+			<tr>
+			<tr>
+				<td>상품가격 : </td>
+				<td><input type="number" name="goodsPrice"></td>
+				<td> 재고 : <input type="number" name="goodsAmount"></td>
+			</tr>
+			<tr><td >제품설명 : </td>
+				<td colspan="2" style="text-align:justify;"><textarea rows="5" cols="70" name="content"></textarea></td>
+			<tr>
+			<tr>
 				
-				상품사진:
-				<input type="file" name="goodsImg"> <br>
-			
-				상품가격:
-				<input type="number" name="goodsPrice"> 
-			
-				재고:
-				<input type="number" name="goodsAmount"> <br>
-			
-				제품설명 :
-				<textarea rows="5" cols="50" name="content"></textarea> <br>
-				<button type="submit">제품등록</button>
-			</form>
+			</tr>	
+			<tr>
+				<td colspan="3" style="text-align:center"><button type="submit">제품등록</button></td>
+			</tr>		
+			</table>
+			</form><br>
 		</div>
+		<td></td>
 	</div>
 </div>	
 </body>

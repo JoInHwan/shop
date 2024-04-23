@@ -3,6 +3,7 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.net.*" %>
 <%@ page import = "shop.dao.GoodsDAO" %>
+<%@ page import = "shop.dao.CategoryDAO" %>
 <%	
 	HashMap<String,Object> loginMember	= (HashMap<String,Object>)(session.getAttribute("loginEmp"));
 	
@@ -60,7 +61,7 @@
 		// 이상 전체 카테고리 및 개수
 	int totalItem = 0;	
 	// 카테고리 이름과 그 개수를 하나씩 가져와서 선택한 카테고리와 같을 때 cnt 값을 totalItem에 저장
-	ArrayList<HashMap<String, Object>> categoryList = GoodsDAO.getCategoryList(); 
+	ArrayList<HashMap<String, Object>> categoryList = CategoryDAO.getCategoryList(); 
 	
 	if(category!=null && !category.equals("null") ){ 						// 카테고리 값이 선택되었을때 (null이 아닐때)에만 동작
 // 		↑'전체'보기하거나 처음페이지에 들어왔을때 && a태그로 category값에 null문자가 넘겨질때  		
@@ -101,6 +102,7 @@
 <head>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/shop/SHOP.css" rel="stylesheet">
+	<link rel="icon" href="/shop/favicon.ico">
 	<meta charset="UTF-8">
 	
 	<title>goodsList</title>

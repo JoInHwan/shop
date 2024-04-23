@@ -5,7 +5,7 @@ import java.sql.*;
 
 
 public class CustomerDAO { // signUpAction, updatePwForm
-	
+	// signUpAction
 	public static boolean checkDuplicateID(String id) throws Exception {
         boolean isDuplicate = false;        
         PreparedStatement stmtCheck = null;
@@ -28,7 +28,7 @@ public class CustomerDAO { // signUpAction, updatePwForm
 	 conn.close();	
 	 return isDuplicate;
 	}
-	// 
+	// findPwAction 비밀번호찾기
 	public static int findPw(String id,String name, String birth) throws Exception {
 		int row = 0;        
         PreparedStatement stmt = null;
@@ -271,6 +271,34 @@ public class CustomerDAO { // signUpAction, updatePwForm
 		 conn.close();	
 		 return correctPw;
 		}	
+		
+		// findInAction
+		public static String findId(String name,String birth) 
+			throws Exception{
+			String id = "";
+			Connection conn = null;
+		    PreparedStatement stmt = null;
+		    conn = DBHelper	.getConnection();
+		   
+		    String sql = "select id from customer where name = ? and birth = ?";
+			stmt = conn.prepareStatement(sql); 
+			stmt.setString(1,name);
+			stmt.setString(2,birth);	
+			System.out.println(stmt);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				id = rs.getString("id");
+				System.out.println(id);
+			}			
+			rs.close();
+			stmt.close();
+			conn.close();
+			return id;
+		}
+		
+		
+		
+		
 		
 		
 		//updatePwAction

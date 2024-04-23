@@ -19,7 +19,7 @@ public class EmpDAO {
 		// DB 접근
 		Connection conn = DBHelper.getConnection(); 
 		
-		String sql = "select emp_id empId,emp_name empName,grade from emp where active = 'ON' and emp_id =? and emp_pw = password(?)";
+		String sql = "select emp_id empId,emp_name empName,grade from emp where emp_id =? and emp_pw = password(?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
 		stmt.setString(1,empId);
 		stmt.setString(2,empPw);
@@ -106,6 +106,55 @@ public class EmpDAO {
 	    stmt.close();
 	    conn.close();    
 		return row;
+	}
+	
+	
+	
+	public static boolean checkEmpID(String id) throws Exception {
+        boolean checkEmpId = false;        
+        PreparedStatement stmtCheck = null;
+        ResultSet rsCheck = null;		
+
+	// 1. DB 접근
+	Connection conn = DBHelper.getConnection();
+	
+	// 2. 중복된 아이디 확인
+	String sqlCheck = "select emp_id from emp where emp_id =?";
+	stmtCheck = conn.prepareStatement(sqlCheck);
+	stmtCheck.setString(1,id );
+	rsCheck = stmtCheck.executeQuery();
+	
+		if(rsCheck.next()){  // 이미 아이디가 존재할때
+			System.out.println("아이디 존재");
+			checkEmpId = true;
+		}
+		
+	 conn.close();	
+	 return checkEmpId;
+	}
+	
+	
+	// empSignupAction
+	public static  int empSignUp(String id, String pw, String name, String job, String hireDate) 
+			throws Exception {
+	int row = 0;
+	Connection conn = DBHelper.getConnection();
+	String sql = "insert into emp(emp_id, emp_pw, emp_name, emp_job, hire_date) VALUES(?,PASSWORD(?),?,?,?)";
+	PreparedStatement stmt = conn.prepareStatement(sql);
+	stmt.setString(1,id );
+	stmt.setString(2,pw );
+	stmt.setString(3,name );
+	stmt.setString(4,job );
+	stmt.setString(5,hireDate );
+	System.out.println(stmt);
+	row  = stmt.executeUpdate();		
+	
+		if(row==1) {
+			row = 1;			
+		}	
+    stmt.close();
+    conn.close();	
+	 return row;	
 	}
 	
 	

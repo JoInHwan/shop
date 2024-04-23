@@ -176,7 +176,7 @@ public class GoodsDAO {
 	//  addOrderAction 페이지에서 재품수량 감소
 		public static int updateGoodsAmount (String goodsNum, int amount) 
 			throws Exception {
-			int row2 = 0;
+			int row = 0;
 			Connection conn = null;
 		    PreparedStatement stmt = null;
 		    conn = DBHelper	.getConnection();
@@ -186,12 +186,37 @@ public class GoodsDAO {
 			stmt.setInt(1,amount);
 			stmt.setString(2,goodsNum);
 			System.out.println(stmt);
-			row2 = stmt.executeUpdate();		     
+			row = stmt.executeUpdate();		     
 			   
 		    stmt.close();
 		    conn.close();    
-			return row2;
+			return row;
 		} 
+	// addGoodsAction
+		public static int addGoods (String category,String empId,String goodsTitle,String filename,String goodsPrice,String goodsAmount,String content) 
+				throws Exception {
+				int row = 0;
+				Connection conn = null;
+			    PreparedStatement stmt = null;
+			    conn = DBHelper	.getConnection();
+			    String sql = "insert into goods (category,emp_id,goods_title, filename,goods_price,goods_amount,goods_content) VALUES(?,?,?,?,?,?,?)";
 			
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1,category );
+				stmt.setString(2,empId );
+				stmt.setString(3,goodsTitle );
+				stmt.setString(4,filename );
+				stmt.setString(5,goodsPrice );
+				stmt.setString(6,goodsAmount );
+				stmt.setString(7,content );
+				System.out.println(stmt);
+				row = stmt.executeUpdate();		     
+				   
+			    stmt.close();
+			    conn.close();    
+				return row;
+			} 
+		
+		
 	
 }
