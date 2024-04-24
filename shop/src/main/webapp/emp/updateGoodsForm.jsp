@@ -12,6 +12,7 @@
 		loginMember	= (HashMap<String,Object>)(session.getAttribute("loginEmp"));
 	}
 	
+	
 %>
 <%
 	// MaraiDB연동 DAO 연결
@@ -37,19 +38,18 @@
 <style>
 	.item{
 	/* 상품div */
-			display: flex;
-     		width:25%;     
-/*    			width:200px;    */
-			flex-wrap: wrap;
- 			box-sizing: border-box; 
-			float:left;
-			border:none; 			
-            transition: background-color 0.3s ease;
+		display: flex;
+     	width:25%;     
+		flex-wrap: wrap;
+ 		box-sizing: border-box; 
+		float:left;
+		border:none; 			
+           transition: background-color 0.3s ease;
 	}
-	   .itemIndex:hover {
-            background-color: #ccc;
-        }
-         .item-wrapper {
+	.itemIndex:hover {
+       	background-color: #ccc;
+   	}
+   	.item-wrapper {
         display: block; /* div를 블록 레벨 요소로 변경 */
         text-decoration: none; /* 링크에 밑줄 제거 */
         color: inherit; /* 링크 색상 상속 */
@@ -65,15 +65,14 @@
 		}
 	
 	.itemIndex{
-	display:inline-block;
+		display:inline-block;
 	}
 	td{
 		border:solid 1px;
 		padding-left:20px;
-	}
-	
+	}	
 	.indexTable{
-	margin-top:5px;
+		margin-top:5px;
 	}
 	
 </Style>	
@@ -140,15 +139,22 @@
 					<tr>
 						<td>
 							<button type="submit" class="btn btn-primary">수정하기</button>
+							<%			
+						if((Integer)(loginMember.get("grade")) >= 1) {
+					%>
+							<a href="/shop/action/deleteGoodsAction.jsp?goodsNum=<%=goodsNum%>" class="btn btn-danger">삭제</a>
 							&nbsp;
+					<%
+						}
+					%>		
+							
 						<%
 							if(updateSucceed==1){
 						%>
 							<span style="color:red; font-size:20px"> 상품이 수정되었습니다!</span>
 						<%							
 							}
-						%>							
-							
+						%>		
 						</td>
 					<tr>
 				</table>
@@ -162,7 +168,7 @@
 				<%	
 					for (HashMap<String, Object> goodsMap : goodsList) { 
 				%>						
-					<div class="itemIndex col-1"  style="padding-top:1px;">
+					<div class="itemIndex col-1"  style="padding-top:1px; display:flex;justify-content: center;">
 						<a class="item-wrapper" href="/shop/emp/updateGoodsForm.jsp?goodsNum=<%=(String)(goodsMap.get("goodsNum"))%>">		
 							<table class="indexTable">
 			<!-- 이미지 -->	<tr><th><img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:80px;"></img></th></tr> 
@@ -176,9 +182,12 @@
 				%>
 				<div class="col-2" style="background-color:"></div>
 				
-			</div><br><br><br>
+			</div><br>
 	</div>
 	<div class="col-1" style="background-color:#"></div>
+</div>
+<div>
+	<jsp:include page="/emp/inc/bottomInfo.jsp"></jsp:include>
 </div>
 <%System.out.println("----------------------------------------");%>
 </body>

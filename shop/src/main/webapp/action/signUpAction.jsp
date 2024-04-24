@@ -40,6 +40,7 @@
      } else{
     	if(!pw.equals(pwConfirm)){  // 비밀번호와 비밀번호재입력 값이 다르면다시 회원가입 페이지로 넘어감	     
 			System.out.println("비밀번호 불일치");
+			name =  URLEncoder.encode(name ,"utf-8");	
 			String errMsg2 =  URLEncoder.encode("비밀번호가 일치하지 않습니다.","utf-8");		
 			response.sendRedirect("/shop/customer/signUpForm.jsp?idValue="+id+"&pwValue="+pw+"&pw2Value="+pwConfirm+"&nameValue="+name+"&errMsg2="+errMsg2);				
 		}else{	// 비밀번호와 비밀번호 확인이 같을 때

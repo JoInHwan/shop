@@ -26,8 +26,7 @@
 	
 	System.out.println( "perPage : " + perPage);									
 	if(perPage == null || perPage.equals("null")) {
-		itemPerPage = 12;
-	    System.out.println("itemPerPage가 널일때 12로 초기화");					// perPage변수가 null이면 itemPerPage = 12
+		itemPerPage = 12;													// perPage변수가 null이면 itemPerPage = 12
 	} else {
 		itemPerPage = Integer.parseInt(perPage);							// perPage변수가 있으면 그 값을 itemPerPage에 저장
 	}	
@@ -102,9 +101,13 @@
 		float:left;
 		border:none; 			
         transition: background-color 0.3s ease;
+        display:flex; 
+        justify-content: center;        
+        border-radius: 15px;
 	}
 	.item:hover {
-         background-color: #ccc;
+           background-color: #ccc; 
+             box-shadow: 0 20px 20px rgba(20, 20, 20, 0.2);   
     }
 	.item-wrapper {
       	display: block; /* div를 블록 레벨 요소로 변경 */
@@ -112,7 +115,7 @@
       	color: inherit; /* 링크 색상 상속 */
     }
 	.item>table{	/*상품 div>table*/
-		width: 100%;
+		width: 80%;
 		height: 80px; 			
 		box-sizing: border-box;
 		text-align: left;	
@@ -122,11 +125,9 @@
 		}
 	.itemImg {  /* 이미지 th */
 		text-align: center;	
+		padding-top:15px;
 	}
-	td{
-		padding-left: 10%;	
-		padding-right: 10%;		
-	}					
+					
 	.price{		/* 가격 td */
 		border: none;
 		font-weight: bold;
@@ -140,7 +141,7 @@
 	    width: 100%; /* 테이블 셀 전체 크기로 확장 */   
 	    height: 100%; /* 테이블 셀 전체 크기로 확장 */  
 	    color: inherit; /* 링크 색상을 상속받음 */
-	    background-color: #E0E0E0;  
+ 	    background-color: #E0E0E0;   
 	    padding-left: 10%; 
 	    height:45px;
 		font-family: "Georgia", Serif;
@@ -148,7 +149,6 @@
 	}
 	.itemEx a{ /* 상품 가격,재고 안 a태그 */  
 		display: block;
-		padding-left: 10%; 	
 	}
 	
 	input[type=text] {
@@ -258,11 +258,11 @@
 		
 		 <a class="item-wrapper" href="/shop/goods/goodsOne.jsp?goodsNum=<%=(String)(goodsMap.get("goodsNum"))%>">	
 			<div class="item">				
-			<table>
+			<table style=" background-color:#F8F8F8; borders:1px solid " >
 <!-- 이미지 -->	<tr><th class="goodsBorder itemImg"><img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:140px; height:140px;"></img></th></tr> 
-<!-- 상풍명 -->	<tr><td class="goodsBorder itemTitle"><%=(String)(goodsMap.get("goodsTitle"))%></td></tr>
-<!-- 가격 -->		<tr><td class="price itemEx"><%=(String)(goodsMap.get("goodsPrice"))%>원</td></tr>
-<!-- 재고 -->		<tr><td class="goodsBorder itemEx"><%=(String)(goodsMap.get("goodsAmount"))%>개</td></tr>				
+<!-- 상풍명 -->	<tr><td class="goodsBorder itemTitle" style="padding-left:8%"><%=(String)(goodsMap.get("goodsTitle"))%></td></tr>
+<!-- 가격 -->		<tr><td class="price itemEx" style="padding-left:8%"><%=(String)(goodsMap.get("goodsPrice"))%>원</td></tr>
+<!-- 재고 -->		<tr><td class="goodsBorder itemEx" style="padding-left:8%"><%=(String)(goodsMap.get("goodsAmount"))%>개</td></tr>				
 			</table>	
 			</div>
 			</a>
@@ -306,7 +306,6 @@
 					String currentPageItem = null; // 페이징그룹에서 현재페이지만 파란글씨에 테루리가 보이게 하는 알고리즘
 					if (currentPage % 5 == i || (currentPage % 5 == 0 && i == 5)) {
 						// 현재페이지를 5로 나눈 나머지가 i 일때와 딱 나눠떨어질때 
-						
 						System.out.println(pagingGroup + "<-페이징그룹");
 						currentPageItem = " font-weight: bold; color:blue; border:solid 1px;  ";
 					}
@@ -332,5 +331,10 @@
 	<%	
 		System.out.println("----------------------------------------");
 	%>		
+	
+	<div>
+		<jsp:include page="/emp/inc/bottomInfo.jsp"></jsp:include>
+	</div> 
 </body>
+	
 </html>

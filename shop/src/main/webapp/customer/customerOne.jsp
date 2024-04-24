@@ -89,7 +89,7 @@
 			<div style="display: inline-block;  width:70%">	<br>
 				<h2>회원정보</h2>	
 				<hr>
-				<form action = "/shop/action/updateCustomerInfo.jsp" >
+				<form action = "/shop/action/updateCustomerAction.jsp" >
 				<table border="1" style="display: inline-block; margin-right:">
 					<tr>
 						<td class="tbLeft">아이디</td>
@@ -222,8 +222,7 @@
 			<%
 					orderTableNum++;			
 				}
-			%>	
-		<br><br>				
+			%>		
 		</div>
 	</div>
 <%}%>
@@ -328,13 +327,15 @@
 					orderTableNum++;			
 				}
 			%>	
-		<br><br>				
+		<br>				
 		</div>
 	</div>
 		
 <%	
 	}
 %>
-
+	<div>
+		<jsp:include page="/emp/inc/bottomInfo.jsp"></jsp:include>
+	</div> 
 </body>
 </html>

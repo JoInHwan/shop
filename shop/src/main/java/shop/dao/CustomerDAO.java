@@ -288,7 +288,7 @@ public class CustomerDAO { // signUpAction, updatePwForm
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				id = rs.getString("id");
-				System.out.println(id);
+				System.out.println(id + "<-- id");
 			}			
 			rs.close();
 			stmt.close();

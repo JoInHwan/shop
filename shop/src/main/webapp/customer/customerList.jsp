@@ -5,7 +5,7 @@
 <%@ page import = "shop.dao.CustomerDAO" %>
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp
-	if(session.getAttribute("loginEmp")==null){ //로그인이 안되어있으면
+	if(session.getAttribute("loginEmp")==null){ //직원으로 로그인이 안되어있으면
 		response.sendRedirect("/shop/emp/empLoginForm.jsp");
 		return;
 	}
@@ -27,6 +27,7 @@
 	
 	for(HashMap<String, Object>m : customerList){
 		totalRow = (int)(m.get("cnt"));
+		System.out.println(totalRow + "<-- totalRow");
 		break;
 	}
 	
@@ -35,9 +36,17 @@
 	if(totalRow%rowPerPage !=0){   // 딱 나눠떨어지지않으면 한페이지가 새로 추가됌
 		lastPage = lastPage+1;		
 	}
+	
+	String firstPage = "";
+	String endPage = "";
+	if(currentPage == 1) {
+		firstPage = "disabled";
+	}else if (currentPage == lastPage){
+		endPage = "disabled";  
+	}	
+	
+	
 	System.out.println(lastPage+ "<-lastPage [categoryList]");
-	
-	
 %>
 <!-- View Layer -->
 <!DOCTYPE html>
@@ -56,8 +65,6 @@
 		border: 1px solid;
 		padding : 0px 5px;
 	}
-	
-	
 	</style>
 </head>
 <body class="container bg">
@@ -82,7 +89,6 @@
 			<th>전화번호</th>
 			<th>자세히</th>
 		</tr>
-	
 		<%
 			for(HashMap<String, Object>m : customerList){
 				String id = (String) m.get("id");
@@ -114,9 +120,7 @@
 			</tr>		
 		<%		
 			}
-		%>			
-		
-		
+		%>					
 	</table>
 		<div>
 			<a href="/shop/customer/signUpForm.jsp" class="btn btn-outline-info">추가</a>
@@ -126,37 +130,22 @@
 	</div>	
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center">
-		<%
-			if(currentPage > 1) {
+		<%	
+		
 		%>
-			<li class="page-item">
+			<li class="page-item <%=firstPage%>">
 				<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=1">처음페이지</a>
 			</li>
-			<li class="page-item">
+			<li class="page-item <%=firstPage%>">
 				<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
-			</li>																
-		<%		
-			} else {
-		%>
-			<li class="page-item disabled">
-				<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=1">처음페이지</a>
-			</li>
-			<li class="page-item">
-				<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
-			</li>
-		<%		
-			}				
-			if(currentPage < lastPage) {
-		%>
-			<li class="page-item">
+			</li>	
+			<li class="page-item <%=endPage%>">
 				<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=currentPage+1%>">다음페이지</a>
 			</li>
-			<li class="page-item disabled">
+			<li class="page-item <%=endPage%>">
 				<a class ="page-link" href="/shop/customer/customerList.jsp?currentPage=<%=lastPage%>">마지막페이지</a>
 			</li>
-		<%		
-			}
-		%>
+	
 		</ul>
 	</nav>
 	</div>

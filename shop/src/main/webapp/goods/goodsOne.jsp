@@ -175,8 +175,8 @@
 				</tr>
 				<tr>
 				    <td>&nbsp;</td>
-					    <td colspan="2" style="display: flex; ">
-					        <a href="" class="form-control-lg btn btn-outline-success" style="margin-left: 20px;">장바구니 담기</a>
+					    <td colspan="2" style="display: flex;   justify-content: center;">
+<!-- 					        <a href="" class="form-control-lg btn btn-outline-success" style="margin-left: 20px;">장바구니 담기</a> -->
 					        <form action="/shop/goods/purchaseGoodsForm.jsp" method="post" style="margin-left: 20px;">
 					        	<input type="hidden" name="goodsNum" value="<%=goodsNum%>">
 					        	<input type="hidden" name="id" value="<%=id%>">					        	
@@ -199,7 +199,7 @@
 						<td colspan="3"> 리뷰가 없습니다 </td>												 
 					</tr>
 				<%
-					}else if( reviewList!=null){
+					}else if( reviewList!=null){						
 				%>
 					<tr>
 						<th style= "width:20%; height:18px; font-size:13px; paddin ">평점</th>
@@ -301,13 +301,13 @@
 		</div>			
 		
 		<hr>
-		<div style="font-size:14px; height:20px; padding-left:15%" > 함께 보면 좋을 상품 </div>
+		<div style="font-size:14px; height:20px; padding-left:18%" > 함께 보면 좋을 상품 </div>
 			<div class="row">
 		 		<div class="col-2" style="background-color:"></div>		
 				<%	
 					for (HashMap<String, Object> goodsMap : goodsList) { 
 				%>						
-					<div class="itemIndex col-1"  style="padding-top:1px;">
+					<div class="itemIndex col-1"  style="padding-top:1px; display:flex;justify-content: center;">
 						<a class="item-wrapper" href="/shop/goods/goodsOne.jsp?goodsNum=<%=(String)(goodsMap.get("goodsNum"))%>">		
 							<table class="indexTable">
 			<!-- 이미지 -->	<tr><th><img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:80px;"></img></th></tr> 
@@ -325,6 +325,9 @@
 	</div>
 	<div class="col-1" style="background-color:#"></div>
 </div>
+<div>
+		<jsp:include page="/emp/inc/bottomInfo.jsp"></jsp:include>
+</div> 
 <%System.out.println("----------------------------------------");%>
 </body>
 </html>

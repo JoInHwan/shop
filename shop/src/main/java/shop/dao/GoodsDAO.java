@@ -217,6 +217,24 @@ public class GoodsDAO {
 				return row;
 			} 
 		
+	//deleteGoodsAction
+		public static int deleteGoods (int goodsNum) 
+				throws Exception {
+				int row = 0;
+				Connection conn = null;
+			    PreparedStatement stmt = null;
+			    conn = DBHelper	.getConnection();
+			    String sql = "delete from goods where goods_num = ?";
+			
+				stmt = conn.prepareStatement(sql);
+				stmt.setInt(1,goodsNum );				
+				System.out.println(stmt);				
+				row = stmt.executeUpdate();		     
+				   
+			    stmt.close();
+			    conn.close();    
+				return row;
+			} 
 		
 	
 }

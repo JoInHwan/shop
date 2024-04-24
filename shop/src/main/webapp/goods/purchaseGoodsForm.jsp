@@ -51,7 +51,7 @@
 	<link href="/shop/SHOP.css" rel="stylesheet">
 	<link href="/shop/SHOP.css" rel="stylesheet">
 	<style>
-		table,tr,td{
+		.tableP{
 		width:90%
 		}
 		
@@ -76,7 +76,9 @@
         }
 	</style>
 </head>
-<body class="container"><br><br>
+<body>
+<div  class="container">
+<br><br>
 	<div style="height:1px; display: flex; justify-content: center; align-items: center;">
 	  <a href="/shop/goods/goodsList.jsp" style="text-decoration:none; color:black; padding-right:40px; display: flex; align-items: center;">
 	  	<span style="height: 100%; "><img src="/shop/upload/sosom.png" style="width:35px; margin-top:10%;"></span>
@@ -89,7 +91,7 @@
 		<h2><b>주문/결제</b></h2>
 		<hr style="border: 2px solid black;"><br>	
 		<span style="font-size:20px">구매자정보</span>
-		<table style="border-top: 2px solid">
+		<table class="tableP" style="border-top: 2px solid">
 		<tr>
 			<td class="tbLeft">이름</td>
 			<td class="tbRight"><%=loginName%></td>			
@@ -107,7 +109,7 @@
 		
 		<br><br>
 		받는사람 정보
-		<table style="border-top: 2px solid">		
+		<table class="tableP" style="border-top: 2px solid">		
 			<tr>
 				<td class="tbLeft">이름</td>
 				<td class="tbRight">
@@ -125,7 +127,7 @@
 		<br><br>
 		<form action="/shop/action/addOrderAction.jsp">
 			상품
-			<table style="border-top: 2px solid">	
+			<table class="tableP" style="border-top: 2px solid">	
 			<tr>
 				<td class="tbLeft">상품이름</td>
 				<td class="tbRight"><%=(goodsOne.get("goodsTitle"))%></td>
@@ -146,7 +148,7 @@
 		
 	
 			결제정보		
-		<table style="border-top: 2px solid">	
+		<table class="tableP" style="border-top: 2px solid">	
 			<tr>
 				<td class="tbLeft">결제금액</td>
 				<td class="tbRight"><span id="total_price" style="font-weight: bold"><%=total_price%></span>원</td>
@@ -177,7 +179,12 @@
 		    }
 		</script>
 	</div>
-	<br><br><br><br><br><br><br>
+	<br><br><br>
+	 </div>
+ 	 <div>
+		<jsp:include page="/emp/inc/bottomInfo.jsp"></jsp:include>
+	</div> 
 </body>
+
 </html>
 <%}%>

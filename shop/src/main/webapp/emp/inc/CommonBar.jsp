@@ -22,7 +22,7 @@
 <body><br>
 <div style="height:1px; display: flex; justify-content: center; align-items: center;">
   <a href="/shop/goods/goodsList.jsp" style="text-decoration:none; color:black; padding-right:40px; display: flex; align-items: center;">
-  	<span style="height: 100%; "><img src="/shop/upload/sosom.png" style="width:35px; margin-top:10%;"></span>
+  	<span style="height: 100%; "><img src="/shop/upload/sosom.png" style="width:40px; margin-top:10%;"></span>
   	<span style="height: 100%; font-size: 40px;  font-weight: bold;  padding-left:5px;">SOSOM</span>
   </a>	
 </div>	

@@ -55,7 +55,7 @@ public class EmpDAO {
 	    ResultSet rs = null;	    	    
 	    
 	    conn = DBHelper	.getConnection();
-	    String sql = "select emp_id empID,emp_name empName,emp_job empJob,hire_date hireDate,active from emp order by hire_date limit ?,?";
+	    String sql = "select emp_id empID,emp_name empName,emp_job empJob,hire_date hireDate,grade,active from emp order by hire_date limit ?,?";
 		stmt = conn.prepareStatement(sql);
 		stmt.setInt(1,startRow);
 		stmt.setInt(2,rowPerPage);
@@ -69,6 +69,7 @@ public class EmpDAO {
 	        empMap.put("empName",rs.getString("empName"));
 	        empMap.put("empJob",rs.getString("empJob"));
 			empMap.put("hireDate",rs.getString("hireDate"));
+			empMap.put("grade",rs.getString("grade"));
 			empMap.put("active",rs.getString("active"));
 			
 			
@@ -109,7 +110,7 @@ public class EmpDAO {
 	}
 	
 	
-	
+	// empSignUpAction
 	public static boolean checkEmpID(String id) throws Exception {
         boolean checkEmpId = false;        
         PreparedStatement stmtCheck = null;

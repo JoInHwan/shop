@@ -3,13 +3,6 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.net.*" %>
 <%
-	//로그인 인증 분기 : 세션변수 -> loginEmp , loginCustomer
-	if(session.getAttribute("loginEmp")!=null || session.getAttribute("loginCustomer")!=null){ //로그인이 이미 되어있다면
-		response.sendRedirect("/shop/goods/goodsList.jsp");
-		return;
-	}	
-%>
-<%
 	String errMsg="";
 	String errMsg3="";
 	if(request.getParameter("errMsg")!=null){	 /*이미존재하는 아이디입니다 문자 출력*/	
@@ -76,7 +69,7 @@
 		 <br><br>
 		<div class="d-flex ">
 		    <div style="flex: 1;"> 
-		        <a class="btn btn-danger btn-lg w-100 rounded-0" href="/shop/action/logout.jsp">취소</a>
+		        <a class="btn btn-danger btn-lg w-100 rounded-0" href="/shop/emp/empList.jsp">취소</a>
 		    </div>
 		    <div style="flex: 1;">
 		        <button type="submit" class="form-control-lg btn btn-lg btn-primary w-100 rounded-0">가입하기</button>

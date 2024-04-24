@@ -356,7 +356,9 @@
 	</div>
 	<div class="col-1" style="background-color:#"></div>
 	</div>	
-	
+	<div>
+		<jsp:include page="/emp/inc/bottomInfo.jsp"></jsp:include>
+	</div>
 	<%	
 		System.out.println("----------------------------------------");
 	%>		

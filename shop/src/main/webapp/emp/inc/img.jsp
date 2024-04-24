@@ -22,6 +22,7 @@
 
   <!-- The slideshow/carousel -->
   <div class="carousel-inner" >
+  <a href="#">
     <div class="carousel-item active" data-bs-interval="2500">
       <img src="/shop/upload/im1.png" alt="Los Angeles" class="d-block img-fluid">
     </div>
@@ -31,6 +32,7 @@
     <div class="carousel-item" data-bs-interval="2500">
       <img src="/shop/upload/im3.png" alt="New York" class="d-block img-fluid">
     </div>
+   </a> 
   </div>
 
   <!-- Left and right controls/icons -->

@@ -18,13 +18,14 @@
 	
 	
 	String id = CustomerDAO.findId(name,birth);
-	
+	System.out.println(id + "<-- id | at findIdAcion");
 	name =  URLEncoder.encode(name,"utf-8");
 	
-	if(id != null){		
+	if( id != null ){		
 		System.out.println("아이디 있음");			
 		response.sendRedirect("/shop/customer/findIdForm.jsp?nameValue="+name+"&birthValue="+birth+"&id="+id);	
 	} else {
+		
 		System.out.println("아이디 없음");	
 		String errMsg =  URLEncoder.encode("가입한 아이디가 없습니다.","utf-8");	
 		response.sendRedirect("/shop/customer/findIdForm.jsp?nameValue="+name+"&birthValue="+birth+"&errMsg="+errMsg);			

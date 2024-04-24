@@ -68,6 +68,7 @@
 					<th>이름</th>
 					<th>직업</th>
 					<th>고용날짜</th>
+					<th>등급</th>					
 					<th>활성화상태</th>
 				</tr>
 				<%
@@ -78,6 +79,7 @@
 						<td><%=(String)(empMap.get("empName"))%></td>
 						<td><%=(String)(empMap.get("empJob"))%></td>
 						<td><%=(String)(empMap.get("hireDate"))%></td>
+						<td><%=(String)(empMap.get("grade"))%></td>
 						<td>
 						<%
 							if((int)(loginMember.get("grade")) >= 10) {  // grade(등급)이 10보다 커야 활성화 상태 ON/OFF 변경 가능
@@ -97,8 +99,7 @@
 			if ((int)loginMember.get("grade") >=10 ){				
 		%>
 			<div style="display: inline-block;">
-				<a href="/shop/emp/empSignUpForm.jsp>" class="btn btn-outline-info">추가</a>
-				<a href="/shop/emp/updateEmpForm.jsp>" class="btn btn-outline-info">수정</a>
+				<a href="/shop/emp/empSignUpForm.jsp" class="btn btn-outline-info">추가</a>
 				<a href="/shop/action/deleteEmpAction.jsp>" class="btn btn-outline-info">삭제</a>
 			</div>
 		<%		

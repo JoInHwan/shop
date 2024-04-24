@@ -57,7 +57,9 @@
 			<input type="date" name="birth" class="form-control form-control-lg findPageInput" >
 		</div>
 			<button class="form-control btn btn-secondary btn-lg" type="submit">아이디찾기</button>		
+			<a href="/shop/customer/findPwForm.jsp" class="form-control btn btn-outline-secondary btn-lg">비밀번호 찾기</a>
 		</form>
+			
 		<br> <br>
 		<div style="height:40px"> 	
 		<%
@@ -71,12 +73,10 @@
 		<%
 			if(request.getParameter("errMsg")!=null){
 		%>
-		<%=errMsg%>
+		<span style="color:red"><%=errMsg%></span>
 		<%
 			}
 		%>
-		
-		
 		</div>
 	</div>
 	

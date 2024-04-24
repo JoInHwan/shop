@@ -9,9 +9,7 @@
 	System.out.println(address + " <-address");
 	System.out.println(phoneNum + " <-phoneNum");
 	System.out.println(id + " <-id");
-	
-	
-	
+		
 %>
 <%
 	int row = 0;
