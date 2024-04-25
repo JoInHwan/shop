@@ -30,7 +30,7 @@
 	if(request.getParameter("goodsNum")!=null){
 		goodsNum = request.getParameter("goodsNum");
 		//System.out.println( goodsNum + " <--goodsNum at | loginForm");
-	}	
+	}	 
 %>
 <!DOCTYPE html>
 <html>
