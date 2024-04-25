@@ -2,6 +2,11 @@
 <%@ page import="java.util.*"%>
 
 <%
+	//로그인 인증 분기 : 세션변수 -> loginEmp
+	if(session.getAttribute("loginEmp")==null){ //직원으로 로그인이 안되어있으면
+		response.sendRedirect("/shop/emp/empLoginForm.jsp");
+		return;
+	}
 	HashMap<String,Object> loginMember 
 	= (HashMap<String,Object>)(session.getAttribute("loginEmp"));
 
@@ -54,12 +59,13 @@
         <li class="nav-item">
           <a class="nav-link" aria-current="page" href="/shop/goods/addGoodsForm.jsp">상품등록</a>	
         </li> 
-        
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/shop/order/orderList.jsp">주문관리</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" href="#"> '<%=loginMember.get("empName")%>'님 반갑습니다</a>
         </li>  
-<!--         <li class="nav-item" style="width:150px"> -->
-<!--         </li> -->
+		
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" style="font-size:14px; color:red"  href="/shop/action/logout.jsp">로그아웃</a>	
         </li> 

@@ -7,73 +7,73 @@ import java.sql.*;
 public class CustomerDAO { // signUpAction, updatePwForm
 	// signUpAction
 	public static boolean checkDuplicateID(String id) throws Exception {
-        boolean isDuplicate = false;        
-        PreparedStatement stmtCheck = null;
-        ResultSet rsCheck = null;		
-
-	// 1. DB 접근
-	Connection conn = DBHelper.getConnection();
+        boolean isDuplicate = false;     
+        
+	    PreparedStatement stmtCheck = null;
+	    ResultSet rsCheck = null;		
 	
-	// 2. 중복된 아이디 확인
-	String sqlCheck = "select id,name from customer where id =?";
-	stmtCheck = conn.prepareStatement(sqlCheck);
-	stmtCheck.setString(1,id );
-	rsCheck = stmtCheck.executeQuery();
-	
-		if(rsCheck.next()){  // 이미 아이디가 존재할때
-			System.out.println("아이디 존재");
-			isDuplicate = true;
-		}
+		// 1. DB 접근
+		Connection conn = DBHelper.getConnection();
 		
-	 conn.close();	
-	 return isDuplicate;
+		// 2. 중복된 아이디 확인
+		String sqlCheck = "select id,name from customer where id =?";
+		stmtCheck = conn.prepareStatement(sqlCheck);
+		stmtCheck.setString(1,id );
+		rsCheck = stmtCheck.executeQuery();
+		
+			if(rsCheck.next()){  // 이미 아이디가 존재할때
+				System.out.println("아이디 존재");
+				isDuplicate = true;
+			}
+			
+		 conn.close();	
+		 return isDuplicate;
 	}
 	// findPwAction 비밀번호찾기
 	public static int findPw(String id,String name, String birth) throws Exception {
 		int row = 0;        
-        PreparedStatement stmt = null;
-        ResultSet rs = null;		
-        
-	Connection conn = DBHelper.getConnection();
-	String sqlCheck = "select id from customer where id = ? and name =? and birth = ?";
-	stmt = conn.prepareStatement(sqlCheck);
-	stmt.setString(1,id );
-	stmt.setString(2,name );
-	stmt.setString(3,birth );
-	rs= stmt.executeQuery();
-	
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;		
+	        
+		Connection conn = DBHelper.getConnection();
+		String sqlCheck = "select id from customer where id = ? and name =? and birth = ?";
+		stmt = conn.prepareStatement(sqlCheck);
+		stmt.setString(1,id );
+		stmt.setString(2,name );
+		stmt.setString(3,birth );
+		rs= stmt.executeQuery();
+		
 		if(rs.next()){ 
 			row = 1;
 		}
 		
-	 conn.close();	
-	 return row;
+		 conn.close();	
+		 return row;
 	}
 	// signupAction
 	public static  boolean insertCustomer(String id, String pw, String name, String birth, String gender, String address) 
 			throws Exception {
-
 	
-	boolean isSuccess = false;
-	Connection conn = DBHelper.getConnection();
-	String sql = "insert into customer(id, originPw, pw, name, birth, gender,address, update_date, create_date) VALUES(?,?,PASSWORD(?), ?, ?, ?, ?, now(), now())";
-	PreparedStatement stmt = conn.prepareStatement(sql);
-	stmt.setString(1,id );
-	stmt.setString(2,pw );
-	stmt.setString(3,pw );
-	stmt.setString(4,name );
-	stmt.setString(5,birth );
-	stmt.setString(6,gender );	
-	stmt.setString(7,address );	
-	System.out.println(stmt);
-	int row  = stmt.executeUpdate();		
-	
-		if(row==1) {
-		isSuccess = true;			
-		}	
-    stmt.close();
-    conn.close();	
-	 return isSuccess;	
+		boolean isSuccess = false;
+		Connection conn = DBHelper.getConnection();
+		String sql = "insert into customer(id, originPw, pw, name, birth, gender,address, update_date, create_date) VALUES(?,?,PASSWORD(?), ?, ?, ?, ?, now(), now())";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,id );
+		stmt.setString(2,pw );
+		stmt.setString(3,pw );
+		stmt.setString(4,name );
+		stmt.setString(5,birth );
+		stmt.setString(6,gender );	
+		stmt.setString(7,address );	
+		System.out.println(stmt);
+		int row  = stmt.executeUpdate();		
+		
+			if(row==1) {
+			isSuccess = true;			
+			}	
+	    stmt.close();
+	    conn.close();	
+		 return isSuccess;	
 	}
 		
 /*----------------------------------------------------------------------------*/	
@@ -116,44 +116,44 @@ public class CustomerDAO { // signUpAction, updatePwForm
 /*----------------------------------------------------------------------------*/	
 	public static ArrayList<HashMap<String, Object>> getCustomerList(int startRow,int rowPerPage ) 
 			throws Exception { // customerList.jsp
-	// 특수한 형태의 데이터(RDBMS:mariaDB)
-	// -> API사용 (JDBC API)하여 자료구조 (ResultSet)취득
-	// -> 일반화된 자료구조 (ArrayList<HashMap>로 변경 -> 모델 취득				
-	ArrayList<HashMap<String, Object>> customerList = new ArrayList<HashMap<String,Object>>();
-    Connection conn = null;
-    PreparedStatement stmt = null;
-    ResultSet rs = null;	    	    
-    
-    conn = DBHelper	.getConnection();
-    String sql = "select *,(select count(*) from customer)AS cnt from customer limit ?,?";
-    
-	stmt = conn.prepareStatement(sql);	
-	stmt.setInt(1,startRow);
-	stmt.setInt(2,rowPerPage);
-	System.out.println(stmt);
-	rs = stmt.executeQuery();// JDBC API 종속된 자료구조 모델 ResultSet -> 기본API 자료구조(ArrayList)로 변경
-	
-	// ResultSet 변경-> ArrayList<HashMap<String, Object>>
-    while (rs.next()) {
-        HashMap<String, Object> customerMap = new HashMap<>();
-        customerMap.put("id",rs.getString("id"));
-        customerMap.put("name",rs.getString("name"));
-		customerMap.put("birth",rs.getString("birth"));
-		customerMap.put("gender",rs.getString("gender"));
-		customerMap.put("address",rs.getString("address"));
-		customerMap.put("phoneNum",rs.getString("phone_num"));
-		customerMap.put("create_date",rs.getString("create_date"));
-		customerMap.put("update_date",rs.getString("update_date"));
-		customerMap.put("pw",rs.getString("pw"));
-        customerMap.put("cnt",rs.getInt("cnt"));
-        customerList.add(customerMap);
-    }
-    // JDBC API 사용이 끝났으므로 DB자원 반납 가능	
-    rs.close();
-    stmt.close();
-    conn.close();
-	return customerList;
-	}
+		// 특수한 형태의 데이터(RDBMS:mariaDB)
+		// -> API사용 (JDBC API)하여 자료구조 (ResultSet)취득
+		// -> 일반화된 자료구조 (ArrayList<HashMap>로 변경 -> 모델 취득				
+		ArrayList<HashMap<String, Object>> customerList = new ArrayList<HashMap<String,Object>>();
+	    Connection conn = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;	    	    
+	    
+	    conn = DBHelper	.getConnection();
+	    String sql = "select *,(select count(*) from customer)AS cnt from customer limit ?,?";
+	    
+		stmt = conn.prepareStatement(sql);	
+		stmt.setInt(1,startRow);
+		stmt.setInt(2,rowPerPage);
+		System.out.println(stmt);
+		rs = stmt.executeQuery();// JDBC API 종속된 자료구조 모델 ResultSet -> 기본API 자료구조(ArrayList)로 변경
+		
+		// ResultSet 변경-> ArrayList<HashMap<String, Object>>
+	    while (rs.next()) {
+	        HashMap<String, Object> customerMap = new HashMap<>();
+	        customerMap.put("id",rs.getString("id"));
+	        customerMap.put("name",rs.getString("name"));
+			customerMap.put("birth",rs.getString("birth"));
+			customerMap.put("gender",rs.getString("gender"));
+			customerMap.put("address",rs.getString("address"));
+			customerMap.put("phoneNum",rs.getString("phone_num"));
+			customerMap.put("create_date",rs.getString("create_date"));
+			customerMap.put("update_date",rs.getString("update_date"));
+			customerMap.put("pw",rs.getString("pw"));
+	        customerMap.put("cnt",rs.getInt("cnt"));
+	        customerList.add(customerMap);
+	    }
+	    // JDBC API 사용이 끝났으므로 DB자원 반납 가능	
+	    rs.close();
+	    stmt.close();
+	    conn.close();
+		return customerList;
+		}
 	
 	//--------------------------------------------------------
 	//CustomerOne
@@ -187,66 +187,66 @@ public class CustomerDAO { // signUpAction, updatePwForm
 		return resultMap;		
 		}	
 	
-		// deleteCutomerAction
-			public static int deleteCustomer (String id) 
-					throws Exception {
-				int row = 0;
-				Connection conn = null;
-			    PreparedStatement stmt = null;
-			    conn = DBHelper	.getConnection();
-			    String sql = "delete from customer where id = ?";
+// deleteCutomerAction
+	public static int deleteCustomer (String id) 
+			throws Exception {
+		int row = 0;
+		Connection conn = null;
+	    PreparedStatement stmt = null;
+	    conn = DBHelper	.getConnection();
+	    String sql = "delete from customer where id = ?";
+	
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1,id);	
+		System.out.println(stmt);
+		row = stmt.executeUpdate();		     
+		   
+	    stmt.close();
+	    conn.close();    
+		return row;
+	}
 			
-				stmt = conn.prepareStatement(sql);
-				stmt.setString(1,id);	
-				System.out.println(stmt);
-				row = stmt.executeUpdate();		     
-				   
-			    stmt.close();
-			    conn.close();    
-				return row;
-			}
-			
-				//updateCutomerAction
-			public static int updateCustomer (String address, String phoneNum , String id) 
-					throws Exception {
-				int row = 0;
-				Connection conn = null;
-			    PreparedStatement stmt = null;
-			    conn = DBHelper	.getConnection();
-			    String sql = "update customer set address = ?, phone_num = ?,update_date = NOW() where id = ? ";
-			
-				stmt = conn.prepareStatement(sql);
-				stmt.setString(1,address);	
-				stmt.setString(2,phoneNum);	
-				stmt.setString(3,id);	
-				System.out.println(stmt);
-				row = stmt.executeUpdate();		     
-				   
-			    stmt.close();
-			    conn.close();    
-				return row;
-			}
+		//updateCutomerAction
+	public static int updateCustomer (String address, String phoneNum , String id) 
+			throws Exception {
+		int row = 0;
+		Connection conn = null;
+	    PreparedStatement stmt = null;
+	    conn = DBHelper	.getConnection();
+	    String sql = "update customer set address = ?, phone_num = ?,update_date = NOW() where id = ? ";
+	
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1,address);	
+		stmt.setString(2,phoneNum);	
+		stmt.setString(3,id);	
+		System.out.println(stmt);
+		row = stmt.executeUpdate();		     
+		   
+	    stmt.close();
+	    conn.close();    
+		return row;
+	}
 
-			//resetPwAction
-			public static int resetPw (String pw, String name , String id , String birth) 
-					throws Exception {
-				int row = 0;
-				Connection conn = null;
-			    PreparedStatement stmt = null;
-			    conn = DBHelper	.getConnection();
-			    String sql = "update customer set pw = password(?) where name = ? and id = ? and birth = ?" ;
-				stmt = conn.prepareStatement(sql); 
-				stmt.setString(1,pw);
-				stmt.setString(2,name);			
-				stmt.setString(3,id);			
-				stmt.setString(4,birth);	
-				System.out.println(stmt);
-				row = stmt.executeUpdate();		     
-				   
-			    stmt.close();
-			    conn.close();    
-				return row;
-			}
+	//resetPwAction
+	public static int resetPw (String pw, String name , String id , String birth) 
+			throws Exception {
+		int row = 0;
+		Connection conn = null;
+	    PreparedStatement stmt = null;
+	    conn = DBHelper	.getConnection();
+	    String sql = "update customer set pw = password(?) where name = ? and id = ? and birth = ?" ;
+		stmt = conn.prepareStatement(sql); 
+		stmt.setString(1,pw);
+		stmt.setString(2,name);			
+		stmt.setString(3,id);			
+		stmt.setString(4,birth);	
+		System.out.println(stmt);
+		row = stmt.executeUpdate();		     
+		   
+	    stmt.close();
+	    conn.close();    
+		return row;
+	}
 		
 		public static boolean checkPw(String id,String name, String pw)
 				throws Exception {
@@ -295,9 +295,6 @@ public class CustomerDAO { // signUpAction, updatePwForm
 			conn.close();
 			return id;
 		}
-		
-		
-		
 		
 		
 		

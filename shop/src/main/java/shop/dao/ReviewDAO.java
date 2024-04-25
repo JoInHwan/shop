@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class ReviewDAO {
 		// 리뷰 리스트 출력
-		public static ArrayList<HashMap<String, String>> getReviewList(String goodsNum) 
+	public static ArrayList<HashMap<String, String>> getReviewList(String goodsNum) 
 					throws Exception {
 		ArrayList<HashMap<String, String>> ReviewList = new ArrayList<HashMap<String,String>>();
 		Connection conn = null;
@@ -34,32 +34,32 @@ public class ReviewDAO {
 		stmt.close();
 		conn.close();
 		return ReviewList;
-		}
+	}
 	
 		// 리뷰 작성
-		public static int addReview (int orderNum,float score,String content) 
+	public static int addReview (int orderNum,float score,String content) 
 				throws Exception {
-			int row = 0;
-			Connection conn = null;
-		    PreparedStatement stmt = null;
-		    conn = DBHelper	.getConnection();
-		    String sql = "insert into review( orders_num, score , content, create_date )"
-		    		+ " values(?,?,?,NOW()) ";
-		
-			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1,orderNum);
-			stmt.setFloat(2,score);
-			stmt.setString(3,content);	
-			System.out.println(stmt);
-			row = stmt.executeUpdate();		     
-			   
-		    stmt.close();
-		    conn.close();    
-			return row;
-		} 
+		int row = 0;
+		Connection conn = null;
+	    PreparedStatement stmt = null;
+	    conn = DBHelper	.getConnection();
+	    String sql = "insert into review( orders_num, score , content, create_date )"
+	    		+ " values(?,?,?,NOW()) ";
+	
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1,orderNum);
+		stmt.setFloat(2,score);
+		stmt.setString(3,content);	
+		System.out.println(stmt);
+		row = stmt.executeUpdate();		     
+		   
+	    stmt.close();
+	    conn.close();    
+		return row;
+	} 
 		
 		// deleteReviewAction
-		public static int deleteReview (int orderNum,String createDate) 
+	public static int deleteReview (int orderNum,String createDate) 
 				throws Exception {
 			int row = 0;
 			Connection conn = null;
@@ -76,6 +76,6 @@ public class ReviewDAO {
 		    stmt.close();
 		    conn.close();    
 			return row;
-		}
+	}
 		
 }

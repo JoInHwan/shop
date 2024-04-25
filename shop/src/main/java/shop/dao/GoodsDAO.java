@@ -8,7 +8,7 @@ public class GoodsDAO {
 	
 	// -----------------------------------------------------------------------------------------------
 	public static ArrayList<HashMap<String, Object>> getGoodsList(String category, String searchWord, String order, int currentPage, int itemPerPage) 
-	throws Exception {
+			throws Exception {
 	    ArrayList<HashMap<String, Object>> goodsList = new ArrayList<HashMap<String,Object>>();
 	    Connection conn = null;
 	    PreparedStatement stmt = null;
@@ -76,12 +76,12 @@ public class GoodsDAO {
 	        goodsList.add(goods);
 	    }
 	   
-//	   try {
-//		   if (rs != null) {rs.close();}
-//		   if (stmt != null) {stmt.close();}
-//		   if (conn != null) {conn.close();}
-//	   } catch (Exception e) {	   e.printStackTrace();	   }
-	   
+	//	   try {
+	//		   if (rs != null) {rs.close();}
+	//		   if (stmt != null) {stmt.close();}
+	//		   if (conn != null) {conn.close();}
+	//	   } catch (Exception e) {	   e.printStackTrace();	   }
+		   
 	   rs.close();
 	    stmt.close();
 	    conn.close();
@@ -90,7 +90,7 @@ public class GoodsDAO {
 	// -----------------------------------------------------------------------------------------------
 	//GoodsOne 
 	public static HashMap<String, String> getGoodsOne(String goodsNum) 
-									throws Exception {
+			throws Exception {
 		HashMap<String, String> GoodsOne = null;
 	    Connection conn = null;
 	    PreparedStatement stmt = null;

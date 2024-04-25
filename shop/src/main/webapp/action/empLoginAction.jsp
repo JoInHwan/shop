@@ -5,10 +5,10 @@
 <%@	page import = "shop.dao.*" %>
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp , loginCustomer
-	if(session.getAttribute("loginEmp")!=null || session.getAttribute("loginCustomer")!=null){ //로그인이 이미 되어있다면
-		response.sendRedirect("/shop/emp/empList.jsp");
-		return;
-	}	
+//	if(session.getAttribute("loginEmp")!=null || session.getAttribute("loginCustomer")!=null){ //로그인이 이미 되어있다면
+//		response.sendRedirect("/shop/emp/empList.jsp");
+//		return;
+//	}	
 %>
 <%
 	// 요청값분석 (controller)

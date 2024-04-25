@@ -3,6 +3,7 @@
 <%@ page import = "java.util.*" %>
 <%@ page import = "shop.dao.ReviewDAO" %>
 <%
+	response.sendRedirect("/shop/loginForm.jsp");	
 	//로그인 인증 분기 : 세션변수 -> loginCustomer
 	if(session.getAttribute("loginCustomer")==null){ 
 		response.sendRedirect("/shop/loginForm.jsp");

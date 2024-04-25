@@ -18,12 +18,9 @@
 	String pwConfirm = request.getParameter("pwConfirm");
 	
 	String name =  request.getParameter("name");
-	
 	String birth = request.getParameter("birth");
 	String gender = request.getParameter("gender");
 	String address = request.getParameter("address");
-
-	
 	
 	System.out.println(id);
 	System.out.println(pw);
@@ -33,28 +30,27 @@
 	System.out.println(gender);	
 	System.out.println(address);	
 
-	boolean isDuplicate = CustomerDAO.checkDuplicateID(id);
-	 if (isDuplicate == true) {
-         String errMsg =  URLEncoder.encode("이미 존재하는 아이디입니다.", "utf-8");
-         response.sendRedirect("/shop/customer/signUpForm.jsp?idValue=" + id + "&errMsg=" + errMsg);
-     } else{
-    	if(!pw.equals(pwConfirm)){  // 비밀번호와 비밀번호재입력 값이 다르면다시 회원가입 페이지로 넘어감	     
-			System.out.println("비밀번호 불일치");
-			name =  URLEncoder.encode(name ,"utf-8");	
-			String errMsg2 =  URLEncoder.encode("비밀번호가 일치하지 않습니다.","utf-8");		
-			response.sendRedirect("/shop/customer/signUpForm.jsp?idValue="+id+"&pwValue="+pw+"&pw2Value="+pwConfirm+"&nameValue="+name+"&errMsg2="+errMsg2);				
-		}else{	// 비밀번호와 비밀번호 확인이 같을 때
-			if(	name == null || birth == null || gender == null || address == null ){
-				String errMsg3 =  URLEncoder.encode("입력하지 않은 칸이 있습니다.","utf-8");	
-				response.sendRedirect("/shop/customer/signUpForm.jsp?idValue="+id+"&pwValue="+pw+"&pw2Value="+pwConfirm+"&errMsg3="+errMsg3);	
-			}else{ // 모든 칸이 정상적으로 입력되었을때 
-				boolean isSuccess = CustomerDAO.insertCustomer(id, pw, name, birth, gender,address);					
-				// 5. 회원가입 즉시 로그인됌
-				if(isSuccess = true){
-					response.sendRedirect("/shop/action/loginAction.jsp?id="+id+"&pw="+pw); 
-				}					
-			}				
-		}
+	
+	
+	
+	
+   	if(!pw.equals(pwConfirm)){  // 비밀번호와 비밀번호재입력 값이 다르면다시 회원가입 페이지로 넘어감	     
+		System.out.println("비밀번호 불일치");
+		name =  URLEncoder.encode(name ,"utf-8");	
+		String errMsg2 =  URLEncoder.encode("비밀번호가 일치하지 않습니다.","utf-8");		
+		response.sendRedirect("/shop/customer/signUpForm.jsp?idValue="+id+"&pwValue="+pw+"&pw2Value="+pwConfirm+"&nameValue="+name+"&errMsg2="+errMsg2);				
+	}else{	// 비밀번호와 비밀번호 확인이 같을 때
+		if(	name == null || birth == null || gender == null || address == null ){
+			String errMsg3 =  URLEncoder.encode("입력하지 않은 칸이 있습니다.","utf-8");	
+			response.sendRedirect("/shop/customer/signUpForm.jsp?idValue="+id+"&pwValue="+pw+"&pw2Value="+pwConfirm+"&errMsg3="+errMsg3);	
+		}else{ // 모든 칸이 정상적으로 입력되었을때 
+			boolean isSuccess = CustomerDAO.insertCustomer(id, pw, name, birth, gender,address);					
+			// 5. 회원가입 즉시 로그인됌
+			if(isSuccess = true){
+				response.sendRedirect("/shop/action/loginAction.jsp?id="+id+"&pw="+pw); 
+			}					
+		}				
 	}
+	
 
 %>

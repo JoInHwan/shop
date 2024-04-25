@@ -17,6 +17,8 @@
 	String errMsg3="";
 	String pw2Value="";
 	String nameValue="";	
+	String readonly = "";
+	
 	
 	if(request.getParameter("idValue")!=null){		/*기입한 아이디 유지*/
 		idValue = request.getParameter("idValue");
@@ -30,9 +32,13 @@
 	if(request.getParameter("nameValue")!=null){		/*기입한 이름 유지*/
 		nameValue = request.getParameter("nameValue");
 	}		
-	if(request.getParameter("errMsg")!=null){	 /*이미존재하는 아이디입니다 문자 출력*/	
+	if(request.getParameter("errMsg")!=null){	 /*아이디 확인 문자 출력*/	
 		errMsg = request.getParameter("errMsg");
 	}
+	if(request.getParameter("useId")!=null){
+		readonly="readonly";	
+	}
+		
 	if(request.getParameter("errMsg2")!=null){	 /*비밀번호가 일치하지 않습니다 문자 출력*/
 		errMsg2 = request.getParameter("errMsg2");
 	}
@@ -89,14 +95,21 @@
 <body class="container bg">
 <div class="row">
 	<div class="col"></div>
-	<div class="col-6 content shadow signUpDiv" >
+	<div class="col-7 content shadow signUpDiv" >
 	<h2 style="text-align: center;">회원가입</h2><hr><br>	
-	<form class="row g-3" action="/shop/action/signUpAction.jsp" enctype="multipart/form-data" method="post">	
-		<div class="col-sm-12" style="height:70px;">
-			아이디:
-			<input type="text" name="id" class="form-control form-control-lg inputInfo" value="<%=idValue%>" >			
-			<span style="font-size: 11px;"><a style="color:red" href="/shop/customer/signUpForm.jsp"><%=errMsg%></a></span>				
+	<form class="row g-3" action="/shop/action/checkIdAction.jsp" enctype="multipart/form-data" method="post">	
+		<span style="padding:0px 10px; height:8px">아이디:</span>
+		<div class="col-sm-12" style="height:45px; display:flex">
+			<input type="text" name="id" class="form-control form-control-lg inputInfo" style="width:80%;" value="<%=idValue%>" <%=readonly%>>&nbsp;
+			<button type="submit" class="form-control-lg btn btn-danger w-20 rounded-100">중복확인</button>	
 		</div>		
+	</form>	<br>
+	<div style="font-size: 16px; height:30px"><a style="color:red" href="#"><%=errMsg%></a>
+		
+	</div>
+	<form class="row g-3" action="/shop/action/signUpAction.jsp" enctype="multipart/form-data" method="post">			
+		<hr style=" border: 2px solid black;">
+		<input type="hidden" name="id" value="<%=idValue%>" >
 		<div class="col-sm-12">
 			비밀번호: 
 			<input type="password" name="pw" class="form-control form-control-lg inputInfo" value="<%=pwValue%>" aria-describedby="passwordHelpInline">

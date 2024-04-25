@@ -67,7 +67,8 @@
 			<form action="/shop/action/loginAction.jsp?goodsNum=<%=goodsNum%>" method="post"> <!--비로그인상태에서 상품구매클릭후 로그인하면 보던 해당상품 구매페이지로 넘어가기 위함 -->		
 				<input class="form-control form-control-lg inputInfo" type="text" name="id" value="<%=idValue%>" placeholder="아이디" >
 				<div style="heigth:40px">&nbsp;</div>
-				<input class="form-control form-control-lg inputInfo" type="password" name="pw" value="<%=pwValue%>" placeholder="비밀번호"> <br>	
+				<input class="form-control form-control-lg inputInfo" type="password" name="pw" value="<%=pwValue%>" placeholder="비밀번호"> <br>
+					
 				<div style="height:30px">				
 					<a style="color:red;" href="/shop/loginForm.jsp"><%=errMsg %></a>					
 				</div>

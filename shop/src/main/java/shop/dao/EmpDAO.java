@@ -12,7 +12,7 @@ public class EmpDAO {
 	
 	// 호출 코드 HashMap<String, Object> m = EmpDAO.empLogin("admin","1234");
 	public static HashMap<String, Object> empLogin(String empId,String empPw)
-														throws Exception{
+			throws Exception{
 												
 		HashMap<String, Object> resultMap = null;
 		
@@ -25,7 +25,7 @@ public class EmpDAO {
 		stmt.setString(2,empPw);
 		System.out.println(stmt);
 		ResultSet rs = stmt.executeQuery();
-		if(rs.next()){
+		if (rs.next()){
 			// 하나의 세션변수에 여러개의 값을 저장하기 위해
 			resultMap = new HashMap<String, Object>();
 			resultMap.put("empId", rs.getString("empId"));
@@ -45,7 +45,7 @@ public class EmpDAO {
 	// -----------------------------------------------------------------------------------------------
 	// empList.jsp
 	public static ArrayList<HashMap<String, Object>> getEmpList(int startRow,int rowPerPage) 
-	throws Exception {
+			throws Exception {
 		// 특수한 형태의 데이터(RDBMS:mariaDB)
 		// -> API사용 (JDBC API)하여 자료구조 (ResultSet)취득
 		// -> 일반화된 자료구조 (ArrayList<HashMap>로 변경 -> 모델 취득				
@@ -72,7 +72,6 @@ public class EmpDAO {
 			empMap.put("grade",rs.getString("grade"));
 			empMap.put("active",rs.getString("active"));
 			
-			
 	        empList.add(empMap);
 	    }
 	 // JDBC API 사용이 끝났으므로 DB자원 반납 가능	
@@ -86,6 +85,7 @@ public class EmpDAO {
 		// modify.jsp
 	public static int modifyActive(String empId,String active) 
 			throws Exception {
+		
 		int row = 0;
 		Connection conn = null;
 	    PreparedStatement stmt = null;
@@ -103,7 +103,6 @@ public class EmpDAO {
 		stmt = conn.prepareStatement(sql);	
 		row = stmt.executeUpdate();		   
 		    
-		
 	    stmt.close();
 	    conn.close();    
 		return row;
@@ -112,50 +111,53 @@ public class EmpDAO {
 	
 	// empSignUpAction
 	public static boolean checkEmpID(String id) throws Exception {
+		
         boolean checkEmpId = false;        
         PreparedStatement stmtCheck = null;
         ResultSet rsCheck = null;		
 
 	// 1. DB 접근
-	Connection conn = DBHelper.getConnection();
+		Connection conn = DBHelper.getConnection();
+		
+		// 2. 중복된 아이디 확인
+		String sqlCheck = "select emp_id from emp where emp_id =?";
+		stmtCheck = conn.prepareStatement(sqlCheck);
+		stmtCheck.setString(1,id );
+		rsCheck = stmtCheck.executeQuery();
 	
-	// 2. 중복된 아이디 확인
-	String sqlCheck = "select emp_id from emp where emp_id =?";
-	stmtCheck = conn.prepareStatement(sqlCheck);
-	stmtCheck.setString(1,id );
-	rsCheck = stmtCheck.executeQuery();
-	
-		if(rsCheck.next()){  // 이미 아이디가 존재할때
+		if (rsCheck.next()) {  // 이미 아이디가 존재할때
 			System.out.println("아이디 존재");
 			checkEmpId = true;
 		}
 		
-	 conn.close();	
-	 return checkEmpId;
+		 conn.close();	
+		 return checkEmpId;
 	}
 	
 	
 	// empSignupAction
 	public static  int empSignUp(String id, String pw, String name, String job, String hireDate) 
 			throws Exception {
-	int row = 0;
-	Connection conn = DBHelper.getConnection();
-	String sql = "insert into emp(emp_id, emp_pw, emp_name, emp_job, hire_date) VALUES(?,PASSWORD(?),?,?,?)";
-	PreparedStatement stmt = conn.prepareStatement(sql);
-	stmt.setString(1,id );
-	stmt.setString(2,pw );
-	stmt.setString(3,name );
-	stmt.setString(4,job );
-	stmt.setString(5,hireDate );
-	System.out.println(stmt);
-	row  = stmt.executeUpdate();		
+		
+		int row = 0;
+		Connection conn = DBHelper.getConnection();
+		String sql = "insert into emp(emp_id, emp_pw, emp_name, emp_job, hire_date) VALUES(?,PASSWORD(?),?,?,?)";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1,id );
+		stmt.setString(2,pw );
+		stmt.setString(3,name );
+		stmt.setString(4,job );
+		stmt.setString(5,hireDate );
+		System.out.println(stmt);
+		row  = stmt.executeUpdate();		
 	
-		if(row==1) {
+		if (row==1) {
 			row = 1;			
 		}	
-    stmt.close();
-    conn.close();	
-	 return row;	
+	    stmt.close();
+	    conn.close();	
+	    
+	    return row;	
 	}
 	
 	

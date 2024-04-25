@@ -28,6 +28,22 @@
 		border-color: #778899;
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	.ssmDiv{ /* 로그인페이지 sosom이미지 div*/
 		height:1px; display: flex; justify-content: center; align-items: center;
 	}
@@ -141,7 +157,7 @@
 	}
 	
 	input[type=text] {
- 		border-style: none;
+ 		
 	}
 	.itemIndex:hover {
     	background-color: #ccc;

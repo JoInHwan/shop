@@ -19,8 +19,6 @@
 	int rowPerPage = 15;
 	int startRow = ((currentPage-1)*rowPerPage);	
 	int totalRow = 0;
-	
-	
 %>
 
 <%	ArrayList<HashMap<String, Object>> customerList = CustomerDAO.getCustomerList(startRow,rowPerPage);
@@ -67,8 +65,8 @@
 	}
 	</style>
 </head>
-<body class="container bg">
-<div class="content">
+<body class="bg">
+<div class="container content">
 	<div>
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
@@ -123,7 +121,7 @@
 		%>					
 	</table>
 		<div>
-			<a href="/shop/action/updateCustomerPassword.jsp" class="btn btn-outline-warning">비밀번호암호화</a>
+			<a href="/shop/action/updateCustomerPassword.jsp" class="btn btn-outline-warning disabled">비밀번호암호화</a>
 		</div>
 	</div>	
 	<nav aria-label="Page navigation example">
