@@ -15,6 +15,6 @@
 	int row = GoodsDAO.deleteGoods(goodsNum);
 	if(row==1){
 		System.out.println("상품삭제성공");
-		response.sendRedirect("/shop/emp/goodsListForEmp.jsp");		
+		response.sendRedirect("/shop/emp/goodsListForEmp.jsp");		   
 	} 
 %>
