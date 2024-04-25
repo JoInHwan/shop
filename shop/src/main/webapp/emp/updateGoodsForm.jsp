@@ -5,14 +5,12 @@
 <%@ page import = "shop.dao.GoodsDAO" %>
 
 <%
-	
-	HashMap<String,Object> loginMember	= null;
-	
-	if(session.getAttribute("loginCustomer")==null && session.getAttribute("loginEmp")!=null){ // '직원'으로 로그인 하면 세션 loginMember에 loginEmp가 저장
-		loginMember	= (HashMap<String,Object>)(session.getAttribute("loginEmp"));
+	//로그인 인증 분기 : 세션변수 -> loginEmp
+	if(session.getAttribute("loginEmp")==null || session.getAttribute("loginCustomer")!= null){ // 직원로그인이 안되어있으면 (or고객으로 로그인했으면)
+		response.sendRedirect("/shop/emp/empLoginForm.jsp");
+		return;
 	}
-	
-	
+		HashMap<String,Object> loginMember	= (HashMap<String,Object>)(session.getAttribute("loginEmp"));	
 %>
 <%
 	// MaraiDB연동 DAO 연결

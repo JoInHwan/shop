@@ -77,7 +77,7 @@
 	<div style="display: inline-block;"> 
 	<h2> 고객 목록 </h2><hr>
 	
-	<table style="margin-left: 10px; margin-right: 20px; font-size: 14px"  >
+	<table style="margin-left: 10px; margin-right: 20px; font-size: 14px; width:100%"  >
 		<tr>
 			<th>아이디</th>
 			<th>이름</th>
@@ -123,9 +123,7 @@
 		%>					
 	</table>
 		<div>
-			<a href="/shop/customer/signUpForm.jsp" class="btn btn-outline-info">추가</a>
 			<a href="/shop/action/updateCustomerPassword.jsp" class="btn btn-outline-warning">비밀번호암호화</a>
-			<a href="/shop/customer/deleteCustomerList.jsp" class="btn btn-outline-info">삭제</a>
 		</div>
 	</div>	
 	<nav aria-label="Page navigation example">

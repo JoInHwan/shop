@@ -11,7 +11,7 @@
 	}
 	a{ 
 		text-decoration: none;	
-		display:block;	
+ 		display:block;	 
 	}
 	.content{
 	background-color: white; 
@@ -27,6 +27,142 @@
 		border: 1px solid;
 		border-color: #778899;
 	}
+	
+	.ssmDiv{ /* 로그인페이지 sosom이미지 div*/
+		height:1px; display: flex; justify-content: center; align-items: center;
+	}
+	.ssmAlink{ /*로그인페이지 soom A링크 */
+		text-decoration:none; color:black; padding-right:40px; display: flex; align-items: center;
+	}
+	.ssmSpan{ /*로그인페이지 sosom글씨 */
+		height: 100%; font-size: 40px;  font-weight: bold;  padding-left:5px;
+	}
+	
+	.lgPgCenterDiv{
+		text-align: center; padding:20px 0px; margin-bottom: 20px; border-radius: 20px;
+	}
+	.signUpDiv{
+		padding: 20px 50px; border-radius: 20px; margin:30px 0px
+	}
+	
+		.item{
+	/* 상품div */
+		display: flex;
+		width:25%;     
+/*    			width:200px;    */
+		flex-wrap: wrap;
+		box-sizing: border-box; 
+		float:left;
+		border:none; 			
+		transition: background-color 0.3s ease;
+	}
+	.itemIndex:hover {
+    	background-color: #ccc;
+        }
+	.item-wrapper {
+		display: block; /* div를 블록 레벨 요소로 변경 */
+		text-decoration: none; /* 링크에 밑줄 제거 */
+		color: inherit; /* 링크 색상 상속 */
+    }
+	
+	.itemIndex{
+		display:inline-block;
+	}
+	
+	.indexTable{
+		margin-top:5px;
+	}
+	
+	.reviewTable{
+		border:solid 1px;
+	}
+	.checked {
+		color: orange;
+	}
+	
+	
+		.item{   /* 상품div */
+		display: flex;
+   		width:25%;     
+/*    			width:200px;    */
+		flex-wrap: wrap;
+ 		box-sizing: border-box; 
+		float:left;
+		border:none; 			
+        transition: background-color 0.3s ease;
+        display:flex; 
+        justify-content: center;        
+        border-radius: 15px;
+	}
+	.item:hover {
+       background-color: #ccc; 
+       box-shadow: 0 20px 20px rgba(20, 20, 20, 0.2);   
+    }
+	.item-wrapper {
+      	display: block; /* div를 블록 레벨 요소로 변경 */
+     	text-decoration: none; /* 링크에 밑줄 제거 */
+      	color: inherit; /* 링크 색상 상속 */
+    }
+	.item>table{	/*상품 div>table*/
+		width: 80%;
+		height: 80px; 			
+		box-sizing: border-box;
+		text-align: left;	
+		border: none;
+		margin-bottom: 40px;
+		margin-top: 20px;		
+		}
+	.itemImg {  /* 이미지 th */
+		text-align: center;	
+		padding-top:15px;
+	}
+					
+	.price{		/* 가격 td */
+		border: none;
+		font-weight: bold;
+		color: red;
+	}
+	.goodsBorder{	/*  th , td */
+   		border:none   
+	}	
+	.itemTitle a {   /* 상품이름 안 a태그 */  
+    	display: block; /* 인라인 요소를 블록 요소로 변경하여 전체 영역을 차지하도록 함 */
+	    width: 100%; /* 테이블 셀 전체 크기로 확장 */   
+	    height: 100%; /* 테이블 셀 전체 크기로 확장 */  
+	    color: inherit; /* 링크 색상을 상속받음 */
+ 	    background-color: #E0E0E0;   
+	    padding-left: 10%; 
+	    height:45px;
+		font-family: "Georgia", Serif;
+		font-weight: bold;	
+	}
+	.itemEx a{ /* 상품 가격,재고 안 a태그 */  
+		display: block;
+	}
+	
+	input[type=text] {
+ 		border-style: none;
+	}
+	.itemIndex:hover {
+    	background-color: #ccc;
+        }	
+	.itemIndex{
+		display:inline-block;
+	}
+	
+	.indexTable{
+		margin-top:5px;
+	}
+	
+	.reviewTable{
+		border:solid 1px;
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	

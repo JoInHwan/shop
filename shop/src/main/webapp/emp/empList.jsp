@@ -99,8 +99,8 @@
 			if ((int)loginMember.get("grade") >=10 ){				
 		%>
 			<div style="display: inline-block;">
-				<a href="/shop/emp/empSignUpForm.jsp" class="btn btn-outline-info">추가</a>
-				<a href="/shop/action/deleteEmpAction.jsp>" class="btn btn-outline-info">삭제</a>
+				<a href="/shop/emp/empSignUpForm.jsp" class="btn btn-outline-info">새 직원 추가</a>
+<!-- 				<a href="/shop/action/deleteEmpAction.jsp>" class="btn btn-outline-info">삭제</a> -->
 			</div>
 		<%		
 			}

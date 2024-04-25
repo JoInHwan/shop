@@ -4,11 +4,14 @@
 <%@ page import = "shop.dao.OrderDAO" %>
 <%@ page import = "shop.dao.GoodsDAO" %>
 <%
+	
 	//로그인 인증 분기 : 세션변수 -> loginCustomer
-	if(session.getAttribute("loginCustomer")==null){ 
+	if(session.getAttribute("loginCustomer")==null || session.getAttribute("loginEmp")!=null){ // 고객로그인 안되있으면(직원으로 로그인했으면)
 		response.sendRedirect("/shop/loginForm.jsp");
-	}	
+	}
+	HashMap<String,Object> loginMember	= (HashMap<String,Object>)(session.getAttribute("loginCustomer"));
 %>
+
 <%
 	String id = request.getParameter("id");
 	String goodsNum =request.getParameter("goodsNum");

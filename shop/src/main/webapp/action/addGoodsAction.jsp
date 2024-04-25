@@ -4,16 +4,16 @@
 <%@ page import = "java.io.*" %>
 <%@ page import = "java.nio.file.*" %>
 <%@ page import = "shop.dao.GoodsDAO" %>
+
 <%
 	//로그인 인증 분기 : 세션변수 -> loginEmp
-	if(session.getAttribute("loginEmp")==null){ //로그인이 이미 되어있다면
+	if(session.getAttribute("loginEmp")==null || session.getAttribute("loginCustomer")!= null){ // 직원로그인이 안되어있으면 (or고객으로 로그인했으면)
 		response.sendRedirect("/shop/emp/empLoginForm.jsp");
 		return;
 	}
-	HashMap<String,Object> loginMember 
-	= (HashMap<String,Object>)(session.getAttribute("loginEmp"));
-
+		HashMap<String,Object> loginMember	= (HashMap<String,Object>)(session.getAttribute("loginEmp"));	
 %>
+
 
 <%
 //1. 요청분석

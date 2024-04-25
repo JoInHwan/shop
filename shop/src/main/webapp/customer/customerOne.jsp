@@ -152,8 +152,8 @@
 			};
 			</script>
 			<br>
-			<hr style="border: 2px solid black;"><br>
-			<h2>구매정보</h2>	
+			<hr style="border: 2px solid black;">
+			<h2>구매정보</h2>	<br>
 		<%	
 			if(	orderInfo.isEmpty() ){ // 구매이력이 없을 때
 		%>

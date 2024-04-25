@@ -46,7 +46,7 @@
 <html>
 <head>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="/shop/SHOP.css" rel="stylesheet">
+<link href="/shop/SHOP.css?after" rel="stylesheet">
 	<meta charset="UTF-8">
 	<title></title>
 	<style>
@@ -89,7 +89,7 @@
 <body class="container bg">
 <div class="row">
 	<div class="col"></div>
-	<div class="col-6 content shadow" style="text-align:centers; padding: 20px 50px; border-radius: 20px; margin:30px 0px">
+	<div class="col-6 content shadow signUpDiv" >
 	<h2 style="text-align: center;">회원가입</h2><hr><br>	
 	<form class="row g-3" action="/shop/action/signUpAction.jsp" enctype="multipart/form-data" method="post">	
 		<div class="col-sm-12" style="height:70px;">
@@ -104,7 +104,7 @@
 		<div class="col-sm-12" style="height:60px;">
 			비밀번호 재확인:
 			<input type="password" name="pwConfirm" class="form-control form-control-lg inputInfo" value="<%=pw2Value%>">			
-			<span style="font-size: 11px;"><a style="color:red" href="/shop/customer/signUpForm.jsp"><%=errMsg2%></a></span>			
+			<span style="font-size: 11px;"><a style="color:red" href="#"><%=errMsg2%></a></span>			
 		</div>
 		<div>		
 		</div>

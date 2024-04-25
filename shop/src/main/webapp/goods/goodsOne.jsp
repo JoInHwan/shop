@@ -83,9 +83,6 @@
 		 m.put("emptyStar", String.valueOf(emptyStar));
 		}	
 	}
-	
-	
-	
 %>
 
 <!DOCTYPE html>
@@ -94,44 +91,11 @@
 	<meta charset="UTF-8">
 	<title>상품 자세히</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<link href="/shop/SHOP.css" rel="stylesheet">
+	<link href="/shop/SHOP.css?after" rel="stylesheet">
 	<link rel="icon" href="/shop/favicon.ico">
 <Style>
-	.item{
-	/* 상품div */
-		display: flex;
-		width:25%;     
-/*    			width:200px;    */
-		flex-wrap: wrap;
-		box-sizing: border-box; 
-		float:left;
-		border:none; 			
-		transition: background-color 0.3s ease;
-	}
-	.itemIndex:hover {
-    	background-color: #ccc;
-        }
-	.item-wrapper {
-		display: block; /* div를 블록 레벨 요소로 변경 */
-		text-decoration: none; /* 링크에 밑줄 제거 */
-		color: inherit; /* 링크 색상 상속 */
-    }
 	
-	
-	.itemIndex{
-		display:inline-block;
-	}
-	
-	.indexTable{
-		margin-top:5px;
-	}
-	
-	.reviewTable{
-		border:solid 1px;
-	}
-	.checked {
-		color: orange;
-	}
+		
 </Style>	
 	
 	
@@ -252,8 +216,7 @@
 										<br> 작성자 : <%=m.get("id")%>									
 								</form>	
 						</td>						 
-					</tr>	
-									
+					</tr>			
 				<% 				
 						}
 					}
@@ -294,31 +257,28 @@
 						}
 					%>
 				</div>
-			</form>	
-				
+			</form>
 			</div>
-			
-		</div>			
-		
+		</div>		
 		<hr>
 		<div style="font-size:14px; height:20px; padding-left:18%" > 함께 보면 좋을 상품 </div>
 			<div class="row">
 		 		<div class="col-2" style="background-color:"></div>		
-				<%	
-					for (HashMap<String, Object> goodsMap : goodsList) { 
-				%>						
+			<%	
+				for (HashMap<String, Object> goodsMap : goodsList) { 
+			%>						
 					<div class="itemIndex col-1"  style="padding-top:1px; display:flex;justify-content: center;">
 						<a class="item-wrapper" href="/shop/goods/goodsOne.jsp?goodsNum=<%=(String)(goodsMap.get("goodsNum"))%>">		
-							<table class="indexTable">
+							<table class="indexTable" >
 			<!-- 이미지 -->	<tr><th><img src="/shop/upload/<%=(String)(goodsMap.get("filename"))%>" style="width:80px;"></img></th></tr> 
 			<!-- 상풍명 -->	<tr><td style="font-size: 10px; text-align: center;"><%=(String)(goodsMap.get("goodsTitle"))%></td></tr>
 			<!-- 가격 -->		<tr><td style="font-size: 12px; color:red; text-align: center;"><%=(String)(goodsMap.get("goodsPrice"))%>원</td></tr>				
 							</table>	
 						</a>
 					</div>		
-				<%	
+			<%	
 				}
-				%>
+			%>
 				<div class="col-2" style="background-color:"></div>
 				
 			</div><br><br><br>

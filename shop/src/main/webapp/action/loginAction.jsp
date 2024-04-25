@@ -15,7 +15,8 @@
 	//1. 요청값분석 (controller)
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");	
-	
+	//System.out.println( id + " <--id at | loginAction");
+	//System.out.println( pw + " <--pw at | loginAction");
 	
 	String goodsNum = "";
 	if(request.getParameter("goodsNum")!=null){
@@ -37,10 +38,11 @@
 		System.out.println(goodsNum);	
 		response.sendRedirect("/shop/goods/purchaseGoodsForm.jsp?goodsNum="+goodsNum);
 		}
-		
 				
 	}else {		// 로그인실패
 		System.out.println("로그인실패");
+		id =  URLEncoder.encode(id,"utf-8");
+		pw =  URLEncoder.encode(pw,"utf-8");
 		String errMsg =  URLEncoder.encode("아이디와 비밀번호가 잘못되었습니다","utf-8");
 		response.sendRedirect("/shop/loginForm.jsp?idValue="+id+"&pwValue="+pw+"&errMsg="+errMsg); // 자동으로 로그인페이지로 넘어감
 	}

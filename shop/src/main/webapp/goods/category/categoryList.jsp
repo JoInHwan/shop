@@ -66,7 +66,7 @@
 			%>			
 			</table><br>		
 			<div>
-			<a href="/shop/AddCategoryForm.jsp>" class="btn btn-outline-warning">추가</a>	
+<!-- 			<a href="/shop/AddCategoryForm.jsp>" class="btn btn-outline-warning">추가</a>	 -->
 			</div><br>
 		</div>	
 	</div>
