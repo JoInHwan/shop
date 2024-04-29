@@ -67,7 +67,7 @@ public class OrderDAO {
 	    PreparedStatement stmt = null;
 	    conn = DBHelper	.getConnection();
 	    String sql = "insert into orders( id, goods_num , amount, state, buyTime )"
-	    		+ " values(?,?,?,'배송중',NOW()) ";
+	    		+ " values(?,?,?,'주문대기',NOW()) ";
 	
 		stmt = conn.prepareStatement(sql);
 		stmt.setString(1,id);
@@ -156,7 +156,7 @@ public class OrderDAO {
 		
 	    while (rs.next()) {
 	        HashMap<String, Object> orderMap = new HashMap<>();
-	        orderMap.put("orderNum",rs.getString("orders_num"));
+	        orderMap.put("orderNum",rs.getInt("orders_num"));
 	        orderMap.put("id",rs.getString("id"));
 	        orderMap.put("goodsNum",rs.getString("goods_num"));
 	        orderMap.put("state",rs.getString("state"));

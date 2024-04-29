@@ -18,7 +18,9 @@
 <head>
 	<link href="/shop/SHOP.css" rel="stylesheet">
 	<meta charset="UTF-8">
-	<title></title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/shop/SHOP.css" rel="stylesheet">
+	<title>상품등록</title>
 	<style>
 		table{
 		text-align:left;
@@ -30,8 +32,13 @@
 	</style>
 </head>
 <body class="container bg">
-<div class="content">
-	
+<div class="content"><br><br>
+<div style="height:1px; display: flex; justify-content: center; align-items: center;">
+  <a href="/shop/goods/goodsList.jsp" style="text-decoration:none; color:black; display: flex; align-items: center;">
+  	<span style="height: 100%; "><img src="/shop/upload/sosom.png" style="width:40px; margin-top:10%;"></span>
+  	<span style="height: 100%; font-size: 40px;  font-weight: bold;  padding-left:5px;">SOSOM</span>
+  </a>	
+</div><br><br>
 	<div>
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
@@ -40,7 +47,7 @@
 		<h2>상품등록</h2><hr>
 		<div style="display: inline-block;"> 
 			<form action="/shop/action/addGoodsAction.jsp" enctype="multipart/form-data" method="post">
-			<table border="1">
+			<table class="table table-bordered" style="border: 3px">
 			<tr>
 				<td>카테고리 : </td>
 				<td>	<select name="category">
@@ -78,7 +85,6 @@
 			</table>
 			</form><br>
 		</div>
-		<td></td>
 	</div>
 </div>	
 </body>

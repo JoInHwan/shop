@@ -16,7 +16,7 @@
 	if(request.getParameter("currentPage")!=null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}
-	int rowPerPage = 15;
+	int rowPerPage = 20;
 	int startRow = ((currentPage-1)*rowPerPage);	
 	int totalRow = 0;
 %>
@@ -54,19 +54,17 @@
 <link href="/shop/SHOP.css" rel="stylesheet">
 	<title></title>
 	<style>
-	table, th{
-	  border: 1px solid;
-	  text-align:center;
-	}
 	
-	.td{
-		border: 1px solid;
-		padding : 0px 5px;
-	}
 	</style>
 </head>
 <body class="bg">
-<div class="container content">
+<div class="container content"><br><br>
+<div style="height:1px; display: flex; justify-content: center; align-items: center;">
+  <a href="/shop/goods/goodsList.jsp" style="text-decoration:none; color:black;display: flex; align-items: center;">
+  	<span style="height: 100%; "><img src="/shop/upload/sosom.png" style="width:40px; margin-top:10%;"></span>
+  	<span style="height: 100%; font-size: 40px;  font-weight: bold;  padding-left:5px;">SOSOM</span>
+  </a>	
+</div><br><br>
 	<div>
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
@@ -75,7 +73,7 @@
 	<div style="display: inline-block;"> 
 	<h2> 고객 목록 </h2><hr>
 	
-	<table style="margin-left: 10px; margin-right: 20px; font-size: 14px; width:100%"  >
+	<table class="table table-bordered" style=" border:3px; margin-left: 10px; margin-right: 20px; font-size: 14px; width:100%"  >
 		<tr>
 			<th>아이디</th>
 			<th>이름</th>
@@ -106,14 +104,14 @@
 				updateDate = updateDate.substring(2);
 		%>
 			<tr>
-				<td class="td"><%=id%></td>
-				<td class="td"><%=name%></td>
-				<td class="td"><%=gender%>자</td>
-				<td class="td"><%=birth%></td>
-				<td class="td"><%=address%></td>	
-				<td class="td"><%=createDate%></td>
-				<td class="td"><%=updateDate%></td>				
-				<td class="td"><%=phoneNum%></td>				
+				<td ><%=id%></td>
+				<td ><%=name%></td>
+				<td ><%=gender%>자</td>
+				<td ><%=birth%></td>
+				<td ><%=address%></td>	
+				<td ><%=createDate%></td>
+				<td ><%=updateDate%></td>				
+				<td ><%=phoneNum%></td>				
 				<td><a href="/shop/customer/customerOne.jsp?id=<%=id%>&name=<%=name%>">자세히</a></td>			
 			</tr>		
 		<%		

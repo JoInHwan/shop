@@ -155,9 +155,9 @@
 					<%
 						}
 					%>
-						<option value="12">12개씩</option>
 						<option value="4">4개씩</option>
 						<option value="8">8개씩</option>
+						<option value="12">12개씩</option>
 						<option value="16">16개씩</option>
 						<option value="20">20개씩</option>
 					</select>
@@ -180,7 +180,7 @@
 	</script>	
 		<!-- ---- 카테고리 선택없이 전체출력&&검색어가 포함된 상품 출력 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  -->
 		<%	
-//  		if(category==null || category.equals("null")){  
+			//  if(category==null || category.equals("null")){  
 			// 첫 조건은 처음 출력할때, 두번째조건은 페이징할때 a태그로 categoty가 null로 넘겨질때
 			for (HashMap<String, Object> goodsMap : goodsList) { 
 		%>	
@@ -192,11 +192,12 @@
 <!-- 상풍명 -->	<tr><td class="goodsBorder itemTitle" style="padding-left:8%"><%=(String)(goodsMap.get("goodsTitle"))%></td></tr>
 <!-- 가격 -->		<tr><td class="price itemEx" style="padding-left:8%"><%=(String)(goodsMap.get("goodsPrice"))%>원</td></tr>
 <!-- 재고 -->		<tr><td class="goodsBorder itemEx" style="padding-left:8%"><%=(String)(goodsMap.get("goodsAmount"))%>개</td></tr>				
-			</table>	
+			</table>				
 			</div>
-			</a>
-		<%	}
-		//}
+			
+		</a>
+		<%	
+			}
 		%>		
 		<!-- 페이징 nav -->
 	<div style="width:80px">&nbsp;</div>

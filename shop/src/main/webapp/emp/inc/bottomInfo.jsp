@@ -41,10 +41,10 @@
 				<div style="display:flex;">
 				<a href="/shop/goods/goodsList.jsp" class="btm"> 홈 </a>
 <!-- 				회사소개 | 이용약관 | 개인정보처리방침 |  이용안내  -->
-				<a href="#" class="btm"> 회사소개 </a>
-				<a href="#" class="btm"> 이용약관 </a>
-				<a href="#" class="btm"> 개인정보처리방침 </a>
-				<a href="#" class="btm"> 이용안내 </a>
+				 <a href="#" class="btm" onclick="showAlert('회사소개')"> 회사소개 </a>
+                        <a href="" class="btm" onclick="showAlert('이용약관')"> 이용약관 </a>
+                        <a href="" class="btm" onclick="showAlert('개인정보처리방침')"> 개인정보처리방침 </a>
+                        <a href="" class="btm" onclick="showAlert('이용안내')"> 이용안내 </a>
 				</div>				
 			</th>
 		</tr>
@@ -59,4 +59,9 @@
 			<td class="btd2" style="padding-bottom:10px;"> 주소 : Gasan digital 2-ro, Geumcheon-gu, Seoul, Republic of Korea </td>
 		</tr>
 	</table>
+	  <script>
+        function showAlert() {
+            alert('구현되지 않았습니다');
+        }
+    </script>
 </div>

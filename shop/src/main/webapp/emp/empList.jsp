@@ -39,6 +39,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="/shop/SHOP.css" rel="stylesheet">
 	<title>사원리스트</title>
 	<style>
@@ -53,7 +54,13 @@
 	</style>
 </head>
 <body class="container bg">
-<div class="content">
+	<div class="content"><br><br>
+	<div style="height:1px; display: flex; justify-content: center; align-items: center;">
+	  <a href="/shop/goods/goodsList.jsp" style="text-decoration:none; color:black; display: flex; align-items: center;">
+	  	<span style="height: 100%; "><img src="/shop/upload/sosom.png" style="width:40px; margin-top:10%;"></span>
+	  	<span style="height: 100%; font-size: 40px;  font-weight: bold;  padding-left:5px;">SOSOM</span>
+	  </a>	
+	</div><br><br>
 	<!-- empMenu.jsp include : 주체(서버) vs redirect(주체:클라이언트) -->
 	<div >
 		<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
@@ -62,7 +69,7 @@
 		<div style="height:10px" ></div>
 		<h2> 사원 목록 </h2><hr>	
 		<div style="display: inline-block;"> 
-			<table>
+			<table class="table table-bordered" style="border: 3px" >
 				<tr>
 					<th>회원ID</th>
 					<th>이름</th>

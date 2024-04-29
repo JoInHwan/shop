@@ -143,7 +143,7 @@
 <!-- 					        <a href="" class="form-control-lg btn btn-outline-success" style="margin-left: 20px;">장바구니 담기</a> -->
 					        <form action="/shop/goods/purchaseGoodsForm.jsp" method="post" style="margin-left: 20px;">
 					        	<input type="hidden" name="goodsNum" value="<%=goodsNum%>">
-					        	<input type="hidden" name="id" value="<%=id%>">					        	
+					        	<input type="hidden" name="id" value="<%=id%>">		
 					            <button type="submit" class="form-control-lg btn btn-primary">바로 구매</button>
 					        </form>
 					    </td>
@@ -226,7 +226,7 @@
 				<input type="hidden" name="goodsNum" value="<%=goodsNum%>">
 				<input type="hidden" name="orderNum" value="<%=orderNum%>">
 				<div style="flex: 4; margin-left: 10px;">
-			        <textarea name="content" class="form-control" placeholder="후기를 입력해주세요" rows="3"></textarea>
+			        <textarea name="content" class="form-control" placeholder="상품을 구매하시면 리뷰를 등록할 수 있습니다." rows="3"></textarea>
 			    </div>
 			    <div style="flex: 1;">
 			        <input type="range" min="0.0" max="10.0" step="0.1" value="5.0" id="slider" name="score" style="width:70%;">

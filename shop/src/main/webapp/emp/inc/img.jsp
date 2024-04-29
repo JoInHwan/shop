@@ -23,13 +23,13 @@
   <!-- The slideshow/carousel -->
   <div class="carousel-inner" >
   <a href="#">
-    <div class="carousel-item active" data-bs-interval="2500">
+    <div class="carousel-item active" data-bs-interval="5000">
       <img src="/shop/upload/im1.png" alt="Los Angeles" class="d-block img-fluid">
     </div>
-    <div class="carousel-item" data-bs-interval="2500">
+    <div class="carousel-item" data-bs-interval="5000">
       <img src="/shop/upload/im2.png" alt="Chicago" class="d-block img-fluid">
     </div>
-    <div class="carousel-item" data-bs-interval="2500">
+    <div class="carousel-item" data-bs-interval="5000">
       <img src="/shop/upload/im3.png" alt="New York" class="d-block img-fluid">
     </div>
    </a> 

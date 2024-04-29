@@ -25,11 +25,10 @@
 	
 	for (HashMap<String, Object> m : orderList) {
 		totalRow = (int)(m.get("cnt"));
-		System.out.println(totalRow + "<-- totalRow");
+		System.out.println(totalRow + "<-- totalRow [OrderList]");
 		break;
 	}
 	
-	System.out.println(totalRow+ "<-totalRow [OrderList]");
 	int lastPage = totalRow / rowPerPage; // 전체페이지수
 	if(totalRow%rowPerPage !=0){   // 딱 나눠떨어지지않으면 한페이지가 새로 추가됌
 		lastPage = lastPage+1;		
@@ -55,20 +54,17 @@
 	<link href="/shop/SHOP.css" rel="stylesheet">
 	<title>주문목록</title>
 	<style>
-		table, th{
-		  border: 1px solid;
-		  text-align:center;
-		}
-		td{
-			border: 1px solid;
-			width:150px;
-			border:1px solid;
-		}
-	
+			
 	</style>
 </head>
 <body class="bg">
-<div class="container content">
+<div class="container content"><br><br>
+	<div style="height:1px; display: flex; justify-content: center; align-items: center;">
+	  <a href="/shop/goods/goodsList.jsp" style="text-decoration:none; color:black; display: flex; align-items: center;">
+	  	<span style="height: 100%; "><img src="/shop/upload/sosom.png" style="width:40px; margin-top:10%;"></span>
+	  	<span style="height: 100%; font-size: 40px;  font-weight: bold;  padding-left:5px;">SOSOM</span>
+	  </a>	
+	</div><br><br>
 	<div>
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
@@ -76,48 +72,67 @@
 		<div style="height:10px" ></div>
 		<h2>주문목록</h2>
 		<div style="display: inline-block;">
-			<form action="/shop/action/updateOrderStateAction.jsp" id="updateState">
-    <table>
-        <tr>
-            <th>주문번호</th>
-            <th>아이디</th>
-            <th>상품번호</th>
-            <th>수량</th>
-            <th>주문상태</th>
-            <th>구매시간</th>                        
-        </tr>   
-        <% for (HashMap<String, Object> m : orderList) {
-            String id = (String) m.get("id");
-            String orderNum = (String) m.get("orderNum");
-            String goodsNum = (String) m.get("goodsNum");
-            String state = (String) m.get("state");
-            String buyTime = (String) m.get("buyTime");
-            String amount = (String) m.get("amount");    
-
-            buyTime = buyTime.substring(2, 4) + "/" + buyTime.substring(5, 7) + "/" + buyTime.substring(8, 10) + "  " + buyTime.substring(11, 13) + ":" + buyTime.substring(14, 16) + "";
-        %>
-        <tr>
-            <td><%=orderNum%></td>
-            <td style="width:250px"><%=id%></td>
-            <td><%=goodsNum%></td>
-            <td><%=amount%></td>
-            <td>
-                <% if (state.equals("배송중")) { %>
-                <select name="state">    
-                    <option value="배송중">배송중</option>
-                    <option value="배송완료">배송완료</option>
-                </select>
-                <input type="hidden" name="orderNum" value="<%=orderNum%>">
-                <button type="submit">수정</button>
-                <% } else { %>
-                <%=state%>                   
-                <% } %>
-            </td>
-            <td><%=buyTime%></td>
-        </tr>
-        <% } %>
-    </table>
-</form>
+		
+			    <table class="table table-bordered" style="border: 3px"  >
+			        <tr>
+			            <th>주문번호</th>
+			            <th>아이디</th>
+			            <th>상품번호</th>
+			            <th>수량</th>
+			            <th>주문상태</th>
+			            <th>구매시간</th>                        
+			        </tr>   
+			        <% for (HashMap<String, Object> m : orderList) {
+			            String id = (String) m.get("id");
+			            int orderNum = (int) m.get("orderNum");				          
+			            String goodsNum = (String) m.get("goodsNum");
+			            String state = (String) m.get("state");
+			            String buyTime = (String) m.get("buyTime");
+			            String amount = (String) m.get("amount");    
+			
+			            buyTime = buyTime.substring(2, 4) + "/" + buyTime.substring(5, 7) + "/" + buyTime.substring(8, 10) + "  " + buyTime.substring(11, 13) + ":" + buyTime.substring(14, 16) + "";
+			        %>
+			        <tr>
+			            <td><%=orderNum%></td>
+			            <td style="width:250px"><%=id%></td>
+			            <td><%=goodsNum%></td>
+			            <td><%=amount%></td>
+			            <td>
+			            	<form action="/shop/action/updateOrderStateAction.jsp">
+			            
+			                <%
+			                	if (state.equals("배송중")) { 
+			                %>
+			                <select name="state">    
+			                    <option value="배송중">배송중</option>
+			                    <option value="배송완료">배송완료</option>
+			                </select>
+			                <input type="hidden" name="orderNum" value="<%=orderNum%>">
+			                <button type="submit">수정</button>
+			                <% 
+			                	} else if(state.equals("주문대기")) { 
+			                %>
+			                <select name="state">    
+				                <option value="주문대기">주문대기</option>
+				                <option value="배송중">배송중</option>
+				            </select>
+				            <input type="hidden" name="orderNum" value="<%=orderNum%>">
+				            <button type="submit">수정</button>
+				            <% 
+				            	} else {   
+			                %>
+			                <%=state%>                   
+			                <% } %>
+			                
+			                
+			               </form> 
+			                
+			            </td>
+			            <td><%=buyTime%></td>
+			        </tr>
+			        <% } %>
+			    </table>
+			
 	
 		</div>
 		<nav aria-label="Page navigation example">
@@ -144,5 +159,6 @@
 			
 	</div>		
 </div>	
+<%System.out.println("-------------------------------------------------------------------------");%>
 </body>
 </html>
