@@ -1,4 +1,5 @@
 # SOSOM
+This is a personal project. 
 개인프로젝트 Git입니다 (축구 유니폼 쇼핑몰)
 <a href="http://43.203.173.120/shop/goods/goodsList.jsp" target="_blank">http://43.203.173.120/shop/goods/goodsList.jsp</a>
 <br>
