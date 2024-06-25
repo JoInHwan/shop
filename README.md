@@ -1,5 +1,5 @@
 # 개인프로젝트 Git입니다 (축구 유니폼 쇼핑몰)
-<a href="http://43.203.173.120/shop/goods/goodsList.jsp" target="_blank">http://43.203.173.120/shop/goods/goodsList.jsp<a>
+<a href="http://43.203.173.120/shop/goods/goodsList.jsp" target="_blank">http://43.203.173.120/shop/goods/goodsList.jsp</a>
 <br>
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white"/>
 <img src="https://img.shields.io/badge/java-007396?style=flat-square&logo=java&logoColor=white"/>
